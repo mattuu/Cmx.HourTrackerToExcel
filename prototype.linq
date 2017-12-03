@@ -14,23 +14,15 @@ void Main()
 			sheet = package.Workbook.Worksheets.Add("my sheet");
 
 		var start = new DateTime(2017, 12, 1);
-		var dates = new List<DateTime>();
-		var startPadded = start.AddDays(-(int)start.DayOfWeek);
-		for (var d = startPadded; d < start.AddMonths(1); d = d.AddDays(1))
-		{
-			dates.Add(d);
-		}
 
+//		start = start.AddDays(1 - (int)start.DayOfWeek);
 
-		//		var tw = new TimesheetWeek(new DateTime(2017, 12, 6));
-		//		tw.WriteToWorksheet(sheet, 1);
 
 		var month = new TimesheetMonth(start);
 		month.Calculate();
 		month.Print();
 
-
-		foreach (var d in dates)
+		//		foreach (var d in dates)
 		{
 			//			if (d.DayOfWeek == DayOfWeek.Monday)
 			//			{
@@ -62,17 +54,50 @@ void Main()
 	}
 }
 
+
+public class TimesheetWeek
+{
+	private DateTime?[] _dates = new DateTime?[7];
+
+	public TimesheetWeek(DateTime date, TimesheetMonth month)
+	{
+		for (var d = date; d < date.AddDays(7); d = d.AddDays(1))
+		{
+			var index = (int)d.DayOfWeek;
+			if (index == 0)
+			{
+				index = 7;
+			}
+			if (month.MonthStart <= d && month.MonthEnd >= d)
+			{
+				_dates[index - 1] = d;
+			}
+		}
+	}
+
+	public void Print()
+	{
+		Console.WriteLine(_dates);
+	}
+
+	public void WriteToWorksheet(ExcelWorksheet worksheet, int rowIndex)
+	{
+		Console.WriteLine(_dates);
+	}
+}
+
 public class TimesheetMonth
 {
 	private ICollection<TimesheetWeek> _weeks = new HashSet<TimesheetWeek>();
 	private DateTime _startDate;
 
-	public DateTime MonthStart => _startDate.AddDays(-_startDate.Day);
-	public DateTime MonthEnd => MonthStart.AddDays(-1).AddMonths(1);
+	public DateTime MonthStart => _startDate.AddDays(1 - _startDate.Day);
+	public DateTime MonthEnd =>MonthStart.AddMonths(1).Subtract(TimeSpan.FromDays(1));
 
 	public TimesheetMonth(DateTime startDate)
 	{
 		_startDate = startDate;
+		Console.WriteLine(MonthStart);
 	}
 
 	public void Calculate()
@@ -103,33 +128,3 @@ public class TimesheetMonth
 	}
 }
 
-public class TimesheetWeek
-{
-	private IDictionary<DateTime, bool> _dates = new Dictionary<DateTime, bool>();
-
-	public TimesheetWeek(DateTime startDate, TimesheetMonth month)
-	{
-		var weekStartDate = startDate;
-		if (weekStartDate.DayOfWeek != DayOfWeek.Monday)
-		{
-			weekStartDate = startDate.AddDays(-(int)startDate.DayOfWeek);
-		}
-
-		var dates = new HashSet<DateTime>();
-		for (var d = weekStartDate; d < weekStartDate.AddDays(7); d = d.AddDays(1))
-		{
-			_dates.Add(d, d > month.MonthStart && d < month.MonthEnd);
-		}
-	}
-
-	public void Print()
-	{
-		Console.WriteLine(_dates);
-	}
-
-	public void WriteToWorksheet(ExcelWorksheet worksheet, int rowIndex)
-	{
-		Console.WriteLine(_dates);
-	}
-
-}
