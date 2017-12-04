@@ -201,11 +201,15 @@ public class TimesheetMonthExporter
 		_colIndex = 1;
 	}
 
-	public string Write<T>(T value, Func<T, string> formatterFunc = null)
+	public ExcelAddress Write<T>(T value, Func<T, string> formatterFunc = null)
 	{
 		_worksheet.Cells[_rowIndex, _colIndex].Value = formatterFunc == null ? $"{value}" : formatterFunc(value);
-		var address = _worksheet.Cells[_rowIndex, _colIndex];
-		return address.Address;
+		return _worksheet.Cells[_rowIndex, _colIndex];
+	}
+
+	public void Format(string format)
+	{
+		_worksheet.Cells[_rowIndex, _colIndex].Style.Numberformat.Format = format;
 	}
 
 	public void Formula(string formula)
@@ -218,23 +222,54 @@ public class TimesheetWeekExporter
 {
 	public void Export(TimesheetWeek week, TimesheetMonthExporter monthExporter)
 	{
-		var addresses = new HashSet<Tuple<DateTime?, string, string, string>>();
+		var addresses = new Dictionary<DateTime?, ExcelAddress>();
 
 		monthExporter.MoveRight();
 		foreach (var date in week.Dates)
 		{
 			if (date.HasValue)
 			{
-				monthExporter.Write(date.Value, d => d.ToString("dd/MM/yyyy"));
+				var address = monthExporter.Write(date.Value, d => d.ToString("dd/MM/yyyy"));
+				addresses.Add(date, address);
 			}
 			monthExporter.MoveRight();
 		}
 		monthExporter.NewLine();
 		monthExporter.Write("Start");
+		foreach (var date in week.Dates)
+		{
+			if (date.HasValue)
+			{
+				monthExporter.Format("HH:mm");
+
+			}
+			monthExporter.MoveRight();
+		}
+
 		monthExporter.NewLine();
 		monthExporter.Write("Break");
+		foreach (var date in week.Dates)
+		{
+			if (date.HasValue)
+			{
+				monthExporter.Format("HH:mm");
+
+			}
+			monthExporter.MoveRight();
+		}
+
 		monthExporter.NewLine();
 		monthExporter.Write("End");
+		foreach (var date in week.Dates)
+		{
+			if (date.HasValue)
+			{
+				monthExporter.Format("HH:mm");
+
+			}
+			monthExporter.MoveRight();
+		}
+
 		monthExporter.NewLine();
 		monthExporter.MoveRight();
 
@@ -242,7 +277,15 @@ public class TimesheetWeekExporter
 		{
 			if (date.HasValue)
 			{
-				monthExporter.Formula("B6-B5-B4");
+				var startAddress = addresses[date].Start;
+				var startTimeAddress = new ExcelAddress(startAddress.Row + 1, startAddress.Column, startAddress.Row + 1, startAddress.Column);
+				var breakAddress = new ExcelAddress(startAddress.Row + 2, startAddress.Column, startAddress.Row + 2, startAddress.Column);
+				var endTimeAddress = new ExcelAddress(startAddress.Row + 3, startAddress.Column, startAddress.Row + 3, startAddress.Column);
+
+				var formula = $"={startTimeAddress.Address}-{breakAddress.Address}-{endTimeAddress.Address}";
+
+				monthExporter.Formula(formula);
+				monthExporter.Format("HH:mm");
 			}
 			monthExporter.MoveRight();
 		}
