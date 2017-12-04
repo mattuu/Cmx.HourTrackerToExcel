@@ -1,11 +1,17 @@
 <Query Kind="Program">
+  <NuGetReference>CsvHelper</NuGetReference>
   <NuGetReference>EPPlus</NuGetReference>
   <Namespace>OfficeOpenXml</Namespace>
   <Namespace>OfficeOpenXml.Packaging</Namespace>
+  <Namespace>CsvHelper</Namespace>
+  <Namespace>CsvHelper.Configuration.Attributes</Namespace>
 </Query>
 
 void Main()
 {
+	var fileReader = new FileReader();
+	fileReader.Read(@"C:\temp\export.csv");
+
 	var fileName = @"c:\temp\tmp.xlsx";
 	var fileInfo = new FileInfo(fileName);
 	if (fileInfo.Exists)
@@ -67,6 +73,51 @@ void Main()
 	}
 }
 
+public class FileReader
+{
+	public void Read(string filePath)
+	{
+		using (TextReader textReader = File.OpenText(filePath))
+		{
+			using (var csv = new CsvReader(textReader))
+			{
+				var records = csv.GetRecords<CsvModel>();
+				Console.WriteLine(records);
+			}
+		}
+	}
+}
+
+public class CsvModel
+{
+	[Name("Job")]
+	public string Job { get; set; }
+
+	[Name("Clocked In")]
+	public DateTime ClockedIn { get; set; }
+
+	[Name("Clocked Out")]
+	public DateTime ClockedOut { get; set; }
+
+	public TimeSpan Duration { get; set; }
+
+	[Name("Hourly Rate")]
+	public decimal HourlRate { get; set; }
+
+	public decimal Earnings { get; set; }
+
+	public string Comment { get; set; }
+
+	public string Tags { get; set; }
+
+	public string Breaks { get; set; }
+
+	public string Adjustments { get; set; }
+	
+	public TimeSpan? TotalTimeAdjustment { get; set; }
+	
+	public decimal? TotalEarningsAdjustment { get; set; }
+}
 
 public class TimesheetWeek
 {
@@ -150,6 +201,7 @@ public class TimesheetMonthExporter
 	private int _colIndex = 1;
 	private TimesheetWeekExporter _timesheetWeekExporter;
 	private ExcelWorksheet _worksheet;
+	private ExcelStyles _styles;
 
 	public TimesheetMonthExporter(ExcelWorksheet worksheet, TimesheetWeekExporter timesheetWeekExporter)
 	{
@@ -203,8 +255,9 @@ public class TimesheetMonthExporter
 
 	public ExcelAddress Write<T>(T value, Func<T, string> formatterFunc = null)
 	{
-		_worksheet.Cells[_rowIndex, _colIndex].Value = formatterFunc == null ? $"{value}" : formatterFunc(value);
-		return _worksheet.Cells[_rowIndex, _colIndex];
+		var cells = _worksheet.Cells[_rowIndex, _colIndex];
+		cells.Value = formatterFunc == null ? $"{value}" : formatterFunc(value);
+		return cells;
 	}
 
 	public void Format(string format)
