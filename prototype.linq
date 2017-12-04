@@ -229,7 +229,7 @@ public class TimesheetWeekExporter
 		{
 			if (date.HasValue)
 			{
-				var address = monthExporter.Write(date.Value, d => d.ToString("dd/MM/yyyy"));
+				var address = monthExporter.Write(date.Value, d => d.ToString("dd-MMM"));
 				addresses.Add(date, address);
 			}
 			monthExporter.MoveRight();
@@ -282,7 +282,7 @@ public class TimesheetWeekExporter
 				var breakAddress = new ExcelAddress(startAddress.Row + 2, startAddress.Column, startAddress.Row + 2, startAddress.Column);
 				var endTimeAddress = new ExcelAddress(startAddress.Row + 3, startAddress.Column, startAddress.Row + 3, startAddress.Column);
 
-				var formula = $"={startTimeAddress.Address}-{breakAddress.Address}-{endTimeAddress.Address}";
+				var formula = $"={endTimeAddress.Address}-{breakAddress.Address}-{startTimeAddress.Address}";
 
 				monthExporter.Formula(formula);
 				monthExporter.Format("HH:mm");
