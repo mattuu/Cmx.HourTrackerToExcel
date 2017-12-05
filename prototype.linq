@@ -1,16 +1,18 @@
 <Query Kind="Program">
-  <NuGetReference>CsvHelper</NuGetReference>
+  <NuGetReference>CsvTools</NuGetReference>
   <NuGetReference>EPPlus</NuGetReference>
+  <Namespace>DataAccess</Namespace>
   <Namespace>OfficeOpenXml</Namespace>
   <Namespace>OfficeOpenXml.Packaging</Namespace>
-  <Namespace>CsvHelper</Namespace>
-  <Namespace>CsvHelper.Configuration.Attributes</Namespace>
 </Query>
 
 void Main()
 {
 	var fileReader = new FileReader();
-	fileReader.Read(@"C:\temp\export.csv");
+	var csvModels = fileReader.Read(@"C:\temp\export.csv");
+
+	var timesheet = new Timesheet();
+	timesheet.Initialize(csvModels);
 
 	var fileName = @"c:\temp\tmp.xlsx";
 	var fileInfo = new FileInfo(fileName);
@@ -31,77 +33,33 @@ void Main()
 
 
 
-		var weekExporter = new TimesheetWeekExporter();
-		var exporter = new TimesheetMonthExporter(sheet, weekExporter);
-
-		var month = new TimesheetMonth(start);
-		month.Calculate();
-
-		exporter.Export(month);
-
-		//		month.Print();
-
-		//		foreach (var d in dates)
-		{
-			//			if (d.DayOfWeek == DayOfWeek.Monday)
-			//			{
-			//				var tw = new TimesheetWeek(d);
-			//				tw.WriteToWorksheet(sheet, 1);
-			//			}
-
-			//			colIndex = (int)start.DayOfWeek;
-			//			if (colIndex == 0)
-			//				colIndex = 7;
-			//
-			//			sheet.Cells[rowIndex, colIndex].Value = d.ToString("dd/MM");
-			//			sheet.Cells[rowIndex + 1, colIndex].Value = d.ToString("g");
-			//			sheet.Cells[rowIndex + 2, colIndex].Value = "start time";
-			//			sheet.Cells[rowIndex + 3, colIndex].Value = "break";
-			//			sheet.Cells[rowIndex + 4, colIndex].Value = "end time";
-			//
-			//			if (colIndex == 7)
-			//				rowIndex += 2;
-		}
-
+		//		var weekExporter = new TimesheetWeekExporter();
+		//		var exporter = new TimesheetMonthExporter(sheet, weekExporter);
 		//
-		//		sheet.Cells[1, 1, rowIndex, colIndex].AutoFitColumns();
+		//		var month = new TimesheetMonth(start);
+		//		month.Calculate();
 		//
-		package.Save();
+		//		exporter.Export(month);
+		//
+		//		package.Save();
 
 		Console.WriteLine("Done...");
 		//	Process.Start(fileName);
 	}
 }
 
-public class FileReader
-{
-	public void Read(string filePath)
-	{
-		using (TextReader textReader = File.OpenText(filePath))
-		{
-			using (var csv = new CsvReader(textReader))
-			{
-				var records = csv.GetRecords<CsvModel>();
-				Console.WriteLine(records);
-			}
-		}
-	}
-}
+
 
 public class CsvModel
 {
-	[Name("Job")]
 	public string Job { get; set; }
 
-	[Name("Clocked In")]
 	public DateTime ClockedIn { get; set; }
 
-	[Name("Clocked Out")]
 	public DateTime ClockedOut { get; set; }
 
 	public TimeSpan Duration { get; set; }
 
-	[Name("Hourly Rate")]
 	public decimal HourlRate { get; set; }
 
 	public decimal Earnings { get; set; }
@@ -113,10 +71,38 @@ public class CsvModel
 	public string Breaks { get; set; }
 
 	public string Adjustments { get; set; }
-	
+
 	public TimeSpan? TotalTimeAdjustment { get; set; }
-	
+
 	public decimal? TotalEarningsAdjustment { get; set; }
+}
+
+public class FileReader
+{
+	public IEnumerable<CsvModel> Read(string filePath)
+	{
+		var dataTable = DataAccess.DataTable.New.ReadCsv(filePath);
+		var models = dataTable.RowsAs<CsvModel>();
+		return models;
+	}
+}
+
+public class Timesheet
+{
+	public DateTime StartDate { get; private set; }
+	public DateTime EndDate { get; private set; }
+
+	public void Initialize(IEnumerable<CsvModel> csvModels)
+	{
+		if (csvModels.Any())
+		{
+			StartDate = csvModels.FirstOrDefault().ClockedIn.Date;
+			EndDate = csvModels.LastOrDefault().ClockedOut.Date;
+		}
+
+		Console.WriteLine(StartDate);
+		Console.WriteLine(EndDate);
+	}
 }
 
 public class TimesheetWeek

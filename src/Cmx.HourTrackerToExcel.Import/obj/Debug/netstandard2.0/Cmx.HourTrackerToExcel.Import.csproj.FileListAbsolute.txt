@@ -1,0 +1,7 @@
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.Import\bin\Debug\netstandard2.0\Cmx.HourTrackerToExcel.Import.deps.json
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.Import\obj\Debug\netstandard2.0\Cmx.HourTrackerToExcel.Import.AssemblyInfo.cs
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.Import\bin\Debug\netstandard2.0\Cmx.HourTrackerToExcel.Import.dll
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.Import\bin\Debug\netstandard2.0\Cmx.HourTrackerToExcel.Import.pdb
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.Import\obj\Debug\netstandard2.0\Cmx.HourTrackerToExcel.Import.dll
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.Import\obj\Debug\netstandard2.0\Cmx.HourTrackerToExcel.Import.pdb
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.Import\obj\Debug\netstandard2.0\Cmx.HourTrackerToExcel.Import.csprojResolveAssemblyReference.cache
