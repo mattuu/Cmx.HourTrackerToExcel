@@ -57,8 +57,8 @@ namespace Cmx.HourTrackerToExcel.Import.Tests
             actual.ShouldNotBeNull();
             actual.ShouldHaveSingleItem();
             actual.First().Job.ShouldBe("Jet2.com");
-            actual.First().ClockedIn.ShouldBe(new DateTime(2017, 11, 01, 8, 33, 0));
-            actual.First().ClockedOut.ShouldBe(new DateTime(2017, 11, 01, 17, 31, 0));
+            actual.First().ClockedIn.ShouldBe(new DateTime(2017, 11, 01, 8, 33, 0, DateTimeKind.Unspecified));
+            actual.First().ClockedOut.ShouldBe(new DateTime(2017, 11, 01, 17, 31, 0, DateTimeKind.Unspecified));
             actual.First().Duration.ShouldBe(new TimeSpan(8, 20, 0));
             actual.First().HourlyRate.ShouldBe(1234.5M);
             actual.First().Earnings.ShouldBe(5432.1M);
