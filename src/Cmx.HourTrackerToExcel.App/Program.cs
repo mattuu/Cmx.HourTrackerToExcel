@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using Cmx.HourTrackerToExcel.Import;
 
 namespace Cmx.HourTrackerToExcel.App
@@ -9,16 +8,19 @@ namespace Cmx.HourTrackerToExcel.App
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
             var csvReader = new CsvDataReader();
             var path = Path.Combine(Environment.CurrentDirectory, "..", "..", "export.csv");
-            var csvLines = csvReader.Read(path);
+            using (var stream = File.OpenRead(path))
+            {
+                var csvLines = csvReader.Read(stream);
 
+                foreach (var item in csvLines)
+                {
+                    Console.WriteLine(item.ClockedIn.ToString("g"));
+                }
+            }
 
-            //Console.WriteLine(csvLines.Count());
             Console.ReadLine();
-
         }
     }
 }

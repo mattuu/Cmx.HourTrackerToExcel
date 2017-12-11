@@ -9,14 +9,9 @@ namespace Cmx.HourTrackerToExcel.Import
 {
     public class CsvDataReader
     {
-        public IEnumerable<ICsvLine> Read(string filePath)
+        public IEnumerable<ICsvLine> Read(Stream stream)
         {
-            var config = new CsvHelper.Configuration.Configuration
-            {
-                
-            };
-
-            using (var textReader = File.OpenText(filePath))
+            using (TextReader textReader = new StreamReader(stream))
             {
                 using (var csv = new CsvReader(textReader))
                 {
@@ -38,7 +33,11 @@ namespace Cmx.HourTrackerToExcel.Import
 
                     while (csv.Read())
                     {
-                        records.Add(csv.GetRecord<CsvLine>());
+                        var csvLine = csv.GetRecord<CsvLine>();
+                        if (csvLine != null)
+                        {
+                            records.Add(csvLine);
+                        }
                     }
 
                     return records;

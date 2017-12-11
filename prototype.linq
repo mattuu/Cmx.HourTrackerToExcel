@@ -89,8 +89,12 @@ public class FileReader
 
 public class Timesheet
 {
+	private ICollection<TimesheetMonth> _months = new HashSet<TimesheetMonth>();
+	
 	public DateTime StartDate { get; private set; }
 	public DateTime EndDate { get; private set; }
+
+	public IEnumerable<TimesheetMonth> Months => _months;
 
 	public void Initialize(IEnumerable<CsvModel> csvModels)
 	{
@@ -102,6 +106,14 @@ public class Timesheet
 
 		Console.WriteLine(StartDate);
 		Console.WriteLine(EndDate);
+
+		var monthlyRows = csvModels.GroupBy(m => m.ClockedIn.Month);
+
+		foreach (var rows in monthlyRows)
+		{
+			_months.Add(new TimesheetMonth(rows.Min(r => r.ClockedIn.Date)));
+		}
+
 	}
 }
 
