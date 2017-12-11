@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v2.0": {
       "Cmx.HourTrackerToExcel.Import/1.0.0": {
         "dependencies": {
+          "Cmx.HourTrackerToExcel.Common": "1.0.0",
           "CsvHelper": "6.0.0"
         },
         "runtime": {
@@ -24,7 +25,12 @@
         }
       },
       "Microsoft.CSharp/4.4.0": {},
-      "System.Reflection.TypeExtensions/4.4.0": {}
+      "System.Reflection.TypeExtensions/4.4.0": {},
+      "Cmx.HourTrackerToExcel.Common/1.0.0": {
+        "runtime": {
+          "Cmx.HourTrackerToExcel.Common.dll": {}
+        }
+      }
     }
   },
   "libraries": {
@@ -53,6 +59,11 @@
       "sha512": "sha512-dkmh/ySlwnXJp/1qYP9uyKkCK1CXR/REFzl7abHcArxBcV91mY2CgrrzSRA5Z/X4MevJWwXsklGRdR3A7K9zbg==",
       "path": "system.reflection.typeextensions/4.4.0",
       "hashPath": "system.reflection.typeextensions.4.4.0.nupkg.sha512"
+    },
+    "Cmx.HourTrackerToExcel.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

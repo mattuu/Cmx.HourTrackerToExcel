@@ -15,6 +15,15 @@
           "lib/netstandard2.0/CsvHelper.dll": {}
         }
       },
+      "EPPlus/4.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net40/EPPlus.dll": {}
+        },
+        "runtime": {
+          "lib/net40/EPPlus.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.4.0": {
         "type": "package",
         "compile": {
@@ -228,10 +237,34 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
+      "Cmx.HourTrackerToExcel.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Cmx.HourTrackerToExcel.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Cmx.HourTrackerToExcel.Common.dll": {}
+        }
+      },
+      "Cmx.HourTrackerToExcel.Export/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "EPPlus": "4.1.1"
+        },
+        "compile": {
+          "bin/placeholder/Cmx.HourTrackerToExcel.Export.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Cmx.HourTrackerToExcel.Export.dll": {}
+        }
+      },
       "Cmx.HourTrackerToExcel.Import/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
+          "Cmx.HourTrackerToExcel.Common": "1.0.0",
           "CsvHelper": "6.0.0"
         },
         "compile": {
@@ -255,6 +288,20 @@
         "lib/net45/CsvHelper.xml",
         "lib/netstandard2.0/CsvHelper.dll",
         "lib/netstandard2.0/CsvHelper.xml"
+      ]
+    },
+    "EPPlus/4.1.1": {
+      "sha512": "UYnF9q+XuJJCZc77RG4mQCqYhVwg4I8VgoDWO8m78mu11/GpjDR1Wt1JiVolDojt56r6y3jPEMcMfloKDh1JHQ==",
+      "type": "package",
+      "path": "epplus/4.1.1",
+      "files": [
+        "EPPlus.4.1.1.nupkg.sha512",
+        "EPPlus.nuspec",
+        "Readme.md",
+        "lib/net35/EPPlus.dll",
+        "lib/net35/EPPlus.xml",
+        "lib/net40/EPPlus.XML",
+        "lib/net40/EPPlus.dll"
       ]
     },
     "Microsoft.CSharp/4.4.0": {
@@ -840,6 +887,16 @@
         "version.txt"
       ]
     },
+    "Cmx.HourTrackerToExcel.Common/1.0.0": {
+      "type": "project",
+      "path": "../Cmx.HourTrackerToExcel.Common/Cmx.HourTrackerToExcel.Common.csproj",
+      "msbuildProject": "../Cmx.HourTrackerToExcel.Common/Cmx.HourTrackerToExcel.Common.csproj"
+    },
+    "Cmx.HourTrackerToExcel.Export/1.0.0": {
+      "type": "project",
+      "path": "../Cmx.HourTrackerToExcel.Export/Cmx.HourTrackerToExcel.Export.csproj",
+      "msbuildProject": "../Cmx.HourTrackerToExcel.Export/Cmx.HourTrackerToExcel.Export.csproj"
+    },
     "Cmx.HourTrackerToExcel.Import/1.0.0": {
       "type": "project",
       "path": "../Cmx.HourTrackerToExcel.Import/Cmx.HourTrackerToExcel.Import.csproj",
@@ -848,6 +905,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "Cmx.HourTrackerToExcel.Common >= 1.0.0",
+      "Cmx.HourTrackerToExcel.Export >= 1.0.0",
       "Cmx.HourTrackerToExcel.Import >= 1.0.0",
       "Microsoft.NETCore.App >= 2.0.0"
     ]
@@ -858,6 +917,9 @@
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
       "projectUniqueName": "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.App\\Cmx.HourTrackerToExcel.App.csproj",
       "projectName": "Cmx.HourTrackerToExcel.App",
@@ -884,6 +946,12 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
+            "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Export\\Cmx.HourTrackerToExcel.Export.csproj": {
+              "projectPath": "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Export\\Cmx.HourTrackerToExcel.Export.csproj"
+            },
+            "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Common\\Cmx.HourTrackerToExcel.Common.csproj": {
+              "projectPath": "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Common\\Cmx.HourTrackerToExcel.Common.csproj"
+            },
             "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Import\\Cmx.HourTrackerToExcel.Import.csproj": {
               "projectPath": "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Import\\Cmx.HourTrackerToExcel.Import.csproj"
             }
@@ -901,7 +969,7 @@
         "dependencies": {
           "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "2.0",
+            "version": "[2.0.0, )",
             "autoReferenced": true
           }
         },
@@ -912,5 +980,17 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'EPPlus 4.1.1' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "EPPlus",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    }
+  ]
 }

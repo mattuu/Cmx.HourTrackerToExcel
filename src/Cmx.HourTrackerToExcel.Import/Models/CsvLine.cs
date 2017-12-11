@@ -1,8 +1,9 @@
 using System;
+using Cmx.HourTrackerToExcel.Common.Interfaces;
 
 namespace Cmx.HourTrackerToExcel.Import.Models
 {
-    public class CsvLine
+    public class CsvLine : ICsvLine
     {
         public string Job { get; set; }
 
@@ -12,7 +13,7 @@ namespace Cmx.HourTrackerToExcel.Import.Models
 
         public TimeSpan Duration { get; set; }
 
-        public decimal HourlRate { get; set; }
+        public decimal HourlyRate { get; set; }
 
         public decimal Earnings { get; set; }
 

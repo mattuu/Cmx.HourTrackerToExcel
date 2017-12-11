@@ -9,3 +9,9 @@ D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\obj\Debug\netco
 D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\bin\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.Import.dll
 D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\bin\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.Import.pdb
 D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\obj\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.App.csprojResolveAssemblyReference.cache
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\obj\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.App.csproj.CoreCompileInputs.cache
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\obj\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.App.AssemblyInfoInputs.cache
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\bin\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.Common.dll
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\bin\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.Export.dll
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\bin\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.Common.pdb
+D:\Dev\Git\Cmx.HourTrackerToExcel\src\Cmx.HourTrackerToExcel.App\bin\Debug\netcoreapp2.0\Cmx.HourTrackerToExcel.Export.pdb

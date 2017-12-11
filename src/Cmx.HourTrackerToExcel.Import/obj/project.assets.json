@@ -227,6 +227,16 @@
         "runtime": {
           "lib/netcoreapp2.0/_._": {}
         }
+      },
+      "Cmx.HourTrackerToExcel.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Cmx.HourTrackerToExcel.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Cmx.HourTrackerToExcel.Common.dll": {}
+        }
       }
     }
   },
@@ -826,10 +836,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Cmx.HourTrackerToExcel.Common/1.0.0": {
+      "type": "project",
+      "path": "../Cmx.HourTrackerToExcel.Common/Cmx.HourTrackerToExcel.Common.csproj",
+      "msbuildProject": "../Cmx.HourTrackerToExcel.Common/Cmx.HourTrackerToExcel.Common.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "Cmx.HourTrackerToExcel.Common >= 1.0.0",
       "CsvHelper >= 6.0.0",
       "Microsoft.NETCore.App >= 2.0.0"
     ]
@@ -840,6 +856,9 @@
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
       "projectUniqueName": "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Import\\Cmx.HourTrackerToExcel.Import.csproj",
       "projectName": "Cmx.HourTrackerToExcel.Import",
@@ -865,7 +884,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Common\\Cmx.HourTrackerToExcel.Common.csproj": {
+              "projectPath": "D:\\Dev\\Git\\Cmx.HourTrackerToExcel\\src\\Cmx.HourTrackerToExcel.Common\\Cmx.HourTrackerToExcel.Common.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -877,15 +900,15 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "CsvHelper": {
+            "target": "Package",
+            "version": "[6.0.0, )"
+          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "2.0",
+            "version": "[2.0.0, )",
             "autoReferenced": true
-          },
-          "CsvHelper": {
-            "target": "Package",
-            "version": "6.0.0"
           }
         },
         "imports": [

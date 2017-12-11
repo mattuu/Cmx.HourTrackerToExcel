@@ -1,13 +1,15 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "c2bb9c0b0bbdd8cf598576afa5de28f4541e1073"
+    "signature": "daf31b1c659633ad98755f7e5270d3d9af6db459"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.0": {
       "Cmx.HourTrackerToExcel.App/1.0.0": {
         "dependencies": {
+          "Cmx.HourTrackerToExcel.Common": "1.0.0",
+          "Cmx.HourTrackerToExcel.Export": "1.0.0",
           "Cmx.HourTrackerToExcel.Import": "1.0.0"
         },
         "runtime": {
@@ -23,10 +25,29 @@
           "lib/netstandard2.0/CsvHelper.dll": {}
         }
       },
+      "EPPlus/4.1.1": {
+        "runtime": {
+          "lib/net40/EPPlus.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.4.0": {},
       "System.Reflection.TypeExtensions/4.4.0": {},
+      "Cmx.HourTrackerToExcel.Common/1.0.0": {
+        "runtime": {
+          "Cmx.HourTrackerToExcel.Common.dll": {}
+        }
+      },
+      "Cmx.HourTrackerToExcel.Export/1.0.0": {
+        "dependencies": {
+          "EPPlus": "4.1.1"
+        },
+        "runtime": {
+          "Cmx.HourTrackerToExcel.Export.dll": {}
+        }
+      },
       "Cmx.HourTrackerToExcel.Import/1.0.0": {
         "dependencies": {
+          "Cmx.HourTrackerToExcel.Common": "1.0.0",
           "CsvHelper": "6.0.0"
         },
         "runtime": {
@@ -48,6 +69,13 @@
       "path": "csvhelper/6.0.0",
       "hashPath": "csvhelper.6.0.0.nupkg.sha512"
     },
+    "EPPlus/4.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UYnF9q+XuJJCZc77RG4mQCqYhVwg4I8VgoDWO8m78mu11/GpjDR1Wt1JiVolDojt56r6y3jPEMcMfloKDh1JHQ==",
+      "path": "epplus/4.1.1",
+      "hashPath": "epplus.4.1.1.nupkg.sha512"
+    },
     "Microsoft.CSharp/4.4.0": {
       "type": "package",
       "serviceable": true,
@@ -61,6 +89,16 @@
       "sha512": "sha512-dkmh/ySlwnXJp/1qYP9uyKkCK1CXR/REFzl7abHcArxBcV91mY2CgrrzSRA5Z/X4MevJWwXsklGRdR3A7K9zbg==",
       "path": "system.reflection.typeextensions/4.4.0",
       "hashPath": "system.reflection.typeextensions.4.4.0.nupkg.sha512"
+    },
+    "Cmx.HourTrackerToExcel.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Cmx.HourTrackerToExcel.Export/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Cmx.HourTrackerToExcel.Import/1.0.0": {
       "type": "project",
