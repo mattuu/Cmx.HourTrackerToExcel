@@ -1,10 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Models.Import;
 
 namespace Cmx.HourTrackerToExcel.Mappers.Profiles
 {
-    public class CsvLineToWorkDayProfile : Profile
+    public class CsvLineToWorkDayProfile : Profile 
     {
         public CsvLineToWorkDayProfile()
         {
