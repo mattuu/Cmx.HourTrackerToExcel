@@ -19,7 +19,6 @@ namespace Cmx.HourTrackerToExcel.Mappers.Tests
             assertion.Verify(typeof(CsvLineToWorkDayProfile).GetConstructors());
         }
 
-        //AutoMapperConfiguration.GetConfiguredMapper(t => fixture.Create(t, new SpecimenContext(fixture)))
         [Theory, AutoMapperMoqData]
         public void Map_ShouldReturnCorrectResult(CsvLine csvLine, IMapper sut)
         {

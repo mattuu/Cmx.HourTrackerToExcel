@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Models.Import;
 

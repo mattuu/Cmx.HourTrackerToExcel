@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <ProjectReference Include="..\..\test\Cmx.HourTrackerToExcel.Mappers\Cmx.HourTrackerToExcel.Mappers.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Common\Cmx.HourTrackerToExcel.Common.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Import\Cmx.HourTrackerToExcel.Import.csproj" />
