@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Common\Cmx.HourTrackerToExcel.Common.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Models\Cmx.HourTrackerToExcel.Models.csproj" />
   </ItemGroup>
 
 </Project>

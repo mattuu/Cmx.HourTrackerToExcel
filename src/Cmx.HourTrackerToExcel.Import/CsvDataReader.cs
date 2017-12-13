@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
-using Cmx.HourTrackerToExcel.Import.Models;
+using Cmx.HourTrackerToExcel.Models.Import;
 using CsvHelper;
 
 namespace Cmx.HourTrackerToExcel.Import

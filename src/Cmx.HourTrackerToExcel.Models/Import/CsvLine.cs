@@ -1,7 +1,7 @@
 using System;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
 
-namespace Cmx.HourTrackerToExcel.Import.Models
+namespace Cmx.HourTrackerToExcel.Models.Import
 {
     public class CsvLine : ICsvLine
     {

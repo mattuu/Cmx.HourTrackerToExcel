@@ -8,4 +8,9 @@
     <PackageReference Include="AutoMapper" Version="6.2.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cmx.HourTrackerToExcel.Common\Cmx.HourTrackerToExcel.Common.csproj" />
+    <ProjectReference Include="..\..\src\Cmx.HourTrackerToExcel.Models\Cmx.HourTrackerToExcel.Models.csproj" />
+  </ItemGroup>
+
 </Project>

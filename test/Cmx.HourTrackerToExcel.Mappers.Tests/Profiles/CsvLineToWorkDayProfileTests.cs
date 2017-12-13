@@ -1,7 +1,8 @@
 using AutoMapper;
-using Cmx.HourTrackerToExcel.Common.Interfaces;
-using Cmx.HourTrackerToExcel.Import.Models;
 using Cmx.HourTrackerToExcel.Mappers.Profiles;
+using Cmx.HourTrackerToExcel.Mappers.Tests.Infrastructure;
+using Cmx.HourTrackerToExcel.Models.Export;
+using Cmx.HourTrackerToExcel.Models.Import;
 using Cmx.HourTrackerToExcel.TestUtils;
 using Ploeh.AutoFixture.Idioms;
 using Shouldly;
@@ -18,11 +19,12 @@ namespace Cmx.HourTrackerToExcel.Mappers.Tests
             assertion.Verify(typeof(CsvLineToWorkDayProfile).GetConstructors());
         }
 
-        //[Theory, AutoMoqData]
+        //AutoMapperConfiguration.GetConfiguredMapper(t => fixture.Create(t, new SpecimenContext(fixture)))
+        [Theory, AutoMapperMoqData]
         public void Map_ShouldReturnCorrectResult(CsvLine csvLine, IMapper sut)
         {
             // act..
-            var actual = sut.Map<IWorkDay>(csvLine);
+            var actual = sut.Map<WorkDay>(csvLine);
 
             // assert..
             actual.Date.ShouldBe(csvLine.ClockedIn.Date);

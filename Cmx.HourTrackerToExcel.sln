@@ -8,19 +8,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.App"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Import", "src\Cmx.HourTrackerToExcel.Import\Cmx.HourTrackerToExcel.Import.csproj", "{21A6B1C2-700B-4863-90EE-93EA785F4AB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Export", "src\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj", "{D91A61E6-99C4-4589-8978-287C053E8B4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Export", "src\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj", "{D91A61E6-99C4-4589-8978-287C053E8B4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Common", "src\Cmx.HourTrackerToExcel.Common\Cmx.HourTrackerToExcel.Common.csproj", "{B2410277-AF34-4F17-8F7E-0AA42B301AF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Common", "src\Cmx.HourTrackerToExcel.Common\Cmx.HourTrackerToExcel.Common.csproj", "{B2410277-AF34-4F17-8F7E-0AA42B301AF1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{06072F3A-DAEE-431D-BF2B-7FD12DB682FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Import.Tests", "test\Cmx.HourTrackerToExcel.Import.Tests\Cmx.HourTrackerToExcel.Import.Tests.csproj", "{0F191140-96A4-49B3-87DF-4D9B176B7591}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Import.Tests", "test\Cmx.HourTrackerToExcel.Import.Tests\Cmx.HourTrackerToExcel.Import.Tests.csproj", "{0F191140-96A4-49B3-87DF-4D9B176B7591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.TestUtils", "test\Cmx.HourTrackerToExcel.TestUtils\Cmx.HourTrackerToExcel.TestUtils.csproj", "{8F4A4875-D6A2-4FDB-A2D0-FDD152FDF3DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.TestUtils", "test\Cmx.HourTrackerToExcel.TestUtils\Cmx.HourTrackerToExcel.TestUtils.csproj", "{8F4A4875-D6A2-4FDB-A2D0-FDD152FDF3DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Mappers", "test\Cmx.HourTrackerToExcel.Mappers\Cmx.HourTrackerToExcel.Mappers.csproj", "{9281BE33-9634-4A2A-A6B3-BA12EE90F31A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Mappers", "test\Cmx.HourTrackerToExcel.Mappers\Cmx.HourTrackerToExcel.Mappers.csproj", "{9281BE33-9634-4A2A-A6B3-BA12EE90F31A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Mappers.Tests", "test\Cmx.HourTrackerToExcel.Mappers.Tests\Cmx.HourTrackerToExcel.Mappers.Tests.csproj", "{FEB47F84-C933-4335-9283-666E71926CE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Mappers.Tests", "test\Cmx.HourTrackerToExcel.Mappers.Tests\Cmx.HourTrackerToExcel.Mappers.Tests.csproj", "{FEB47F84-C933-4335-9283-666E71926CE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Models", "src\Cmx.HourTrackerToExcel.Models\Cmx.HourTrackerToExcel.Models.csproj", "{876EB434-9246-48F1-8CB9-178CEAA21576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +130,18 @@ Global
 		{FEB47F84-C933-4335-9283-666E71926CE0}.Release|x64.Build.0 = Release|Any CPU
 		{FEB47F84-C933-4335-9283-666E71926CE0}.Release|x86.ActiveCfg = Release|Any CPU
 		{FEB47F84-C933-4335-9283-666E71926CE0}.Release|x86.Build.0 = Release|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Debug|x64.Build.0 = Debug|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Debug|x86.Build.0 = Debug|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Release|x64.ActiveCfg = Release|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Release|x64.Build.0 = Release|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Release|x86.ActiveCfg = Release|Any CPU
+		{876EB434-9246-48F1-8CB9-178CEAA21576}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +155,7 @@ Global
 		{8F4A4875-D6A2-4FDB-A2D0-FDD152FDF3DB} = {06072F3A-DAEE-431D-BF2B-7FD12DB682FF}
 		{9281BE33-9634-4A2A-A6B3-BA12EE90F31A} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
 		{FEB47F84-C933-4335-9283-666E71926CE0} = {06072F3A-DAEE-431D-BF2B-7FD12DB682FF}
+		{876EB434-9246-48F1-8CB9-178CEAA21576} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE70491B-A4FA-40E8-847C-4E77D26184FB}

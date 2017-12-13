@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Mappers\Cmx.HourTrackerToExcel.Mappers.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.TestUtils\Cmx.HourTrackerToExcel.TestUtils.csproj" />
   </ItemGroup>
