@@ -12,4 +12,12 @@ namespace Cmx.HourTrackerToExcel.Export
             throw new NotImplementedException();
         }
     }
+
+    public class WeekSplitter
+    {
+        public IEnumerable<TimesheetWeek> Split(IEnumerable<IWorkDay> workDays, DayOfWeek weekStart)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
