@@ -1,14 +1,16 @@
-using System;
+using Ploeh.AutoFixture.Idioms;
+using Cmx.HourTrackerToExcel.TestUtils;
 using Xunit;
 
 namespace Cmx.HourTrackerToExcel.Export.Tests
 {
-    public class UnitTest1
+    public class TimesheetFactoryTests
     {
-        [Fact]
-        public void Test1()
+        [Theory, AutoMoqData]
+        public void Ctor_ShouldThrowExceptionOnAnyNullDependency(GuardClauseAssertion assertion)
         {
-
+            // assert..
+            assertion.Verify(typeof(TimesheetFactory).GetConstructors());
         }
     }
 }

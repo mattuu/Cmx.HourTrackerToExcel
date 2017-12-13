@@ -18,4 +18,10 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj" />
+    <ProjectReference Include="..\..\src\Cmx.HourTrackerToExcel.Models\Cmx.HourTrackerToExcel.Models.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.TestUtils\Cmx.HourTrackerToExcel.TestUtils.csproj" />
+  </ItemGroup>
+
 </Project>
