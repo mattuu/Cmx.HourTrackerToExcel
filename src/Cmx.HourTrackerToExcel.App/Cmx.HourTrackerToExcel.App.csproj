@@ -4,6 +4,7 @@
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Import\Cmx.HourTrackerToExcel.Import.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Mappers\Cmx.HourTrackerToExcel.Mappers.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Services\Cmx.HourTrackerToExcel.Services.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
