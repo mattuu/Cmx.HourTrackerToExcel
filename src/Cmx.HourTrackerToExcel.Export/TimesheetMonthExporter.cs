@@ -10,7 +10,6 @@ namespace Cmx.HourTrackerToExcel.Export
         private int _colIndex = 1;
         private TimesheetWeekExporter _timesheetWeekExporter;
         private ExcelWorksheet _worksheet;
-        private ExcelStyles _styles;
 
         public TimesheetMonthExporter(ExcelWorksheet worksheet, TimesheetWeekExporter timesheetWeekExporter)
         {

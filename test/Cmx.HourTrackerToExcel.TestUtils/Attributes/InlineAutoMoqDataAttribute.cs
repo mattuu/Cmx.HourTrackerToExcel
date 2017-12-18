@@ -2,7 +2,7 @@
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
-namespace J2BI.Holidays.PCPS.TestUtils.Attributes
+namespace Cmx.HourTrackerToExcel.TestUtils
 {
     [ExcludeFromCodeCoverage]
     public class InlineAutoMoqDataAttribute : CompositeDataAttribute

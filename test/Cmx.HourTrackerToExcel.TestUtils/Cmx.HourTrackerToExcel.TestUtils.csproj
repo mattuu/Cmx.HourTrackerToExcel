@@ -5,12 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Attributes\**" />
-    <Compile Remove="AutoFixtureCustomizations\**" />
-    <EmbeddedResource Remove="Attributes\**" />
-    <EmbeddedResource Remove="AutoFixtureCustomizations\**" />
-    <None Remove="Attributes\**" />
-    <None Remove="AutoFixtureCustomizations\**" />
+    <Compile Remove="Attributes\AutoEntitiesMoqDataAttribute.cs" />
+    <Compile Remove="Attributes\AutoMoqPropertyVersioniDataAttribute.cs" />
+    <Compile Remove="Attributes\AutoMoqUriDataAttribute.cs" />
+    <Compile Remove="Attributes\CancellationTokenCustomization.cs" />
+    <Compile Remove="Attributes\FixtureExtensions.cs" />
+    <Compile Remove="Attributes\InlineAutoEntitiesMoqDataAttribute.cs" />
+    <Compile Remove="Attributes\InlineWebApiAutoMoqDataAttribute.cs" />
+    <Compile Remove="Attributes\WebApiAutoMoqCustomization.cs" />
+    <Compile Remove="Attributes\WebApiAutoMoqDataAttribute.cs" />
   </ItemGroup>
 
  <ItemGroup>
