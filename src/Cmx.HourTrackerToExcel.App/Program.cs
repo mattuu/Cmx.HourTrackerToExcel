@@ -33,7 +33,7 @@ namespace Cmx.HourTrackerToExcel.App
                     
                 //}
 
-                var weeks = timesheetCalculator.Aggregate(workDays);
+                var weeks = timesheetCalculator.Calculate(workDays);
 
                 foreach (var week in weeks.Result)
                 {

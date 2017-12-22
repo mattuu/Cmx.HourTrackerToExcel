@@ -9,7 +9,7 @@ namespace Cmx.HourTrackerToExcel.Services
 {
     public class TimesheetCalculator
     {
-        public Task<IEnumerable<ITimesheetWeek>> Aggregate(IEnumerable<IWorkDay> workDays, DayOfWeek dayOfWeek = DayOfWeek.Sunday)
+        public Task<IEnumerable<ITimesheetWeek>> Calculate(IEnumerable<IWorkDay> workDays, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday)
         {
             return Task.Run(() =>
             {
@@ -20,7 +20,7 @@ namespace Cmx.HourTrackerToExcel.Services
                 {
                     timesheetWeek.AddDay(workDay);
 
-                    if (workDay.Date.DayOfWeek == dayOfWeek)
+                    if (workDay.Date.DayOfWeek == firstDayOfWeek)
                     {
                         result.Add(timesheetWeek);
                         timesheetWeek = new TimesheetWeek();

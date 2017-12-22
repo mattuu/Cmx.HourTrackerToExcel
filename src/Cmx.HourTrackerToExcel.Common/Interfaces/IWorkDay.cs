@@ -4,12 +4,12 @@ namespace Cmx.HourTrackerToExcel.Common.Interfaces
 {
     public interface IWorkDay
     {
-        DateTime Date { get; set; }
+        DateTime Date { get; }
 
-        TimeSpan StartTime { get; set; }
+        TimeSpan StartTime { get; }
 
-        TimeSpan EndTime { get; set; }
+        TimeSpan EndTime { get; }
 
-        TimeSpan BreakDuration { get; set; }
+        TimeSpan BreakDuration { get; }
     }
 }

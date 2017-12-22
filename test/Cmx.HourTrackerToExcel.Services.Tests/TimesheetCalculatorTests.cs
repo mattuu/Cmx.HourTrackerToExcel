@@ -34,7 +34,7 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             }
 
             // act..
-            var actual = await sut.Aggregate(days);
+            var actual = await sut.Calculate(days);
 
             // assert..
             foreach (var day in days)
