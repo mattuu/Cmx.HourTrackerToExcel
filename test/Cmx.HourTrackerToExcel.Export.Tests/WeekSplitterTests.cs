@@ -1,5 +1,4 @@
 ﻿using Ploeh.AutoFixture.Idioms;
-using Cmx.HourTrackerToExcel.TestUtils;
 using Xunit;
 using Ploeh.AutoFixture;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using Cmx.HourTrackerToExcel.Models.Export;
 using System;
 using System.Linq;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Shouldly;
 
 namespace Cmx.HourTrackerToExcel.Export.Tests

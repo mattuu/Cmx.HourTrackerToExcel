@@ -1,6 +1,7 @@
 ﻿using System;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
 using Cmx.HourTrackerToExcel.TestUtils;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Idioms;
 using Shouldly;
@@ -144,6 +145,8 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             public TimeSpan EndTime { get; set; }
 
             public TimeSpan BreakDuration { get; set; }
+
+            public TimeSpan? WorkedHours { get; }
         }
     }
 }

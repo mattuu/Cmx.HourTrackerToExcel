@@ -8,12 +8,16 @@ namespace Cmx.HourTrackerToExcel.Services
 {
     public class TimesheetInitializer : ITimesheetInitializer
     {
-        public ITimesheet Initialize(IEnumerable<IWorkDay> workDays)
+        public ITimesheet Initialize(DateTime startDate, DateTime endDate1)
         {
             var timesheet = new Timesheet();
-            var workDaysList = workDays as IList<IWorkDay> ?? workDays.ToList();
+            var dates = new List<DateTime>();
 
-            var dates = workDaysList.Select(wd => wd.Date).ToList();
+            var dt = startDate;
+            while (dt <= endDate1)
+            {
+                dates.Add(dt = dt.AddDays(1));
+            }
 
             while (dates.Min().DayOfWeek != DayOfWeek.Monday)
             {
@@ -39,9 +43,7 @@ namespace Cmx.HourTrackerToExcel.Services
                     timesheet.AddWeek(timesheetWeek);
                 }
 
-                var sourceWorkDay = workDaysList.SingleOrDefault(wd => wd.Date == date);
-
-                var workDay = new TimesheetDay(date, sourceWorkDay?.StartTime, sourceWorkDay?.EndTime, sourceWorkDay?.BreakDuration);
+                var workDay = new TimesheetDay(date);
                 timesheetWeek.AddDay(workDay);
 
                 date = date.AddDays(1);

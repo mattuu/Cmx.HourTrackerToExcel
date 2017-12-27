@@ -16,20 +16,21 @@ namespace Cmx.HourTrackerToExcel.App
         {
             var container = UnityConfig.GetConfiguredContainer();
 
-
             var csvReader = container.Resolve<ICsvDataReader>();
             var mapper = container.Resolve<IMapper>();
             var timesheetInitializer = container.Resolve<ITimesheetInitializer>();
+            var timesheetCalculator = container.Resolve<ITimesheetCalculator>();
 
             var path = Path.Combine(Environment.CurrentDirectory, "..", "..", "export.csv");
-            
+
             using (var stream = File.OpenRead(path))
             {
                 var csvLines = csvReader.Read(stream);
 
-                var workDays = csvLines.Select(mapper.Map<WorkDay>);
+                var workDays = csvLines.Select(mapper.Map<WorkDay>).ToList();
 
-                var timesheet =  timesheetInitializer.Initialize(workDays);
+                var timesheet = timesheetInitializer.Initialize(workDays.Min(wd => wd.Date), workDays.Max(wd => wd.Date));
+                timesheetCalculator.CalculateWorkingHours(timesheet);
 
                 foreach (var week in timesheet.Weeks)
                 {

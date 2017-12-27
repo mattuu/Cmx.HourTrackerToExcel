@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Cmx.HourTrackerToExcel.TestUtils;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Ploeh.AutoFixture.Idioms;
 using Shouldly;
 using Xunit;

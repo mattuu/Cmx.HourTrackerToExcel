@@ -11,6 +11,8 @@ namespace Cmx.HourTrackerToExcel.Models.Export
 
         public TimeSpan EndTime { get; set; }
 
-        public TimeSpan BreakDuration { get; set; }      
+        public TimeSpan BreakDuration { get; set; }
+
+        public TimeSpan? WorkedHours { get; set; }
     }
 }

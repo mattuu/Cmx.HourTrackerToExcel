@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Cmx.HourTrackerToExcel.TestUtils;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 
 namespace Cmx.HourTrackerToExcel.Mappers.Tests.Infrastructure
 {

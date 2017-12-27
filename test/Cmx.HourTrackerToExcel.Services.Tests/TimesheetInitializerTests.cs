@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Cmx.HourTrackerToExcel.Common.Interfaces;
-using Cmx.HourTrackerToExcel.Models.Export;
-using Cmx.HourTrackerToExcel.TestUtils;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Idioms;
 using Shouldly;
@@ -25,18 +22,10 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
         {
             // arrange..
             var startDate = new DateTime(2017, 12, 19);
-            const int daysOffset = 10;
-
-            var workDays = new HashSet<IWorkDay>();
-            for (var dt = startDate; dt < startDate.AddDays(daysOffset); dt = dt.AddDays(1))
-            {
-                workDays.Add(fixture.Build<WorkDay>()
-                                    .With(wd => wd.Date, dt)
-                                    .Create());
-            }
+            var endDate = startDate.AddDays(10);
 
             // act..
-            var actual = sut.Initialize(workDays);
+            var actual = sut.Initialize(startDate, endDate);
 
             // assert..
             actual.Weeks.Count().ShouldBe(2);
@@ -65,16 +54,10 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
         {
             // arrange..
             startDate = startDate.Date;
-            var workDays = new HashSet<IWorkDay>();
-            for (var dt = startDate; dt < startDate.AddDays(dayCount); dt = dt.AddDays(1))
-            {
-                workDays.Add(fixture.Build<WorkDay>()
-                                    .With(wd => wd.Date, dt)
-                                    .Create());
-            }
-
+            var endDate = startDate.AddDays(dayCount);
+         
             // act..
-            var actual = sut.Initialize(workDays);
+            var actual = sut.Initialize(startDate, endDate);
 
             // assert..
             actual.Weeks.ShouldAllBe(tw => tw.WorkDays.First().Date.DayOfWeek == DayOfWeek.Monday);
@@ -85,16 +68,11 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
         {
             // arrange..
             startDate = startDate.Date;
-            var workDays = new HashSet<IWorkDay>();
-            for (var dt = startDate; dt < startDate.AddDays(dayCount); dt = dt.AddDays(1))
-            {
-                workDays.Add(fixture.Build<WorkDay>()
-                                    .With(wd => wd.Date, dt)
-                                    .Create());
-            }
+            var endDate = startDate.AddDays(dayCount);
+
 
             // act..
-            var actual = sut.Initialize(workDays);
+            var actual = sut.Initialize(startDate, endDate);
 
             // assert..
             actual.Weeks.ShouldAllBe(tw => tw.WorkDays.Length == 7);

@@ -11,5 +11,7 @@ namespace Cmx.HourTrackerToExcel.Common.Interfaces
         TimeSpan EndTime { get; }
 
         TimeSpan BreakDuration { get; }
+
+        TimeSpan? WorkedHours { get; }
     }
 }

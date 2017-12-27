@@ -3,12 +3,12 @@ using Cmx.HourTrackerToExcel.Mappers.Profiles;
 using Cmx.HourTrackerToExcel.Mappers.Tests.Infrastructure;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Models.Import;
-using Cmx.HourTrackerToExcel.TestUtils;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Ploeh.AutoFixture.Idioms;
 using Shouldly;
 using Xunit;
 
-namespace Cmx.HourTrackerToExcel.Mappers.Tests
+namespace Cmx.HourTrackerToExcel.Mappers.Tests.Profiles
 {
     public class CsvLineToWorkDayProfileTests
     {

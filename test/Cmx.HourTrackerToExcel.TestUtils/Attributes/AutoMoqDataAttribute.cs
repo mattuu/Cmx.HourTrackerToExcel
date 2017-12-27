@@ -3,7 +3,7 @@ using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using Ploeh.AutoFixture.Xunit2;
 
-namespace Cmx.HourTrackerToExcel.TestUtils
+namespace Cmx.HourTrackerToExcel.TestUtils.Attributes
 {
     [ExcludeFromCodeCoverage]
     public class AutoMoqDataAttribute : AutoDataAttribute
@@ -12,7 +12,6 @@ namespace Cmx.HourTrackerToExcel.TestUtils
         {
             Fixture.Customize(new AutoMoqCustomization())
                    .Behaviors.Add(new OmitOnRecursionBehavior());
-
         }
     }
 }

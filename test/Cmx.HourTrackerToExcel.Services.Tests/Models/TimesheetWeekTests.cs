@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Services.Models;
-using Cmx.HourTrackerToExcel.TestUtils;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Idioms;
 using Shouldly;

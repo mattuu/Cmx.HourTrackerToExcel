@@ -2,10 +2,11 @@
 
 namespace Cmx.HourTrackerToExcel.Services
 {
-    public class TimesheetCalculator
+    public class TimesheetCalculator : ITimesheetCalculator
     {
-        public void Calculate(ITimesheet timesheet)
+        public void CalculateWorkingHours(ITimesheet timesheet)
         {
+
         }
     }
 }

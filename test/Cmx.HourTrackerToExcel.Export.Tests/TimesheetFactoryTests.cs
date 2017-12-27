@@ -1,5 +1,5 @@
 using Ploeh.AutoFixture.Idioms;
-using Cmx.HourTrackerToExcel.TestUtils;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Xunit;
 
 namespace Cmx.HourTrackerToExcel.Export.Tests
