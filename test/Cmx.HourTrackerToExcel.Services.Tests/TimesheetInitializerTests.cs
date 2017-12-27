@@ -31,8 +31,8 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             for (var dt = startDate; dt < startDate.AddDays(daysOffset); dt = dt.AddDays(1))
             {
                 workDays.Add(fixture.Build<WorkDay>()
-                                .With(wd => wd.Date, dt)
-                                .Create());
+                                    .With(wd => wd.Date, dt)
+                                    .Create());
             }
 
             // act..
@@ -69,8 +69,8 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             for (var dt = startDate; dt < startDate.AddDays(dayCount); dt = dt.AddDays(1))
             {
                 workDays.Add(fixture.Build<WorkDay>()
-                                .With(wd => wd.Date, dt)
-                                .Create());
+                                    .With(wd => wd.Date, dt)
+                                    .Create());
             }
 
             // act..

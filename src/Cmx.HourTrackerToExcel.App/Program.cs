@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
+using Cmx.HourTrackerToExcel.Common.Interfaces;
 using Cmx.HourTrackerToExcel.Import;
 using Cmx.HourTrackerToExcel.Mappers;
 using Cmx.HourTrackerToExcel.Models.Export;
@@ -17,7 +17,7 @@ namespace Cmx.HourTrackerToExcel.App
             var path = Path.Combine(Environment.CurrentDirectory, "..", "..", "export.csv");
             var mapper = AutoMapperConfiguration.GetConfiguredMapper(Activator.CreateInstance);
 
-            var timesheetCalculator = new TimesheetCalculator();
+            var timesheetInitializer = new TimesheetInitializer();
 
             using (var stream = File.OpenRead(path))
             {
@@ -25,22 +25,14 @@ namespace Cmx.HourTrackerToExcel.App
 
                 var workDays = csvLines.Select(mapper.Map<WorkDay>);
 
-                //foreach (var csvLine in csvLines)
-                //{
-                //    var workDay = mapper.Map<WorkDay>(csvLine);
-                //    Render(workDay);
+                var timesheet =  timesheetInitializer.Initialize(workDays);
 
-                    
-                //}
-
-                var weeks = timesheetCalculator.Calculate(workDays);
-
-                foreach (var week in weeks.Result)
+                foreach (var week in timesheet.Weeks)
                 {
                     Console.WriteLine("week");
                     foreach (var workDay in week.WorkDays)
                     {
-                        Console.WriteLine($"{workDay?.Date:d}");
+                        Console.WriteLine(Render(workDay));
                     }
                 }
             }
@@ -48,16 +40,9 @@ namespace Cmx.HourTrackerToExcel.App
             Console.ReadLine();
         }
 
-        private static void Render(WorkDay workDay)
+        private static string Render(IWorkDay workDay)
         {
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append($"{workDay.Date:dd/MM/yyyy}");
-            stringBuilder.Append($" | {workDay.StartTime}");
-            stringBuilder.Append($" | {workDay.EndTime}");
-            stringBuilder.Append($" | {workDay.BreakDuration}");
-
-            Console.WriteLine(stringBuilder.ToString());
+            return $"{workDay.Date:dd/MM/yyyy} | {workDay.StartTime} | {workDay.EndTime} | {workDay.BreakDuration}";
         }
     }
 }
