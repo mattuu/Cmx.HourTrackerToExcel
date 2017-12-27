@@ -21,12 +21,11 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
         }
 
         [Theory, AutoMoqData]
-        public void Initialize_ShouldAddAllWeekDaysToTimesheetWeeks(IFixture fixture, DateTime startDate, int daysOffset, DayOfWeek firstDayOfWeek, TimesheetInitializer sut)
+        public void Initialize_ShouldAddAllWeekDaysToTimesheetWeeks(IFixture fixture, TimesheetInitializer sut)
         {
             // arrange..
-            startDate = new DateTime(2017, 12, 19);
-            firstDayOfWeek = DayOfWeek.Monday;
-            daysOffset = 10;
+            var startDate = new DateTime(2017, 12, 19);
+            const int daysOffset = 10;
 
             var workDays = new HashSet<IWorkDay>();
             for (var dt = startDate; dt < startDate.AddDays(daysOffset); dt = dt.AddDays(1))
@@ -37,17 +36,68 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             }
 
             // act..
-            var actual = sut.Initialize(workDays, firstDayOfWeek);
+            var actual = sut.Initialize(workDays);
 
             // assert..
-            actual.ElementAt(0).WorkDays.ElementAt(0).Date.ShouldBe(new DateTime(2017, 12, 18), TimeSpan.FromSeconds(3));
-            actual.ElementAt(0).WorkDays.ElementAt(1).Date.ShouldBe(new DateTime(2017, 12, 19), TimeSpan.FromSeconds(3));
-            //actual.ElementAt(0).WorkDays.ElementAt(2).Date.ShouldBe(new DateTime(2017, 12, 20), TimeSpan.FromSeconds(3));
-            //actual.ElementAt(0).WorkDays.ElementAt(3).Date.ShouldBe(new DateTime(2017, 12, 21), TimeSpan.FromSeconds(3));
-            //actual.ElementAt(0).WorkDays.ElementAt(4).Date.ShouldBe(new DateTime(2017, 12, 22), TimeSpan.FromSeconds(3));
-            //actual.ElementAt(0).WorkDays.ElementAt(5).Date.ShouldBe(new DateTime(2017, 12, 23), TimeSpan.FromSeconds(3));
-            //actual.ElementAt(0).WorkDays.ElementAt(6).Date.ShouldBe(new DateTime(2017, 12, 24), TimeSpan.FromSeconds(3));
-            //actual.ElementAt(1).WorkDays.ElementAt(0).Date.ShouldBe(new DateTime(2017, 12, 25), TimeSpan.FromSeconds(3));
+            actual.Weeks.Count().ShouldBe(2);
+            actual.Weeks.ElementAt(0).WorkDays.Length.ShouldBe(7);
+
+            actual.Weeks.ElementAt(0).WorkDays.ElementAt(0).Date.ShouldBe(new DateTime(2017, 12, 18), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(0).WorkDays.ElementAt(1).Date.ShouldBe(new DateTime(2017, 12, 19), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(0).WorkDays.ElementAt(2).Date.ShouldBe(new DateTime(2017, 12, 20), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(0).WorkDays.ElementAt(3).Date.ShouldBe(new DateTime(2017, 12, 21), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(0).WorkDays.ElementAt(4).Date.ShouldBe(new DateTime(2017, 12, 22), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(0).WorkDays.ElementAt(5).Date.ShouldBe(new DateTime(2017, 12, 23), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(0).WorkDays.ElementAt(6).Date.ShouldBe(new DateTime(2017, 12, 24), TimeSpan.FromSeconds(3));
+
+            actual.Weeks.ElementAt(1).WorkDays.Length.ShouldBe(7);
+            actual.Weeks.ElementAt(1).WorkDays.ElementAt(0).Date.ShouldBe(new DateTime(2017, 12, 25), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(1).WorkDays.ElementAt(1).Date.ShouldBe(new DateTime(2017, 12, 26), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(1).WorkDays.ElementAt(2).Date.ShouldBe(new DateTime(2017, 12, 27), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(1).WorkDays.ElementAt(3).Date.ShouldBe(new DateTime(2017, 12, 28), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(1).WorkDays.ElementAt(4).Date.ShouldBe(new DateTime(2017, 12, 29), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(1).WorkDays.ElementAt(5).Date.ShouldBe(new DateTime(2017, 12, 30), TimeSpan.FromSeconds(3));
+            actual.Weeks.ElementAt(1).WorkDays.ElementAt(6).Date.ShouldBe(new DateTime(2017, 12, 31), TimeSpan.FromSeconds(3));
+        }
+
+        [Theory, AutoMoqData]
+        public void Initialize_ShouldHandleFirstDayOfWeekProperly(IFixture fixture, DateTime startDate, byte dayCount, TimesheetInitializer sut)
+        {
+            // arrange..
+            startDate = startDate.Date;
+            var workDays = new HashSet<IWorkDay>();
+            for (var dt = startDate; dt < startDate.AddDays(dayCount); dt = dt.AddDays(1))
+            {
+                workDays.Add(fixture.Build<WorkDay>()
+                                .With(wd => wd.Date, dt)
+                                .Create());
+            }
+
+            // act..
+            var actual = sut.Initialize(workDays);
+
+            // assert..
+            actual.Weeks.ShouldAllBe(tw => tw.WorkDays.First().Date.DayOfWeek == DayOfWeek.Monday);
+        }
+
+        [Theory, AutoMoqData]
+        public void Initialize_ShouldFillAllWeeks(IFixture fixture, DateTime startDate, byte dayCount, TimesheetInitializer sut)
+        {
+            // arrange..
+            startDate = startDate.Date;
+            var workDays = new HashSet<IWorkDay>();
+            for (var dt = startDate; dt < startDate.AddDays(dayCount); dt = dt.AddDays(1))
+            {
+                workDays.Add(fixture.Build<WorkDay>()
+                                    .With(wd => wd.Date, dt)
+                                    .Create());
+            }
+
+            // act..
+            var actual = sut.Initialize(workDays);
+
+            // assert..
+            actual.Weeks.ShouldAllBe(tw => tw.WorkDays.Length == 7);
         }
     }
 }

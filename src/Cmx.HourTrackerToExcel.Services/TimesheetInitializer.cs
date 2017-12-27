@@ -8,33 +8,42 @@ namespace Cmx.HourTrackerToExcel.Services
 {
     public class TimesheetInitializer
     {
-        public IEnumerable<ITimesheetWeek> Initialize(IEnumerable<IWorkDay> workDays, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday)
+        public ITimesheet Initialize(IEnumerable<IWorkDay> workDays)
         {
-            workDays = workDays.OrderBy(d => d.Date).ToList();
+            var timesheet = new Timesheet();
+            var dates = workDays.Select(wd => wd.Date).ToList();
 
-            var date = workDays.Min(wd => wd.Date).AddDays(- (int) firstDayOfWeek);
-            var endDate = workDays.Max(wd => wd.Date);
+            while (dates.Min().DayOfWeek != DayOfWeek.Monday)
+            {
+                dates.Insert(0, dates.Min().AddDays(-1));
+            }
 
-            var result = new HashSet<TimesheetWeek>();
+            while (dates.Max().DayOfWeek != DayOfWeek.Sunday)
+            {
+                dates.Add(dates.Max().AddDays(1));
+            }
+
+            var date = dates.Min();
+            var endDate = dates.Max();
+
             var timesheetWeek = new TimesheetWeek();
-
-            //var workDayDictionary = workDays.ToDictionary(wd => wd.Date, wd => wd);
+            timesheet.AddWeek(timesheetWeek);
 
             while (date <= endDate)
             {
+                if (timesheetWeek.IsFull)
+                {
+                    timesheetWeek = new TimesheetWeek();
+                    timesheet.AddWeek(timesheetWeek);
+                }
+
                 var workDay = new TimesheetDay(date);
                 timesheetWeek.AddDay(workDay);
-
-                if (workDay.Date.DayOfWeek == firstDayOfWeek)
-                {
-                    result.Add(timesheetWeek);
-                    timesheetWeek = new TimesheetWeek();
-                }
 
                 date = date.AddDays(1);
             }
 
-            return result;
+            return timesheet;
         }
     }
 }

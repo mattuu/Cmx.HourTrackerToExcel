@@ -14,6 +14,8 @@ namespace Cmx.HourTrackerToExcel.Services.Models
             _days = new Dictionary<DayOfWeek, IWorkDay>();
         }
 
+        public bool IsFull => WorkDays?.Length == 7;
+
         public IWorkDay[] WorkDays
         {
             get
@@ -21,13 +23,6 @@ namespace Cmx.HourTrackerToExcel.Services.Models
                 var days = _days.Values
                                 .OrderBy(d => d.Date.DayOfWeek, new WeekDayComparer())
                                 .ToList();
-
-                var index = (int) days[0].Date.DayOfWeek;
-                while (index > 1)
-                {
-                    days.Insert(0, null);
-                    index--;
-                }
 
                 return days.ToArray();
             }

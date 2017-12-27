@@ -4,6 +4,6 @@ namespace Cmx.HourTrackerToExcel.Common.Interfaces
 {
     public interface ITimesheet
     {
-        IEnumerable<ITimesheetWeek> Weeks { get; set; }
+        IEnumerable<ITimesheetWeek> Weeks { get; }
     }
 }
