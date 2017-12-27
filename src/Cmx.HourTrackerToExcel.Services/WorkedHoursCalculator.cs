@@ -3,7 +3,7 @@ using Cmx.HourTrackerToExcel.Common.Interfaces;
 
 namespace Cmx.HourTrackerToExcel.Services
 {
-    public class WorkedHoursCalculator
+    public class WorkedHoursCalculator : IWorkedHoursCalculator
     {
         public TimeSpan Calculate(IWorkDay workDay)
         {

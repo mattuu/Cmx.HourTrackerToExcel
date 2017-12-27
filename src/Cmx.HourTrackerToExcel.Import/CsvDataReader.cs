@@ -7,7 +7,7 @@ using CsvHelper;
 
 namespace Cmx.HourTrackerToExcel.Import
 {
-    public class CsvDataReader
+    public class CsvDataReader : ICsvDataReader
     {
         public IEnumerable<ICsvLine> Read(Stream stream)
         {

@@ -6,7 +6,7 @@ using Cmx.HourTrackerToExcel.Services.Models;
 
 namespace Cmx.HourTrackerToExcel.Services
 {
-    public class TimesheetInitializer
+    public class TimesheetInitializer : ITimesheetInitializer
     {
         public ITimesheet Initialize(IEnumerable<IWorkDay> workDays)
         {

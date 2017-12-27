@@ -1,5 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <PackageReference Include="Unity" Version="5.5.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Common\Cmx.HourTrackerToExcel.Common.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj" />
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Import\Cmx.HourTrackerToExcel.Import.csproj" />

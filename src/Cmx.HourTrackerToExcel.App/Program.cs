@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using AutoMapper;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
 using Cmx.HourTrackerToExcel.Import;
-using Cmx.HourTrackerToExcel.Mappers;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Services;
+using Unity;
 
 namespace Cmx.HourTrackerToExcel.App
 {
@@ -13,12 +14,15 @@ namespace Cmx.HourTrackerToExcel.App
     {
         static void Main(string[] args)
         {
-            var csvReader = new CsvDataReader();
+            var container = UnityConfig.GetConfiguredContainer();
+
+
+            var csvReader = container.Resolve<ICsvDataReader>();
+            var mapper = container.Resolve<IMapper>();
+            var timesheetInitializer = container.Resolve<ITimesheetInitializer>();
+
             var path = Path.Combine(Environment.CurrentDirectory, "..", "..", "export.csv");
-            var mapper = AutoMapperConfiguration.GetConfiguredMapper(Activator.CreateInstance);
-
-            var timesheetInitializer = new TimesheetInitializer();
-
+            
             using (var stream = File.OpenRead(path))
             {
                 var csvLines = csvReader.Read(stream);
