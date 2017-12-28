@@ -2,8 +2,8 @@
 
 namespace Cmx.HourTrackerToExcel.Services
 {
-    public interface ITimesheetCalculator
+    public interface ITimesheetValidator
     {
-        void CalculateWorkingHours(ITimesheet timesheet);
+        void AdjustTimesheet(ITimesheet timesheet);
     }
 }

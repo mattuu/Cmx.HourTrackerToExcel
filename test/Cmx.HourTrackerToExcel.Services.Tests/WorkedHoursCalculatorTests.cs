@@ -1,8 +1,8 @@
 ﻿using System;
-using Cmx.HourTrackerToExcel.Common.Interfaces;
-using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using AutoFixture;
 using AutoFixture.Idioms;
+using Cmx.HourTrackerToExcel.Common.Interfaces;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Shouldly;
 using Xunit;
 
@@ -17,127 +17,84 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             assertion.Verify(typeof(WorkedHoursCalculator).GetConstructors());
         }
 
-        [Theory, AutoMoqData]
-        public void Calculate_ShouldReturnCorrectResult_WhenBreakDurationIsZero(IFixture fixture, WorkedHoursCalculator sut)
+        [Theory]
+        [InlineAutoMoqData(20, 20)]
+        [InlineAutoMoqData(23, 20)]
+        [InlineAutoMoqData(28, 20)]
+        [InlineAutoMoqData(30, 30)]
+        public void AdjustTimes_ShouldSetStartTime(int originalMins, int adjustedMins, IFixture fixture, WorkedHoursCalculator sut)
         {
             // arrange..
             var workDay = fixture.Build<TestWorkDay>()
-                                 .With(wd => wd.StartTime, new TimeSpan(8, 30, 0))
-                                 .With(wd => wd.EndTime, new TimeSpan(16, 30, 0))
-                                 .With(wd => wd.BreakDuration, TimeSpan.Zero)
+                                 .With(wd => wd.StartTime, new TimeSpan(8, originalMins, 0))
                                  .Create();
 
             // act..
-            var actual = sut.Calculate(workDay);
+            sut.AdjustTimes(workDay);
 
             // assert..
-            actual.ShouldBe(new TimeSpan(8, 0, 0));
+            workDay.StartTime.Minutes.ShouldBe(adjustedMins);
         }
 
-        [Theory, AutoMoqData]
-        public void Calculate_ShouldReturnCorrectResult_WhenBreakDurationIsNotZero(IFixture fixture, WorkedHoursCalculator sut)
+        [Theory]
+        [InlineAutoMoqData(20, 20)]
+        [InlineAutoMoqData(23, 30)]
+        [InlineAutoMoqData(28, 30)]
+        [InlineAutoMoqData(30, 30)]
+        public void AdjustTimes_ShouldSetEndTime(int originalMins, int adjustedMins, IFixture fixture, WorkedHoursCalculator sut)
         {
             // arrange..
             var workDay = fixture.Build<TestWorkDay>()
-                                 .With(wd => wd.StartTime, new TimeSpan(8, 0, 0))
-                                 .With(wd => wd.EndTime, new TimeSpan(17, 30, 0))
-                                 .With(wd => wd.BreakDuration, new TimeSpan(1, 0, 0))
+                                 .With(wd => wd.EndTime, new TimeSpan(17, originalMins, 0))
                                  .Create();
 
             // act..
-            var actual = sut.Calculate(workDay);
+            sut.AdjustTimes(workDay);
 
             // assert..
-            actual.ShouldBe(new TimeSpan(8, 30, 0));
+            workDay.EndTime.Minutes.ShouldBe(adjustedMins);
         }
 
         [Theory, AutoMoqData]
-        public void Calculate_ShouldReturnCorrectResult_WhenStartTimeHasMinutes(IFixture fixture, WorkedHoursCalculator sut)
+        public void VerifyTimes_ShouldNotThrowException_WhenTimeDifferenceMatchesWorkHours(IFixture fixture, WorkedHoursCalculator sut)
         {
             // arrange..
             var workDay = fixture.Build<TestWorkDay>()
                                  .With(wd => wd.StartTime, new TimeSpan(8, 34, 0))
-                                 .With(wd => wd.EndTime, new TimeSpan(17, 00, 0))
-                                 .With(wd => wd.BreakDuration, TimeSpan.Zero)
+                                 .With(wd => wd.EndTime, new TimeSpan(17, 25, 0))
+                                 .With(wd => wd.BreakDuration, new TimeSpan(1, 5, 0))
+                                 .With(wd => wd.WorkedHours, new TimeSpan(8, 0, 0))
                                  .Create();
 
             // act..
-            var actual = sut.Calculate(workDay);
+            var actual = Record.Exception(() => sut.VerifyTimes(workDay));
 
             // assert..
-            actual.ShouldBe(new TimeSpan(8, 30, 0));
+            actual.ShouldBeNull();
         }
 
         [Theory, AutoMoqData]
-        public void Calculate_ShouldReturnCorrectResult_WhenEndTimeHasMinutes(IFixture fixture, WorkedHoursCalculator sut)
+        public void VerifyTimes_ShouldReturnFalse_WhenTimeDifferenceNotMatchWorkHours(IFixture fixture, WorkedHoursCalculator sut)
         {
             // arrange..
             var workDay = fixture.Build<TestWorkDay>()
-                                 .With(wd => wd.StartTime, new TimeSpan(8, 30, 0))
-                                 .With(wd => wd.EndTime, new TimeSpan(17, 08, 0))
-                                 .With(wd => wd.BreakDuration, TimeSpan.Zero)
+                                 .With(wd => wd.StartTime, new TimeSpan(8, 34, 0))
+                                 .With(wd => wd.EndTime, new TimeSpan(17, 28, 0))
+                                 .With(wd => wd.BreakDuration, new TimeSpan(0, 42, 0))
+                                 .With(wd => wd.WorkedHours, new TimeSpan(8, 30, 0))
                                  .Create();
 
             // act..
-            var actual = sut.Calculate(workDay);
+            var actual = Record.Exception(() => sut.VerifyTimes(workDay));
 
             // assert..
-            actual.ShouldBe(new TimeSpan(8, 40, 0));
-        }
-
-        [Theory, AutoMoqData]
-        public void Calculate_ShouldReturnCorrectResult_WhenBreakDurationHasMinutes(IFixture fixture, WorkedHoursCalculator sut)
-        {
-            // arrange..
-            var workDay = fixture.Build<TestWorkDay>()
-                                 .With(wd => wd.StartTime, new TimeSpan(8, 30, 0))
-                                 .With(wd => wd.EndTime, new TimeSpan(17, 30, 0))
-                                 .With(wd => wd.BreakDuration, new TimeSpan(0, 24, 0))
-                                 .Create();
-
-            // act..
-            var actual = sut.Calculate(workDay);
-
-            // assert..
-            actual.ShouldBe(new TimeSpan(8, 40, 0));
-        }
-
-
-        [Theory, AutoMoqData]
-        public void Calculate_ShouldThrowArgumentException_WhenStartTimeIsNull(IFixture fixture, WorkedHoursCalculator sut)
-        {
-            // arrange..
-            var workDay = fixture.Build<TestWorkDay>()
-                                 .Without(wd => wd.StartTime)
-                                 .Create();
-
-            // act..
-            var actual = Record.Exception(() => sut.Calculate(workDay));
-
-            // assert..
-            actual.ShouldBeOfType<ArgumentException>();
-            actual.Message.ShouldContain("StartTime");
-        }
-
-        [Theory, AutoMoqData]
-        public void Calculate_ShouldThrowArgumentException_WhenEndTimeIsNull(IFixture fixture, WorkedHoursCalculator sut)
-        {
-            // arrange..
-            var workDay = fixture.Build<TestWorkDay>()
-                                 .Without(wd => wd.EndTime)
-                                 .Create();
-
-            // act..
-            var actual = Record.Exception(() => sut.Calculate(workDay));
-
-            // assert..
-            actual.ShouldBeOfType<ArgumentException>();
-            actual.Message.ShouldContain("EndTime");
+            actual.ShouldNotBeNull();
+            actual.ShouldBeOfType<ApplicationException>();
         }
 
         private class TestWorkDay : IWorkDay
         {
-            public DateTime Date { get; }
+            public DateTime Date { get; set; }
 
             public TimeSpan StartTime { get; set; }
 
@@ -145,7 +102,7 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
 
             public TimeSpan BreakDuration { get; set; }
 
-            public TimeSpan? WorkedHours { get; }
+            public TimeSpan WorkedHours { get; set; }
         }
     }
 }

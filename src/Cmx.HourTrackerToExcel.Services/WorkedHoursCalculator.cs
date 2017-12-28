@@ -5,14 +5,14 @@ namespace Cmx.HourTrackerToExcel.Services
 {
     public class WorkedHoursCalculator : IWorkedHoursCalculator
     {
-        public TimeSpan Calculate(IWorkDay workDay)
+        public void AdjustTimes(IWorkDay workDay)
         {
-            if (workDay.StartTime == TimeSpan.Zero)
-                throw new ArgumentException("StartTime cannot be zero");
+            workDay.StartTime = RoundMinutesDown(workDay.StartTime);
+            workDay.EndTime = RoundMinutesUp(workDay.EndTime);
+        }
 
-            if (workDay.EndTime == TimeSpan.Zero)
-                throw new ArgumentException("EndTime cannot be zero");
-
+        public void VerifyTimes(IWorkDay workDay)
+        {
             var timeSpan = RoundMinutesUp(workDay.EndTime).Subtract(RoundMinutesDown(workDay.StartTime));
 
             if (workDay.BreakDuration != TimeSpan.Zero)
@@ -20,12 +20,15 @@ namespace Cmx.HourTrackerToExcel.Services
                 timeSpan = timeSpan.Subtract(RoundMinutesDown(workDay.BreakDuration));
             }
 
-            return timeSpan;
+            if (timeSpan != workDay.WorkedHours)
+            {
+                throw new ApplicationException($"Provided Duration do not match calculated value for {workDay.Date:d}");
+            }
         }
 
-        internal static TimeSpan RoundMinutesDown(TimeSpan source) => new TimeSpan(source.Hours, RoundDown(source.Minutes), source.Seconds);
+        private static TimeSpan RoundMinutesDown(TimeSpan source) => new TimeSpan(source.Hours, RoundDown(source.Minutes), source.Seconds);
 
-        internal static TimeSpan RoundMinutesUp(TimeSpan source) => new TimeSpan(source.Hours, RoundUp(source.Minutes), source.Seconds);
+        private static TimeSpan RoundMinutesUp(TimeSpan source) => new TimeSpan(source.Hours, RoundUp(source.Minutes), source.Seconds);
 
         private static int RoundDown(int value) => value % 10 != default(int) ? value - value % 10 : value;
 

@@ -19,7 +19,7 @@ namespace Cmx.HourTrackerToExcel.App
             var csvReader = container.Resolve<ICsvDataReader>();
             var mapper = container.Resolve<IMapper>();
             var timesheetInitializer = container.Resolve<ITimesheetInitializer>();
-            var timesheetCalculator = container.Resolve<ITimesheetCalculator>();
+            var timesheetCalculator = container.Resolve<ITimesheetValidator>();
 
             var path = Path.Combine(Environment.CurrentDirectory, "..", "..", "export.csv");
 
@@ -29,8 +29,8 @@ namespace Cmx.HourTrackerToExcel.App
 
                 var workDays = csvLines.Select(mapper.Map<WorkDay>).ToList();
 
-                var timesheet = timesheetInitializer.Initialize(workDays.Min(wd => wd.Date), workDays.Max(wd => wd.Date));
-                timesheetCalculator.CalculateWorkingHours(timesheet);
+                var timesheet = timesheetInitializer.Initialize(workDays);
+                timesheetCalculator.AdjustTimesheet(timesheet);
 
                 foreach (var week in timesheet.Weeks)
                 {

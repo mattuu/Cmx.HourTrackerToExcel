@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using AutoFixture;
 using AutoFixture.Idioms;
+using Cmx.HourTrackerToExcel.Common.Interfaces;
 using Shouldly;
 using Xunit;
 
@@ -24,8 +26,16 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             var startDate = new DateTime(2017, 12, 19);
             var endDate = startDate.AddDays(10);
 
+            var workDays = new List<IWorkDay>();
+            for (var d = startDate; d <= endDate; d = d.AddDays(1))
+            {
+                workDays.Add(fixture.Build<TestWorkDay>()
+                                    .With(wd => wd.Date, d)
+                                    .Create());
+            }
+
             // act..
-            var actual = sut.Initialize(startDate, endDate);
+            var actual = sut.Initialize(workDays);
 
             // assert..
             actual.Weeks.Count().ShouldBe(2);
@@ -55,9 +65,17 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             // arrange..
             startDate = startDate.Date;
             var endDate = startDate.AddDays(dayCount);
-         
+
+            var workDays = new List<IWorkDay>();
+            for (var d = startDate; d <= endDate; d = d.AddDays(1))
+            {
+                workDays.Add(fixture.Build<TestWorkDay>()
+                                    .With(wd => wd.Date, d)
+                                    .Create());
+            }
+
             // act..
-            var actual = sut.Initialize(startDate, endDate);
+            var actual = sut.Initialize(workDays);
 
             // assert..
             actual.Weeks.ShouldAllBe(tw => tw.WorkDays.First().Date.DayOfWeek == DayOfWeek.Monday);
@@ -70,12 +88,31 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             startDate = startDate.Date;
             var endDate = startDate.AddDays(dayCount);
 
+            var workDays = new List<IWorkDay>();
+            for (var d = startDate; d <= endDate; d = d.AddDays(1))
+            {
+                workDays.Add(fixture.Build<TestWorkDay>()
+                                    .With(wd => wd.Date, d)
+                                    .Create());
+            }
 
             // act..
-            var actual = sut.Initialize(startDate, endDate);
-
+            var actual = sut.Initialize(workDays);
             // assert..
             actual.Weeks.ShouldAllBe(tw => tw.WorkDays.Length == 7);
+        }
+
+        public class TestWorkDay : IWorkDay
+        {
+            public DateTime Date { get; set; }
+
+            public TimeSpan StartTime { get; set; }
+
+            public TimeSpan EndTime { get; set; }
+
+            public TimeSpan BreakDuration { get; set; }
+
+            public TimeSpan WorkedHours { get; set; }
         }
     }
 }

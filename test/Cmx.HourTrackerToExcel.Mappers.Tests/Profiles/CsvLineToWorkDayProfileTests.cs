@@ -30,6 +30,7 @@ namespace Cmx.HourTrackerToExcel.Mappers.Tests.Profiles
             actual.StartTime.ShouldBe(csvLine.ClockedIn.TimeOfDay);
             actual.EndTime.ShouldBe(csvLine.ClockedOut.TimeOfDay);
             actual.BreakDuration.ShouldBe(-csvLine.TotalTimeAdjustment.Value);
+            actual.WorkedHours.ShouldBe(csvLine.Duration);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Cmx.HourTrackerToExcel.App
 
             container.RegisterType<IWorkedHoursCalculator, WorkedHoursCalculator>();
             container.RegisterType<ITimesheetInitializer, TimesheetInitializer>();
-            container.RegisterType<ITimesheetCalculator, TimesheetCalculator>();
+            container.RegisterType<ITimesheetValidator, TimesheetValidator>();
 
             container.RegisterType<ICsvDataReader, CsvDataReader>();
 

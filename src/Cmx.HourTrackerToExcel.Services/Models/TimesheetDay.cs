@@ -10,14 +10,23 @@ namespace Cmx.HourTrackerToExcel.Services.Models
             Date = date;
         }
 
-        public DateTime Date { get; }
+        public TimesheetDay(IWorkDay workDay)
+        {
+            Date = workDay.Date;
+            StartTime = workDay.StartTime;
+            EndTime = workDay.EndTime;
+            BreakDuration = workDay.BreakDuration;
+            WorkedHours = workDay.WorkedHours;
+        }
 
-        public TimeSpan StartTime { get; }
+        public DateTime Date { get; set; }
 
-        public TimeSpan EndTime { get; }
+        public TimeSpan StartTime { get; set; }
 
-        public TimeSpan BreakDuration { get; }
+        public TimeSpan EndTime { get; set; }
 
-        public TimeSpan? WorkedHours { get; set; }
+        public TimeSpan BreakDuration { get; set; }
+
+        public TimeSpan WorkedHours { get; set; }
     }
 }

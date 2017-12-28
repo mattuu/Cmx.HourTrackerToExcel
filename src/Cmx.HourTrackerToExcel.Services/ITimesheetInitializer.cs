@@ -6,6 +6,6 @@ namespace Cmx.HourTrackerToExcel.Services
 {
     public interface ITimesheetInitializer
     {
-        ITimesheet Initialize(DateTime startDate, DateTime endDate);
+        ITimesheet Initialize(IEnumerable<IWorkDay> workDays);
     }
 }

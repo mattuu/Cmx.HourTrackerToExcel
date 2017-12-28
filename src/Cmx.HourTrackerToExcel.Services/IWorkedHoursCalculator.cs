@@ -1,10 +1,11 @@
-﻿using System;
-using Cmx.HourTrackerToExcel.Common.Interfaces;
+﻿using Cmx.HourTrackerToExcel.Common.Interfaces;
 
 namespace Cmx.HourTrackerToExcel.Services
 {
     public interface IWorkedHoursCalculator
     {
-        TimeSpan Calculate(IWorkDay workDay);
+        void AdjustTimes(IWorkDay workDay);
+
+        void VerifyTimes(IWorkDay workDay);
     }
 }
