@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Cmx.HourTrackerToExcel.Export;
+using Cmx.HourTrackerToExcel.Export.Infrastructure;
 using Cmx.HourTrackerToExcel.Import;
 using Cmx.HourTrackerToExcel.Mappers;
 using Cmx.HourTrackerToExcel.Services;
@@ -20,6 +22,11 @@ namespace Cmx.HourTrackerToExcel.App
             container.RegisterType<ICsvDataReader, CsvDataReader>();
 
             container.RegisterType<IMapper>(new InjectionFactory(c => AutoMapperConfiguration.GetConfiguredMapper(t => c.Resolve(t))));
+
+            container.RegisterType<ITimesheetExporter, TimesheetExporter>();
+            container.RegisterType<ITimesheetWeekExporter, TimesheetWeekExporter>();
+            container.RegisterType<ITimesheetExportManager, TimesheetExportManager>();
+            container.RegisterType<IExcelWorksheetFactory, ExcelWorksheetFactory>();
 
             return container;
         }

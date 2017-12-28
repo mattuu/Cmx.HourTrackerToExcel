@@ -1,83 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cmx.HourTrackerToExcel.Export.Models;
+using Cmx.HourTrackerToExcel.Common.Interfaces;
 using OfficeOpenXml;
 
 namespace Cmx.HourTrackerToExcel.Export
 {
-    public class TimesheetWeekExporter
+    public interface ITimesheetWeekExporter
     {
-        public void Export(TimesheetWeek week, TimesheetMonthExporter monthExporter)
+        void Export(ITimesheetExportManager exportManager, ITimesheetWeek timesheetWeek);
+    }
+
+    public class TimesheetWeekExporter : ITimesheetWeekExporter
+    {
+        internal const string TimeFormat = "hh:mm";
+
+        public void Export(ITimesheetExportManager exportManager, ITimesheetWeek timesheetWeek)
         {
-            var addresses = new Dictionary<DateTime?, ExcelAddress>();
+            var addresses = new Dictionary<DateTime?, Tuple<int, int>>();
 
-            monthExporter.MoveRight();
-            foreach (var date in week.Dates)
-            {
-                if (date.HasValue)
-                {
-                    var address = monthExporter.Write(date.Value, d => d.ToString("dd-MMM"));
-                    addresses.Add(date, address);
-                }
-                monthExporter.MoveRight();
-            }
-            monthExporter.NewLine();
-            monthExporter.Write("Start");
-            foreach (var date in week.Dates)
-            {
-                if (date.HasValue)
-                {
-                    monthExporter.Format("HH:mm");
+            exportManager.MoveRight();
 
-                }
-                monthExporter.MoveRight();
+            foreach (var workDay in timesheetWeek.WorkDays)
+            {
+                addresses.Add(workDay.Date, Tuple.Create(exportManager.CurrentColumn, exportManager.CurrentRow));
+
+                exportManager.Write(workDay.Date, d => d.ToString("dd-MMM"))
+                             .FontBold()
+                             .MoveRight();
             }
 
-            monthExporter.NewLine();
-            monthExporter.Write("Break");
-            foreach (var date in week.Dates)
-            {
-                if (date.HasValue)
-                {
-                    monthExporter.Format("HH:mm");
+            exportManager.NewLine()
+                         .Write("In")
+                         .FontBold()
+                         .MoveRight();
 
+            foreach (var workDay in timesheetWeek.WorkDays)
+            {
+                if (workDay.OnTimesheet)
+                {
+                    exportManager.Write(workDay.StartTime.Ticks)
+                                 .Format(TimeFormat)
+                                 .AlignRight();
                 }
-                monthExporter.MoveRight();
+                exportManager.MoveRight();
             }
 
-            monthExporter.NewLine();
-            monthExporter.Write("End");
-            foreach (var date in week.Dates)
-            {
-                if (date.HasValue)
-                {
-                    monthExporter.Format("HH:mm");
+            exportManager.NewLine()
+                         .Write("Break")
+                         .FontBold()
+                         .MoveRight();
 
+            foreach (var workDay in timesheetWeek.WorkDays)
+            {
+                if (workDay.OnTimesheet)
+                {
+                    exportManager.Write(workDay.BreakDuration.Ticks)
+                                 .Format(TimeFormat)
+                                 .AlignRight();
                 }
-                monthExporter.MoveRight();
+                exportManager.MoveRight();
             }
 
-            monthExporter.NewLine();
-            monthExporter.MoveRight();
+            exportManager.NewLine()
+                         .Write("Out")
+                         .FontBold()
+                         .MoveRight();
 
-            foreach (var date in week.Dates)
+            foreach (var workDay in timesheetWeek.WorkDays)
             {
-                if (date.HasValue)
+                if (workDay.OnTimesheet)
                 {
-                    var startAddress = addresses[date].Start;
-                    var startTimeAddress = new ExcelAddress(startAddress.Row + 1, startAddress.Column, startAddress.Row + 1, startAddress.Column);
-                    var breakAddress = new ExcelAddress(startAddress.Row + 2, startAddress.Column, startAddress.Row + 2, startAddress.Column);
-                    var endTimeAddress = new ExcelAddress(startAddress.Row + 3, startAddress.Column, startAddress.Row + 3, startAddress.Column);
-
-                    var formula = $"={endTimeAddress.Address}-{breakAddress.Address}-{startTimeAddress.Address}";
-
-                    monthExporter.Formula(formula);
-                    monthExporter.Format("HH:mm");
+                    exportManager.Write(workDay.EndTime.Ticks)
+                                 .Format(TimeFormat)
+                                 .AlignRight();
                 }
-                monthExporter.MoveRight();
+                exportManager.MoveRight();
             }
 
-            monthExporter.NewLine(3);
+            exportManager.NewLine()
+                         .Write("Total")
+                         .FontBold()
+                         .MoveRight();
+
+            foreach (var workDay in timesheetWeek.WorkDays)
+            {
+                var startRow = addresses[workDay.Date];
+                var startTimeAddress = new ExcelAddress(startRow.Item2 + 1, startRow.Item1, startRow.Item2 + 1, startRow.Item1);
+                var breakAddress = new ExcelAddress(startRow.Item2 + 2, startRow.Item1, startRow.Item2 + 2, startRow.Item1);
+                var endTimeAddress = new ExcelAddress(startRow.Item2 + 3, startRow.Item1, startRow.Item2 + 3, startRow.Item1);
+
+                var formula = $"={endTimeAddress.Address}-{breakAddress.Address}-{startTimeAddress.Address}";
+
+                exportManager.Formula(formula)
+                             .Format(TimeFormat)
+                             .AlignRight()
+                             .MoveRight();
+            }
+
+            exportManager.MoveRight();
+            exportManager.Format(TimeFormat);
+            exportManager.Formula($"SUM(B{exportManager.CurrentRow}:H{exportManager.CurrentRow})");
+
+            exportManager.NewLine(3);
         }
     }
 }

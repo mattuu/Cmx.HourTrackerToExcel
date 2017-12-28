@@ -55,6 +55,25 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             workDay.EndTime.Minutes.ShouldBe(adjustedMins);
         }
 
+        [Theory]
+        [InlineAutoMoqData(20, 20)]
+        [InlineAutoMoqData(23, 30)]
+        [InlineAutoMoqData(28, 30)]
+        [InlineAutoMoqData(30, 30)]
+        public void AdjustTimes_ShouldSetBreakDuration(int originalMins, int adjustedMins, IFixture fixture, WorkedHoursCalculator sut)
+        {
+            // arrange..
+            var workDay = fixture.Build<TestWorkDay>()
+                                 .With(wd => wd.BreakDuration, new TimeSpan(0, originalMins, 0))
+                                 .Create();
+
+            // act..
+            sut.AdjustTimes(workDay);
+
+            // assert..
+            workDay.BreakDuration.Minutes.ShouldBe(adjustedMins);
+        }
+
         [Theory, AutoMoqData]
         public void VerifyTimes_ShouldNotThrowException_WhenTimeDifferenceMatchesWorkHours(IFixture fixture, WorkedHoursCalculator sut)
         {
@@ -103,6 +122,8 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             public TimeSpan BreakDuration { get; set; }
 
             public TimeSpan WorkedHours { get; set; }
+
+            public bool OnTimesheet { get; set; }
         }
     }
 }

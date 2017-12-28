@@ -3,6 +3,7 @@ using OfficeOpenXml;
 
 namespace Cmx.HourTrackerToExcel.Export.Infrastructure
 {
+    [Obsolete]
     public class WorksheetBuilder : IWorksheetBuilder
     {
         private readonly ExcelWorksheet _sheet;
@@ -17,6 +18,12 @@ namespace Cmx.HourTrackerToExcel.Export.Infrastructure
         {
             _internalCellAddress = new ExcelCellAddress();
             ColCount = RowCount = 1;
+        }
+
+        public WorksheetBuilder(IExcelWorksheetFactory excelWorksheetFactory)
+            : this(excelWorksheetFactory.Create(), new ExcelCellAddress("A1"))
+        {
+            if (excelWorksheetFactory == null) throw new ArgumentNullException(nameof(excelWorksheetFactory));
         }
 
         private WorksheetBuilder(ExcelWorksheet sheet, ExcelCellAddress initialCellCellAddress)

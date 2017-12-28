@@ -1,8 +1,10 @@
+using System;
 using OfficeOpenXml;
 
 namespace Cmx.HourTrackerToExcel.Export.Infrastructure
 {
-     public interface IWorksheetBuilder
+    [Obsolete]
+    public interface IWorksheetBuilder
     {
         int ColCount { get; }
 

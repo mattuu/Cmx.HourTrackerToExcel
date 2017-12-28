@@ -13,5 +13,7 @@ namespace Cmx.HourTrackerToExcel.Common.Interfaces
         TimeSpan BreakDuration { get; set; }
 
         TimeSpan WorkedHours { get; set; }
+
+        bool OnTimesheet { get; }
     }
 }

@@ -3,27 +3,35 @@ using System.IO;
 using System.Linq;
 using AutoMapper;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
+using Cmx.HourTrackerToExcel.Export;
 using Cmx.HourTrackerToExcel.Import;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Services;
+using OfficeOpenXml;
 using Unity;
 
 namespace Cmx.HourTrackerToExcel.App
 {
     class Program
     {
+        private static readonly string InputPath = Path.Combine(Environment.CurrentDirectory, "..", "..", "export.csv");
+        private static readonly string OutputDir = Path.Combine(Environment.CurrentDirectory, "..\\..\\output");
+        private static readonly string OutputPath = Path.Combine(OutputDir, $"{Guid.NewGuid()}.xlsx");
+
         static void Main(string[] args)
         {
+            EnsureOutputDirExists();
+
             var container = UnityConfig.GetConfiguredContainer();
 
             var csvReader = container.Resolve<ICsvDataReader>();
             var mapper = container.Resolve<IMapper>();
             var timesheetInitializer = container.Resolve<ITimesheetInitializer>();
             var timesheetCalculator = container.Resolve<ITimesheetValidator>();
+            var timesheetExportManager = container.Resolve<ITimesheetExportManager>();
 
-            var path = Path.Combine(Environment.CurrentDirectory, "..", "..", "export.csv");
 
-            using (var stream = File.OpenRead(path))
+            using (var stream = File.OpenRead(InputPath))
             {
                 var csvLines = csvReader.Read(stream);
 
@@ -32,13 +40,21 @@ namespace Cmx.HourTrackerToExcel.App
                 var timesheet = timesheetInitializer.Initialize(workDays);
                 timesheetCalculator.AdjustTimesheet(timesheet);
 
-                foreach (var week in timesheet.Weeks)
+                using (var package = new ExcelPackage())
                 {
-                    Console.WriteLine("week");
-                    foreach (var workDay in week.WorkDays)
+                    if (package.Workbook.Worksheets.Count == 0)
                     {
-                        Console.WriteLine(Render(workDay));
+                        package.Workbook.Worksheets.Add("Sheet1");
                     }
+
+                    var worksheet = package.Workbook.Worksheets[0];
+                    timesheetExportManager.Export(worksheet, timesheet);
+
+                    
+                    var fileInfo = new FileInfo(OutputPath);
+                    package.SaveAs(fileInfo);
+
+                    Console.WriteLine("Done...");
                 }
             }
 
@@ -48,6 +64,14 @@ namespace Cmx.HourTrackerToExcel.App
         private static string Render(IWorkDay workDay)
         {
             return $"{workDay.Date:dd/MM/yyyy} | {workDay.StartTime} | {workDay.EndTime} | {workDay.BreakDuration}";
+        }
+
+        private static void EnsureOutputDirExists()
+        {
+            if (!Directory.Exists(OutputDir))
+            {
+                Directory.CreateDirectory(OutputPath);
+            }
         }
     }
 }

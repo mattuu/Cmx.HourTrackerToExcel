@@ -13,7 +13,8 @@ namespace Cmx.HourTrackerToExcel.Mappers.Profiles
                 .ForMember(wd => wd.StartTime, cfg => cfg.MapFrom(csv => csv.ClockedIn.TimeOfDay))
                 .ForMember(wd => wd.EndTime, cfg => cfg.MapFrom(csv => csv.ClockedOut.TimeOfDay))
                 .ForMember(wd => wd.BreakDuration, cfg => cfg.MapFrom(csv => -csv.TotalTimeAdjustment))
-                .ForMember(wd => wd.WorkedHours, cfg => cfg.MapFrom(csv => csv.Duration));
+                .ForMember(wd => wd.WorkedHours, cfg => cfg.MapFrom(csv => csv.Duration))
+                .ForMember(wd => wd.OnTimesheet, cfg => cfg.Ignore());
         }
     }
 }

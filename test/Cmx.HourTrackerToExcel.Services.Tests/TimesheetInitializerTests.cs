@@ -113,6 +113,8 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             public TimeSpan BreakDuration { get; set; }
 
             public TimeSpan WorkedHours { get; set; }
+
+            public bool OnTimesheet { get; set; }
         }
     }
 }
