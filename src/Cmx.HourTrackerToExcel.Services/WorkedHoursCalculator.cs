@@ -27,8 +27,8 @@ namespace Cmx.HourTrackerToExcel.Services
 
         internal static TimeSpan RoundMinutesUp(TimeSpan source) => new TimeSpan(source.Hours, RoundUp(source.Minutes), source.Seconds);
 
-        private static int RoundDown(int value) => value % 10 != default(int) ? value - value % 10 : default(int);
+        private static int RoundDown(int value) => value % 10 != default(int) ? value - value % 10 : value;
 
-        private static int RoundUp(int value) => value % 10 != default(int) ? value + 10 - value % 10 : default(int);
+        private static int RoundUp(int value) => value % 10 != default(int) ? value + 10 - value % 10 : value;
     }
 }

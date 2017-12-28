@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
+using AutoFixture;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Services.Models;
 using Cmx.HourTrackerToExcel.TestUtils.Attributes;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 using Shouldly;
 using Xunit;
 
@@ -109,32 +109,6 @@ namespace Cmx.HourTrackerToExcel.Services.Tests.Models
             actual.ElementAt(4).Date.DayOfWeek.ShouldBe(DayOfWeek.Friday);
             actual.ElementAt(5).Date.DayOfWeek.ShouldBe(DayOfWeek.Saturday);
             actual.ElementAt(6).Date.DayOfWeek.ShouldBe(DayOfWeek.Sunday);
-        }
-
-        [Theory, AutoMoqData]
-        public void WeekDays_ShouldPadLeft(IFixture fixture, TimesheetWeek sut)
-        {
-            // arrange..
-            var startDate = new DateTime(2017, 12, 20); // Wednesday..
-            for (var dt = startDate; dt < startDate.AddDays(5); dt = dt.AddDays(1))
-            {
-                var workDay = fixture.Build<WorkDay>()
-                                     .With(wd => wd.Date, dt)
-                                     .Create();
-                sut.AddDay(workDay);
-            }
-
-            // act..
-            var actual = sut.WorkDays;
-
-            // assert..
-            actual.ElementAt(0).ShouldBeNull();
-            actual.ElementAt(1).ShouldBeNull();
-            actual.ElementAt(2).Date.DayOfWeek.ShouldBe(DayOfWeek.Wednesday);
-            actual.ElementAt(3).Date.DayOfWeek.ShouldBe(DayOfWeek.Thursday);
-            actual.ElementAt(4).Date.DayOfWeek.ShouldBe(DayOfWeek.Friday);
-            actual.ElementAt(5).Date.DayOfWeek.ShouldBe(DayOfWeek.Saturday);
-            actual.ElementAt(6).Date.DayOfWeek.ShouldBe(DayOfWeek.Sunday);
-        }
+        }   
     }
 }

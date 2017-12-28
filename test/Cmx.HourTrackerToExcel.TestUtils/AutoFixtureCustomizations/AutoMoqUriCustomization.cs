@@ -1,7 +1,7 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
 
-namespace J2BI.Holidays.PCPS.TestUtils.AutoFixtureCustomizations
+namespace Cmx.HourTrackerToExcel.TestUtils.AutoFixtureCustomizations
 {
     public class AutoMoqUriCustomization : CompositeCustomization
     {

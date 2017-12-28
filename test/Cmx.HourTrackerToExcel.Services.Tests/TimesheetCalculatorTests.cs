@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
+using AutoFixture.Xunit2;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
 using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Moq;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Xunit2;
+using AutoFixture.Idioms;
 using Shouldly;
 using Xunit;
 
@@ -19,17 +19,17 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             assertion.Verify(typeof(TimesheetCalculator).GetConstructors());
         }
 
-        //[Theory, AutoMoqData]
-        //public void Calculate_ShouldPopulateDailyWorkHours(ITimesheet timesheet, [Frozen] Mock<IWorkedHoursCalculator> workedHoursCalculatorMock, TimesheetCalculator sut)
-        //{
-        //    // arrange..
-        //    //workedHoursCalculatorMock.Setup(m => m.Calculate(It.IsAny<IWorkDay>())).Returns(TimeSpan.Zero);
+        [Theory, AutoMoqData]
+        public void Calculate_ShouldPopulateDailyWorkHours(ITimesheet timesheet, [Frozen] Mock<IWorkedHoursCalculator> workedHoursCalculatorMock, TimesheetCalculator sut)
+        {
+            // arrange..
+            //workedHoursCalculatorMock.Setup(m => m.Calculate(It.IsAny<IWorkDay>())).Returns(TimeSpan.Zero);
 
-        //    // act..
-        //    sut.CalculateWorkingHours(timesheet);
+            // act..
+            sut.CalculateWorkingHours(timesheet);
 
-        //    // assert..
-        //    timesheet.Weeks.SelectMany(tw => tw.WorkDays).ShouldAllBe(wd => wd.WorkedHours == TimeSpan.Zero);
-        //}
+            // assert..
+            timesheet.Weeks.SelectMany(tw => tw.WorkDays).ShouldAllBe(wd => wd.WorkedHours == TimeSpan.Zero);
+        }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using AutoFixture.Kernel;
 using AutoMapper;
-using Ploeh.AutoFixture.Kernel;
 
-namespace J2BI.Holidays.PCPS.TestUtils.AutoFixtureCustomizations
+namespace Cmx.HourTrackerToExcel.TestUtils.AutoFixtureCustomizations
 {
     [ExcludeFromCodeCoverage]
     public class MapperCustomization : ISpecimenBuilder

@@ -1,6 +1,6 @@
-﻿using Ploeh.AutoFixture.Idioms;
+﻿using AutoFixture.Idioms;
 using Xunit;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
 using System.Collections.Generic;
 using Cmx.HourTrackerToExcel.Models.Export;

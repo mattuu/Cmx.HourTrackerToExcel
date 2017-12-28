@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace J2BI.Holidays.PCPS.TestUtils.AutoFixtureCustomizations
+namespace Cmx.HourTrackerToExcel.TestUtils.AutoFixtureCustomizations
 {
     public class CookieContainerSpecimenBuilder : ISpecimenBuilder
     {

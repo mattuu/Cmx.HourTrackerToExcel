@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Ploeh.AutoFixture.Xunit2;
+using AutoFixture.Xunit2;
 using Xunit;
 
-namespace Cmx.HourTrackerToExcel.TestUtils
+namespace Cmx.HourTrackerToExcel.TestUtils.Attributes
 {
     [ExcludeFromCodeCoverage]
     public class InlineAutoMapperMoqDataAttribute : CompositeDataAttribute

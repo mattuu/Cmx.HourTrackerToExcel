@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using AutoFixture;
+using AutoFixture.Kernel;
 using AutoMapper;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
 
 namespace Cmx.HourTrackerToExcel.Mappers.Tests.Infrastructure
 {

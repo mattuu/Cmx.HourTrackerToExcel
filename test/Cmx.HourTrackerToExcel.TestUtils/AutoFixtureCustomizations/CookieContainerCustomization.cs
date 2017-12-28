@@ -1,6 +1,6 @@
-using Ploeh.AutoFixture;
+using AutoFixture;
 
-namespace J2BI.Holidays.PCPS.TestUtils.AutoFixtureCustomizations
+namespace Cmx.HourTrackerToExcel.TestUtils.AutoFixtureCustomizations
 {
     public class CookieContainerCustomization : ICustomization
     {

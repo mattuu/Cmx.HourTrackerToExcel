@@ -1,9 +1,8 @@
 ﻿using System;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
-using Cmx.HourTrackerToExcel.TestUtils;
 using Cmx.HourTrackerToExcel.TestUtils.Attributes;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture;
+using AutoFixture.Idioms;
 using Shouldly;
 using Xunit;
 
@@ -41,7 +40,7 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             // arrange..
             var workDay = fixture.Build<TestWorkDay>()
                                  .With(wd => wd.StartTime, new TimeSpan(8, 0, 0))
-                                 .With(wd => wd.EndTime, new TimeSpan(17, 0, 0))
+                                 .With(wd => wd.EndTime, new TimeSpan(17, 30, 0))
                                  .With(wd => wd.BreakDuration, new TimeSpan(1, 0, 0))
                                  .Create();
 
@@ -49,7 +48,7 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             var actual = sut.Calculate(workDay);
 
             // assert..
-            actual.ShouldBe(new TimeSpan(8, 0, 0));
+            actual.ShouldBe(new TimeSpan(8, 30, 0));
         }
 
         [Theory, AutoMoqData]

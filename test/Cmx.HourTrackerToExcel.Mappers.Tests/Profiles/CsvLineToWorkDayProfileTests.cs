@@ -4,7 +4,7 @@ using Cmx.HourTrackerToExcel.Mappers.Tests.Infrastructure;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Models.Import;
 using Cmx.HourTrackerToExcel.TestUtils.Attributes;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 using Shouldly;
 using Xunit;
 
