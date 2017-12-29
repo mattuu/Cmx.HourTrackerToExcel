@@ -61,11 +61,7 @@ namespace Cmx.HourTrackerToExcel.App
             Console.ReadLine();
         }
 
-        private static string Render(IWorkDay workDay)
-        {
-            return $"{workDay.Date:dd/MM/yyyy} | {workDay.StartTime} | {workDay.EndTime} | {workDay.BreakDuration}";
-        }
-
+  
         private static void EnsureOutputDirExists()
         {
             if (!Directory.Exists(OutputDir))

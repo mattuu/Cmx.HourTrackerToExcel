@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
-using OfficeOpenXml;
 
 namespace Cmx.HourTrackerToExcel.Export
 {
-    public interface ITimesheetWeekExporter
-    {
-        void Export(ITimesheetExportManager exportManager, ITimesheetWeek timesheetWeek);
-    }
-
     public class TimesheetWeekExporter : ITimesheetWeekExporter
     {
-        internal const string TimeFormat = "hh:mm";
-
         public void Export(ITimesheetExportManager exportManager, ITimesheetWeek timesheetWeek)
         {
             var addresses = new Dictionary<DateTime?, Tuple<int, int>>();
@@ -24,13 +17,13 @@ namespace Cmx.HourTrackerToExcel.Export
             {
                 addresses.Add(workDay.Date, Tuple.Create(exportManager.CurrentColumn, exportManager.CurrentRow));
 
-                exportManager.Write(workDay.Date, d => d.ToString("dd-MMM"))
+                exportManager.Value(workDay.Date, d => $"{d:dd-MMM}")
                              .FontBold()
                              .MoveRight();
             }
 
             exportManager.NewLine()
-                         .Write("In")
+                         .Value("In")
                          .FontBold()
                          .MoveRight();
 
@@ -38,15 +31,15 @@ namespace Cmx.HourTrackerToExcel.Export
             {
                 if (workDay.OnTimesheet)
                 {
-                    exportManager.Write(workDay.StartTime.Ticks)
-                                 .Format(TimeFormat)
+                    exportManager.Value(workDay.StartTime)
+                                 .Format(Constants.TimeFormat)
                                  .AlignRight();
                 }
                 exportManager.MoveRight();
             }
 
             exportManager.NewLine()
-                         .Write("Break")
+                         .Value("Break")
                          .FontBold()
                          .MoveRight();
 
@@ -54,15 +47,15 @@ namespace Cmx.HourTrackerToExcel.Export
             {
                 if (workDay.OnTimesheet)
                 {
-                    exportManager.Write(workDay.BreakDuration.Ticks)
-                                 .Format(TimeFormat)
+                    exportManager.Value(workDay.BreakDuration)
+                                 .Format(Constants.TimeFormat)
                                  .AlignRight();
                 }
                 exportManager.MoveRight();
             }
 
             exportManager.NewLine()
-                         .Write("Out")
+                         .Value("Out")
                          .FontBold()
                          .MoveRight();
 
@@ -70,36 +63,31 @@ namespace Cmx.HourTrackerToExcel.Export
             {
                 if (workDay.OnTimesheet)
                 {
-                    exportManager.Write(workDay.EndTime.Ticks)
-                                 .Format(TimeFormat)
+                    exportManager.Value(workDay.EndTime)
+                                 .Format(Constants.TimeFormat)
                                  .AlignRight();
                 }
                 exportManager.MoveRight();
             }
 
             exportManager.NewLine()
-                         .Write("Total")
+                         .Value("Total")
                          .FontBold()
                          .MoveRight();
 
             foreach (var workDay in timesheetWeek.WorkDays)
             {
-                var startRow = addresses[workDay.Date];
-                var startTimeAddress = new ExcelAddress(startRow.Item2 + 1, startRow.Item1, startRow.Item2 + 1, startRow.Item1);
-                var breakAddress = new ExcelAddress(startRow.Item2 + 2, startRow.Item1, startRow.Item2 + 2, startRow.Item1);
-                var endTimeAddress = new ExcelAddress(startRow.Item2 + 3, startRow.Item1, startRow.Item2 + 3, startRow.Item1);
-
-                var formula = $"={endTimeAddress.Address}-{breakAddress.Address}-{startTimeAddress.Address}";
-
-                exportManager.Formula(formula)
-                             .Format(TimeFormat)
+                exportManager.Value(workDay.WorkedHours)
+                             .Format(Constants.TimeFormat)
                              .AlignRight()
                              .MoveRight();
             }
 
-            exportManager.MoveRight();
-            exportManager.Format(TimeFormat);
-            exportManager.Formula($"SUM(B{exportManager.CurrentRow}:H{exportManager.CurrentRow})");
+            var totalWorkedHours = timesheetWeek.WorkDays.Select(wd => wd.WorkedHours).Aggregate((total, ts) => total.Add(ts));
+            exportManager.Format(Constants.TimeFormat)
+                         .Formula($"SUM(B{exportManager.CurrentRow}:H{exportManager.CurrentRow})")
+                         .Value(totalWorkedHours.Duration())
+                         .MoveRight();
 
             exportManager.NewLine(3);
         }

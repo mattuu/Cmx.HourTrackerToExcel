@@ -23,7 +23,7 @@ namespace Cmx.HourTrackerToExcel.Export
 
         ITimesheetExportManager NewLine(int spacing = 1);
 
-        ITimesheetExportManager Write<T>(T value, Func<T, string> formatterFunc = null);
+        ITimesheetExportManager Value<T>(T value, Func<T, object> formatterFunc = null);
 
         ITimesheetExportManager Format(string format);
 
@@ -57,18 +57,25 @@ namespace Cmx.HourTrackerToExcel.Export
             MoveRight();
             for (var i = 1; i <= 7; i++)
             {
-                Write(Enum.GetName(typeof(DayOfWeek), i == 7 ? 0 : i))
+                Value(Enum.GetName(typeof(DayOfWeek), i == 7 ? 0 : i))
                     .FontBold()
                     .MoveRight();
             }
 
-            Write("Totals").FontBold();
+            Value("Totals");
 
             NewLine();
             foreach (var week in timesheet.Weeks)
             {
                 _timesheetWeekExporter.Export(this, week);
             }
+
+            NewLine(3).MoveRight(7)
+                      .Value("Total:")
+                      .MoveRight()
+                      .Formula($"SUM(I2:I{CurrentRow})")
+                      .Format(Constants.TimeFormat)
+                      .FontBold();
 
             _worksheet.Cells[1, 1, CurrentRow, CurrentColumn].AutoFitColumns();
         }
@@ -104,10 +111,10 @@ namespace Cmx.HourTrackerToExcel.Export
             return this;
         }
 
-        public ITimesheetExportManager Write<T>(T value, Func<T, string> formatterFunc = null)
+        public ITimesheetExportManager Value<T>(T value, Func<T, object> formatterFunc = null)
         {
             var cells = _worksheet.Cells[CurrentRow, CurrentColumn];
-            cells.Value = formatterFunc == null ? $"{value}" : formatterFunc(value);
+            cells.Value = formatterFunc == null ? value : formatterFunc(value);
 
             return this;
         }
