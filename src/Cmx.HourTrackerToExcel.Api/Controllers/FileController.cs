@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cmx.HourTrackerToExcel.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     public class FileController : Controller
     {
-        [HttpPost]
+        [HttpPost("file")]
         public async Task<IActionResult> Post(IFormFile file)
         {
             // full path to file in temp location
