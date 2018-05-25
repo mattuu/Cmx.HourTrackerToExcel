@@ -5,36 +5,6 @@ using OfficeOpenXml.Style;
 
 namespace Cmx.HourTrackerToExcel.Export
 {
-    public interface ITimesheetExportManager
-    {
-        int CurrentRow { get; }
-
-        int CurrentColumn { get; }
-
-        void Export(ExcelWorksheet excelWorksheet, ITimesheet timesheet);
-
-        ITimesheetExportManager MoveRight(int colCount = 1);
-
-        ITimesheetExportManager MoveLeft(int colCount = 1);
-
-        ITimesheetExportManager MoveDown(int rowCount = 1);
-
-        ITimesheetExportManager MoveUp(int rowCount = 1);
-
-        ITimesheetExportManager NewLine(int spacing = 1);
-
-        ITimesheetExportManager Value<T>(T value, Func<T, object> formatterFunc = null);
-
-        ITimesheetExportManager Format(string format);
-
-        ITimesheetExportManager Formula(string formula);
-
-        ITimesheetExportManager FontBold();
-
-        ITimesheetExportManager FontNormal();
-
-        ITimesheetExportManager AlignRight();
-    }
 
     public class TimesheetExportManager : ITimesheetExportManager
     {
@@ -70,10 +40,12 @@ namespace Cmx.HourTrackerToExcel.Export
                 _timesheetWeekExporter.Export(this, week);
             }
 
+            var rowIndex = CurrentRow;
+
             NewLine(3).MoveRight(7)
                       .Value("Total:")
                       .MoveRight()
-                      .Formula($"SUM(I2:I{CurrentRow})")
+                      .Formula($"SUM(I2:I{rowIndex})", true)
                       .Format(Constants.TimeFormat)
                       .FontBold();
 
@@ -125,9 +97,15 @@ namespace Cmx.HourTrackerToExcel.Export
             return this;
         }
 
-        public ITimesheetExportManager Formula(string formula)
+        public ITimesheetExportManager Formula(string formula, bool calculate = false)
         {
             _worksheet.Cells[CurrentRow, CurrentColumn].Formula = formula;
+
+            if (calculate)
+            {
+                _worksheet.Cells[CurrentRow, CurrentColumn].Calculate();
+            }
+
             return this;
         }
 

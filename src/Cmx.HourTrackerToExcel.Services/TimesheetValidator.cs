@@ -20,7 +20,7 @@ namespace Cmx.HourTrackerToExcel.Services
                                                                workDay =>
                                                                {
                                                                    _workedHoursCalculator.AdjustTimes(workDay);
-                                                                   _workedHoursCalculator.VerifyTimes(workDay);
+                                                                //    _workedHoursCalculator.VerifyTimes(workDay);
                                                                }));
         }
     }
