@@ -9,7 +9,7 @@ namespace Cmx.HourTrackerToExcel.Services
         {
             workDay.StartTime = RoundMinutesDown(workDay.StartTime);
             workDay.EndTime = RoundMinutesUp(workDay.EndTime);
-            workDay.BreakDuration = RoundMinutesDown(workDay.BreakDuration);
+            workDay.BreakDuration = RoundMinutesUp(workDay.BreakDuration);
         }
 
         public void VerifyTimes(IWorkDay workDay)
@@ -23,7 +23,7 @@ namespace Cmx.HourTrackerToExcel.Services
 
             if (timeSpan != workDay.WorkedHours)
             {
-                //throw new ApplicationException($"Provided Duration do not match calculated value for {workDay.Date:d}");
+                throw new ApplicationException($"Provided Duration do not match calculated value for {workDay.Date:d}");
             }
         }
 

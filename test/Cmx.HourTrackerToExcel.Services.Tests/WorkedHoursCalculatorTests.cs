@@ -93,7 +93,7 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
         }
 
         [Theory, AutoMoqData]
-        public void VerifyTimes_ShouldReturnFalse_WhenTimeDifferenceNotMatchWorkHours(IFixture fixture, WorkedHoursCalculator sut)
+        public void VerifyTimes_ShouldThrowException_WhenTimeDifferenceNotMatchWorkHours(IFixture fixture, WorkedHoursCalculator sut)
         {
             // arrange..
             var workDay = fixture.Build<TestWorkDay>()
