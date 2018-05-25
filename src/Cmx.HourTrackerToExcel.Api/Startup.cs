@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.IO;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Cmx.HourTrackerToExcel.Api
@@ -20,6 +24,10 @@ namespace Cmx.HourTrackerToExcel.Api
         {
             services.AddMvc();
             services.AddCors();
+
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider("C:\\temp\\"));
+
+            services.AddTransient<IFormFile, FormFile>();
 
             services.AddSwaggerGen(c =>
             {
