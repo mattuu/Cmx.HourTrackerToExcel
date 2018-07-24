@@ -5,6 +5,8 @@ namespace Cmx.HourTrackerToExcel.Services
 {
     public class WorkedHoursCalculator : IWorkedHoursCalculator
     {
+        internal const int MinutesCutOff = 4;
+
         public void AdjustTimes(IWorkDay workDay)
         {
             workDay.StartTime = RoundMinutesDown(workDay.StartTime);
@@ -27,12 +29,28 @@ namespace Cmx.HourTrackerToExcel.Services
             }
         }
 
-        private static TimeSpan RoundMinutesDown(TimeSpan source) => new TimeSpan(source.Hours, RoundDown(source.Minutes), source.Seconds);
+        private static TimeSpan RoundMinutesDown(TimeSpan source) => new TimeSpan(source.Hours, RoundDownToNearestTenth(source.Minutes), source.Seconds);
 
-        private static TimeSpan RoundMinutesUp(TimeSpan source) => new TimeSpan(source.Hours, RoundUp(source.Minutes), source.Seconds);
+        private static TimeSpan RoundMinutesUp(TimeSpan source) => new TimeSpan(source.Hours, RoundUpToNearestTenth(source.Minutes), source.Seconds);
 
-        private static int RoundDown(int value) => value % 10 != default(int) ? value - value % 10 : value;
+        private static int RoundDownToNearestTenth(int value)
+        {
+            if (value % 10 == 0)
+            {
+                return value;
+            }
 
-        private static int RoundUp(int value) => value % 10 != default(int) ? value + 10 - value % 10 : value;
+            return value % 10 < MinutesCutOff ? value - value % 10 : value + 10 - value % 10;
+        }
+
+        private static int RoundUpToNearestTenth(int value)
+        {
+            if (value % 10 == 0)
+            {
+                return value;
+            }
+
+            return value % 10 < MinutesCutOff ? value + 10 - value % 10 : value - value % 10;
+        }
     }
 }

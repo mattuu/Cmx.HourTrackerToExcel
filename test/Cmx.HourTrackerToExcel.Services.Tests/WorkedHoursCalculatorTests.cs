@@ -33,12 +33,13 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             sut.AdjustTimes(workDay);
 
             // assert..
-            workDay.StartTime.Minutes.ShouldBe(adjustedMins);
+            workDay.StartTime.Minutes.ShouldBe(adjustedMins, $"Failing condition: original: {originalMins}, adjusted: {adjustedMins}");
         }
 
         [Theory]
         [InlineAutoMoqData(20, 20)]
-        [InlineAutoMoqData(23, 30)]
+        [InlineAutoMoqData(24, 20)]
+        [InlineAutoMoqData(25, 30)]
         [InlineAutoMoqData(28, 30)]
         [InlineAutoMoqData(30, 30)]
         public void AdjustTimes_ShouldSetEndTime(int originalMins, int adjustedMins, IFixture fixture, WorkedHoursCalculator sut)
@@ -52,7 +53,7 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             sut.AdjustTimes(workDay);
 
             // assert..
-            workDay.EndTime.Minutes.ShouldBe(adjustedMins);
+            workDay.EndTime.Minutes.ShouldBe(adjustedMins, $"Failing condition: original: {originalMins}, adjusted: {adjustedMins}");
         }
 
         [Theory]
@@ -71,7 +72,7 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
             sut.AdjustTimes(workDay);
 
             // assert..
-            workDay.BreakDuration.Minutes.ShouldBe(adjustedMins);
+            workDay.BreakDuration.Minutes.ShouldBe(adjustedMins, $"Failing condition: original: {originalMins}, adjusted: {adjustedMins}");
         }
 
         [Theory, AutoMoqData]
@@ -79,9 +80,9 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
         {
             // arrange..
             var workDay = fixture.Build<TestWorkDay>()
-                                 .With(wd => wd.StartTime, new TimeSpan(8, 34, 0))
-                                 .With(wd => wd.EndTime, new TimeSpan(17, 25, 0))
-                                 .With(wd => wd.BreakDuration, new TimeSpan(1, 5, 0))
+                                 .With(wd => wd.StartTime, new TimeSpan(8, 30, 0))
+                                 .With(wd => wd.EndTime, new TimeSpan(17, 30, 0))
+                                 .With(wd => wd.BreakDuration, new TimeSpan(1, 0, 0))
                                  .With(wd => wd.WorkedHours, new TimeSpan(8, 0, 0))
                                  .Create();
 
@@ -97,9 +98,9 @@ namespace Cmx.HourTrackerToExcel.Services.Tests
         {
             // arrange..
             var workDay = fixture.Build<TestWorkDay>()
-                                 .With(wd => wd.StartTime, new TimeSpan(8, 34, 0))
-                                 .With(wd => wd.EndTime, new TimeSpan(17, 28, 0))
-                                 .With(wd => wd.BreakDuration, new TimeSpan(0, 42, 0))
+                                 .With(wd => wd.StartTime, new TimeSpan(8, 30, 0))
+                                 .With(wd => wd.EndTime, new TimeSpan(17, 30, 0))
+                                 .With(wd => wd.BreakDuration, new TimeSpan(1, 0, 0))
                                  .With(wd => wd.WorkedHours, new TimeSpan(8, 30, 0))
                                  .Create();
 

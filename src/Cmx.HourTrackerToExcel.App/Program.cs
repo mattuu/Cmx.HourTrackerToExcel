@@ -14,7 +14,7 @@ namespace Cmx.HourTrackerToExcel.App
 {
     class Program
     {
-        private static readonly string InputPath = Path.Combine(Environment.CurrentDirectory, "..", "..", "export.csv");
+        private static readonly string InputPath = Path.Combine(Environment.CurrentDirectory, "..", "..", "incoming", "CSVExport-Jet2com.csv");
         private static readonly string OutputDir = Path.Combine(Environment.CurrentDirectory, "..\\..\\output");
         private static readonly string OutputPath = Path.Combine(OutputDir, $"{Guid.NewGuid()}.xlsx");
 
