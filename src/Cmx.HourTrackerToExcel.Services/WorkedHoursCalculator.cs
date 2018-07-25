@@ -5,22 +5,20 @@ namespace Cmx.HourTrackerToExcel.Services
 {
     public class WorkedHoursCalculator : IWorkedHoursCalculator
     {
-        internal const int MinutesCutOff = 4;
-
         public void AdjustTimes(IWorkDay workDay)
         {
-            workDay.StartTime = RoundMinutesDown(workDay.StartTime);
-            workDay.EndTime = RoundMinutesUp(workDay.EndTime);
-            workDay.BreakDuration = RoundMinutesUp(workDay.BreakDuration);
+            workDay.StartTime = RoundDownToNearestTenthMinute(workDay.StartTime);
+            workDay.BreakDuration = RoundDownToNearestTenthMinute(workDay.BreakDuration);
+            workDay.EndTime = GetAdjustedEndTime(workDay);
         }
 
         public void VerifyTimes(IWorkDay workDay)
         {
-            var timeSpan = RoundMinutesUp(workDay.EndTime).Subtract(RoundMinutesDown(workDay.StartTime));
+            var timeSpan = workDay.EndTime.Subtract(workDay.StartTime);
 
             if (workDay.BreakDuration != TimeSpan.Zero)
             {
-                timeSpan = timeSpan.Subtract(RoundMinutesDown(workDay.BreakDuration));
+                timeSpan = timeSpan.Subtract(workDay.BreakDuration);
             }
 
             if (timeSpan != workDay.WorkedHours)
@@ -29,28 +27,16 @@ namespace Cmx.HourTrackerToExcel.Services
             }
         }
 
-        private static TimeSpan RoundMinutesDown(TimeSpan source) => new TimeSpan(source.Hours, RoundDownToNearestTenth(source.Minutes), source.Seconds);
-
-        private static TimeSpan RoundMinutesUp(TimeSpan source) => new TimeSpan(source.Hours, RoundUpToNearestTenth(source.Minutes), source.Seconds);
-
-        private static int RoundDownToNearestTenth(int value)
+        private static TimeSpan RoundDownToNearestTenthMinute(TimeSpan timeSpan)
         {
-            if (value % 10 == 0)
-            {
-                return value;
-            }
-
-            return value % 10 < MinutesCutOff ? value - value % 10 : value + 10 - value % 10;
+            var modulo10 = timeSpan.Minutes % 10;
+            return timeSpan.Add(TimeSpan.FromMinutes(-modulo10));
         }
 
-        private static int RoundUpToNearestTenth(int value)
+        private static TimeSpan GetAdjustedEndTime(IWorkDay workDay)
         {
-            if (value % 10 == 0)
-            {
-                return value;
-            }
-
-            return value % 10 < MinutesCutOff ? value + 10 - value % 10 : value - value % 10;
+            return workDay.StartTime.Add(workDay.WorkedHours).Add(workDay.BreakDuration);
         }
+
     }
 }
