@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
@@ -22,32 +21,56 @@ namespace Cmx.HourTrackerToExcel.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddCors();
-
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider("C:\\temp\\"));
 
             services.AddTransient<IFormFile, FormFile>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Cmx.HourTrackerToExcel.Api", Version = "v1" });
+                c.SwaggerDoc("v1",
+                             new Info
+                             {
+                                 Title = "Cmx.HourTrackerToExcel.Api",
+                                 Version = "v1"
+                             });
             });
+
+            services.AddCors(options =>
+                    {
+                        options.AddPolicy("CorsPolicy",
+                                          builder =>
+                                          {
+                                              builder.WithOrigins("http://localhost:3000")
+                                                     .AllowAnyHeader()
+                                                     .AllowAnyMethod()
+                                                     .AllowCredentials();
+                                          });
+                    })
+                    .AddMvcCore();
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("CorsPolicy");
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cmx.HourTrackerToExcel.Api V1"); });
+
+
+            app.UseMvc(routes =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cmx.HourTrackerToExcel.Api V1");
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
     }
