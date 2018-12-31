@@ -1,0 +1,11 @@
+{
+    "disabled":false,
+    "bindings":[
+        {
+            "type": "httpTrigger",
+            "name": "req",
+            "direction": "in",
+            "dataType": "stream"
+        }
+    ]
+}
