@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,18 +39,18 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Model model)
+        public async Task<IActionResult> Post(IFormFileCollection formFiles)
         {
             // full path to file in temp location
-            var file = model.File;
-            var fileName = model.File.FileName;
+            var formFile = formFiles.First();
+            var fileName = formFile.FileName;
 
-            var filePath = $@"C:\temp\upload\{file.FileName}";
-            if (file.Length > 0)
+            var filePath = $@"C:\temp\upload\{fileName}";
+            if (formFile.Length > 0)
             {
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                    await formFile.CopyToAsync(stream);
                 }
             }
 
@@ -56,7 +58,7 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
             IFileInfo fileInfo = provider.GetFileInfo(fileName);
             var readStream = fileInfo.CreateReadStream();
 
-            return File(readStream, file.ContentType, fileName);
+            return File(readStream, formFile.ContentType, fileName);
         }
     }
 
