@@ -1,3 +1,4 @@
+import 'animate.css/animate.min.css';
 import * as React from 'react';
 import './App.css';
 
