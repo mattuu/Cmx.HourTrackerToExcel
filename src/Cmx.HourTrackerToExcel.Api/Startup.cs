@@ -58,7 +58,7 @@ namespace Cmx.HourTrackerToExcel.Api
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseSwagger();
