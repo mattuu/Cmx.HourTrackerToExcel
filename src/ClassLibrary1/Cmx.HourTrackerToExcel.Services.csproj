@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Common\Cmx.HourTrackerToExcel.Common.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Import\Cmx.HourTrackerToExcel.Import.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Mappers\Cmx.HourTrackerToExcel.Mappers.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Models\Cmx.HourTrackerToExcel.Models.csproj" />
+  </ItemGroup>
+
+</Project>
