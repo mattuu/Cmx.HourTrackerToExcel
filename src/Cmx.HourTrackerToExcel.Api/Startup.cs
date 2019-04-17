@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Swashbuckle.AspNetCore.Swagger;
+using Cmx.HourTrackerToExcel.Import;
+using AutoMapper;
+using Cmx.HourTrackerToExcel.Mappers;
 
 namespace Cmx.HourTrackerToExcel.Api
 {
@@ -49,6 +52,13 @@ namespace Cmx.HourTrackerToExcel.Api
                     .AddMvcCore();
 
             services.AddMvc();
+
+            services.AddAutoMapper(cfg =>
+            {
+                AutoMapperConfiguration.Configure(cfg);
+            });
+
+            services.AddTransient<ICsvDataReader, CsvDataReader>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
