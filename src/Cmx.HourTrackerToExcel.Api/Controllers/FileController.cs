@@ -24,18 +24,22 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
         private ITimesheetInitializer _timesheetInitializer;
         private ITimesheetValidator _timesheetValidator;
         private ITimesheetExportManager _timesheetExportManager;
+        IFileProvider _fileProvider;
 
         public FileController(ICsvDataReader csvDataReader,
                             IMapper mapper,
                             ITimesheetInitializer timesheetInitializer,
                             ITimesheetValidator timesheetValidator,
-                            ITimesheetExportManager timesheetExportManager)
+                            ITimesheetExportManager timesheetExportManager,
+                            IFileProvider fileProvider)
         {
             _csvDataReader = csvDataReader ?? throw new ArgumentException(nameof(csvDataReader));
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _timesheetInitializer = timesheetInitializer ?? throw new ArgumentException(nameof(timesheetInitializer));
             _timesheetValidator = timesheetValidator ?? throw new ArgumentException(nameof(timesheetValidator));
             _timesheetExportManager = timesheetExportManager ?? throw new ArgumentException(nameof(timesheetExportManager));
+            _timesheetExportManager = timesheetExportManager ?? throw new ArgumentException(nameof(timesheetExportManager));
+            _fileProvider = fileProvider ?? throw new ArgumentException(nameof(fileProvider));
         }
 
         [HttpGet]
@@ -51,9 +55,7 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
 
             return Task.Run(() =>
             {
-
-                IFileProvider provider = new PhysicalFileProvider(filePath);
-                IFileInfo fileInfo = provider.GetFileInfo(fileName);
+                IFileInfo fileInfo = _fileProvider.GetFileInfo(fileName);
                 var readStream = fileInfo.CreateReadStream();
                 var mimeType = "text/plain";
 
@@ -73,9 +75,10 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
 
             if (formFile.Length > 0)
             {
-                var filePath = Path.GetTempFileName();
+                var destinationFileName =  $"{Guid.NewGuid()}.xlsx";
+                var filePath = Path.Combine(Path.GetTempPath(), destinationFileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Open))
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 // using (var stream = new MemoryStream())
                 {
                     await formFile.CopyToAsync(stream);
@@ -101,12 +104,17 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
                         var worksheet = package.Workbook.Worksheets[0];
                         _timesheetExportManager.Export(worksheet, timesheet);
 
-                        var fileInfo = new FileInfo("C:\\temp\\upload\\output.xlsx");
-                        package.SaveAs(fileInfo);
-
-                        //     Console.WriteLine("Done...");
+                        package.SaveAs(new FileInfo(filePath));
                     }
-                    return Ok();
+
+                    var fileInfo = _fileProvider.GetFileInfo(destinationFileName);
+                    var readStream = fileInfo.CreateReadStream();
+                    var mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                    Response.Headers.Add("Content-Disposition", "attachment");
+                    Response.Headers.Add("X-FileName", destinationFileName);
+
+                    return (IActionResult)File(readStream, mimeType, destinationFileName);
                 }
             }
 

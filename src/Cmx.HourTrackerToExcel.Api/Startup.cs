@@ -11,6 +11,7 @@ using AutoMapper;
 using Cmx.HourTrackerToExcel.Mappers;
 using Cmx.HourTrackerToExcel.Services;
 using Cmx.HourTrackerToExcel.Export;
+using System.IO;
 
 namespace Cmx.HourTrackerToExcel.Api
 {
@@ -26,7 +27,7 @@ namespace Cmx.HourTrackerToExcel.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IFileProvider>(new PhysicalFileProvider("C:\\temp\\"));
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.GetTempPath()));
 
             services.AddTransient<IFormFile, FormFile>();
 
@@ -48,7 +49,8 @@ namespace Cmx.HourTrackerToExcel.Api
                                               builder.WithOrigins("http://localhost:3000")
                                                      .AllowAnyHeader()
                                                      .AllowAnyMethod()
-                                                     .AllowCredentials();
+                                                     .AllowCredentials()
+                                                     .WithExposedHeaders("X-FileName");
                                           });
                     })
                     .AddMvcCore();

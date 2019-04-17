@@ -28,7 +28,7 @@ class Notifier extends React.Component<IProps, {}> {
   public componentWillReceiveProps(nextProps: IProps) {
     this.ref.success(nextProps.message, '', {
       hideduration: 300,
-      taptodismiss: true
+      taptodismiss: 'true'
     });
   }
 }
