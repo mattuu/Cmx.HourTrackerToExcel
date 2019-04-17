@@ -4,12 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Cmx.HourTrackerToExcel.Export;
 using Cmx.HourTrackerToExcel.Import;
 using Cmx.HourTrackerToExcel.Models.Export;
+using Cmx.HourTrackerToExcel.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Net.Http.Headers;
+using OfficeOpenXml;
 
 namespace Cmx.HourTrackerToExcel.Api.Controllers
 {
@@ -18,11 +21,21 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
     {
         private ICsvDataReader _csvDataReader;
         private IMapper _mapper;
+        private ITimesheetInitializer _timesheetInitializer;
+        private ITimesheetValidator _timesheetValidator;
+        private ITimesheetExportManager _timesheetExportManager;
 
-        public FileController(ICsvDataReader csvDataReader, IMapper mapper)
+        public FileController(ICsvDataReader csvDataReader,
+                            IMapper mapper,
+                            ITimesheetInitializer timesheetInitializer,
+                            ITimesheetValidator timesheetValidator,
+                            ITimesheetExportManager timesheetExportManager)
         {
             _csvDataReader = csvDataReader ?? throw new ArgumentException(nameof(csvDataReader));
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
+            _timesheetInitializer = timesheetInitializer ?? throw new ArgumentException(nameof(timesheetInitializer));
+            _timesheetValidator = timesheetValidator ?? throw new ArgumentException(nameof(timesheetValidator));
+            _timesheetExportManager = timesheetExportManager ?? throw new ArgumentException(nameof(timesheetExportManager));
         }
 
         [HttpGet]
@@ -74,27 +87,26 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
                     var csvLines = _csvDataReader.Read(stream);
 
                     var workDays = csvLines.Select(_mapper.Map<WorkDay>).ToList();
-                    return Ok(workDays.Count());
 
-                    // var timesheet = timesheetInitializer.Initialize(workDays);
-                    // timesheetCalculator.AdjustTimesheet(timesheet);
+                    var timesheet = _timesheetInitializer.Initialize(workDays);
+                    _timesheetValidator.AdjustTimesheet(timesheet);
 
-                    // using (var package = new ExcelPackage())
-                    // {
-                    //     if (package.Workbook.Worksheets.Count == 0)
-                    //     {
-                    //         package.Workbook.Worksheets.Add("Sheet1");
-                    //     }
+                    using (var package = new ExcelPackage())
+                    {
+                        if (package.Workbook.Worksheets.Count == 0)
+                        {
+                            package.Workbook.Worksheets.Add("Sheet1");
+                        }
 
-                    //     var worksheet = package.Workbook.Worksheets[0];
-                    //     timesheetExportManager.Export(worksheet, timesheet);
+                        var worksheet = package.Workbook.Worksheets[0];
+                        _timesheetExportManager.Export(worksheet, timesheet);
 
+                        var fileInfo = new FileInfo("C:\\temp\\upload\\output.xlsx");
+                        package.SaveAs(fileInfo);
 
-                    //     var fileInfo = new FileInfo(OutputPath);
-                    //     package.SaveAs(fileInfo);
-
-                    //     Console.WriteLine("Done...");
-                    // }
+                        //     Console.WriteLine("Done...");
+                    }
+                    return Ok();
                 }
             }
 

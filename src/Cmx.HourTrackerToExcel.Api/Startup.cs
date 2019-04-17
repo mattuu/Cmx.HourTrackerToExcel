@@ -9,6 +9,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using Cmx.HourTrackerToExcel.Import;
 using AutoMapper;
 using Cmx.HourTrackerToExcel.Mappers;
+using Cmx.HourTrackerToExcel.Services;
+using Cmx.HourTrackerToExcel.Export;
 
 namespace Cmx.HourTrackerToExcel.Api
 {
@@ -58,7 +60,12 @@ namespace Cmx.HourTrackerToExcel.Api
                 AutoMapperConfiguration.Configure(cfg);
             });
 
-            services.AddTransient<ICsvDataReader, CsvDataReader>();
+            services.AddTransient<ICsvDataReader, CsvDataReader>()
+                    .AddTransient<ITimesheetInitializer, TimesheetInitializer>()
+                    .AddTransient<ITimesheetValidator, TimesheetValidator>()
+                    .AddTransient<ITimesheetExportManager, TimesheetExportManager>()
+                    .AddTransient<IWorkedHoursCalculator, WorkedHoursCalculator>()
+                    .AddTransient<ITimesheetWeekExporter, TimesheetWeekExporter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
