@@ -27,10 +27,12 @@ steps:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 - task: Bash@3
+  displayName: 'yarn install'
   inputs:
     filePath: 'yarn install'
     workingDirectory: 'src/cmx.hou-tracker-to-excel.web'
 - task: Bash@3
+  displayName: 'yarn build'
   inputs:
     filePath: 'yarn build'
     workingDirectory: 'src/cmx.hou-tracker-to-excel.web'
