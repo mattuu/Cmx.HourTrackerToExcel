@@ -39,6 +39,7 @@ steps:
     majorVersion: '1'
     minorVersion: '0'
     patchVersion: '0'
+    verbosityPack: 'diagnostic'
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
 - task: Bash@3
