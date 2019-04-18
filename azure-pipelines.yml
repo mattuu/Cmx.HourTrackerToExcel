@@ -26,12 +26,11 @@ steps:
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
-- task: Npm@1
+- task: Bash@3
   inputs:
-    command: 'install'
-    workingDir: 'src/cmx.hour-tracker-to-excel.web'
-- task: Npm@1
+    filePath: 'yarn install'
+    workingDirectory: 'src/cmx.hou-tracker-to-excel.web'
+- task: Bash@3
   inputs:
-    command: 'custom'
-    workingDir: 'src/cmx.hour-tracker-to-excel.web'
-    customCommand: 'run build'
+    filePath: 'yarn build'
+    workingDirectory: 'src/cmx.hou-tracker-to-excel.web'
