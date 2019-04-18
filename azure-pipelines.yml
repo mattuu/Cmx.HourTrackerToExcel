@@ -39,6 +39,7 @@ steps:
     minorVersion: '0'
     patchVersion: '0'
 - script: dotnet publish --configuration $(buildConfiguration)
+- task: PublishBuildArtifacts@1
 - task: Bash@3
   displayName: 'yarn install'
   inputs:
@@ -51,4 +52,4 @@ steps:
     targetType: 'inline'
     script: 'yarn build'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
-- task: PublishBuildArtifacts@1
+- script: npm run deploy
