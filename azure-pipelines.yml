@@ -17,7 +17,7 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 - task: DotNetCoreCLI@2
-  displayName: 'dothet test'
+  displayName: 'dotnet test'
   inputs:
     command: test
     projects: '**/*test/*.csproj'
@@ -25,4 +25,13 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
-    testResultsFiles: '**/*.trx'    
+    testResultsFiles: '**/*.trx'
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'cmx.hour-tracker-to-excel.web'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'cmx.hour-tracker-to-excel.web'
+    customCommand: 'run build'
