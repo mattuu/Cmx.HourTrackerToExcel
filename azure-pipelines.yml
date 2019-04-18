@@ -29,10 +29,12 @@ steps:
 - task: Bash@3
   displayName: 'yarn install'
   inputs:
-    filePath: 'yarn install'
+    targetType: 'inline'
+    script: 'yarn install'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
 - task: Bash@3
   displayName: 'yarn build'
   inputs:
-    filePath: 'yarn build'
+    targetType: 'inline'
+    script: 'yarn build'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
