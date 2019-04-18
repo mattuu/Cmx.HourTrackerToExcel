@@ -29,16 +29,15 @@ steps:
 #     testRunner: VSTest
 #     testResultsFiles: '**/*.trx'
 - task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
   inputs:
     command: 'publish'
-    publishWebProjects: True
     workingDirectory: '/src/Cmx.HourTrackerToExcel.Api'
     zipAfterPublish: True
     versioningScheme: byPrereleaseNumber
     majorVersion: '1'
     minorVersion: '0'
     patchVersion: '0'
-- script: dotnet publish --configuration $(buildConfiguration)
 - task: PublishBuildArtifacts@1
 - task: Bash@3
   displayName: 'yarn install'
