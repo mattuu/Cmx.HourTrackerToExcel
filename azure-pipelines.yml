@@ -40,6 +40,7 @@ steps:
     minorVersion: '0'
     patchVersion: '0'
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifacts'
 - task: Bash@3
   displayName: 'yarn install'
   inputs:
@@ -53,3 +54,4 @@ steps:
     script: 'yarn build'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
 - script: npm run deploy
+  displayName: 'npm run deploy'
