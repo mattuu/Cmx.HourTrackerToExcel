@@ -13,28 +13,26 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-jobs: 
-- job:
-  - script: dotnet build --configuration $(buildConfiguration)
-    displayName: 'dotnet build $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: 'dotnet test'
-    inputs:
-      command: test
-      projects: '**/*test/*.csproj'
-      arguments: '--logger trx --configuration $(buildConfiguration) --collect "Code coverage"'
-  - task: PublishTestResults@2
-    inputs:
-      testRunner: VSTest
-      testResultsFiles: '**/*.trx'
-- job:
-  - task: Bash@3
-    displayName: 'yarn install'
-    inputs:
-      filePath: 'yarn install'
-      workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
-  - task: Bash@3
-    displayName: 'yarn build'
-    inputs:
-      filePath: 'yarn build'
-      workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
+steps:
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: '**/*test/*.csproj'
+    arguments: '--logger trx --configuration $(buildConfiguration) --collect "Code coverage"'
+- task: PublishTestResults@2
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+- task: Bash@3
+  displayName: 'yarn install'
+  inputs:
+    filePath: 'yarn install'
+    workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
+- task: Bash@3
+  displayName: 'yarn build'
+  inputs:
+    filePath: 'yarn build'
+    workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
