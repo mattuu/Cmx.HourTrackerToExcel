@@ -29,9 +29,9 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
-    workingDir: 'cmx.hour-tracker-to-excel.web'
+    workingDir: 'src/cmx.hour-tracker-to-excel.web'
 - task: Npm@1
   inputs:
     command: 'custom'
-    workingDir: 'cmx.hour-tracker-to-excel.web'
+    workingDir: 'src/cmx.hour-tracker-to-excel.web'
     customCommand: 'run build'
