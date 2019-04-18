@@ -27,6 +27,7 @@ steps:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 - script: dotnet publish --configuration $(buildConfiguration)
+  displayName: 'dotnet publish'
 - task: Bash@3
   displayName: 'yarn install'
   inputs:
