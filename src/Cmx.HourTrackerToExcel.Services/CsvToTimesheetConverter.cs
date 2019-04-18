@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
 using Cmx.HourTrackerToExcel.Export;
 using Cmx.HourTrackerToExcel.Import;
 using Cmx.HourTrackerToExcel.Models.Export;
 using Cmx.HourTrackerToExcel.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
+using OfficeOpenXml;
 
 namespace Cmx.HourTrackerToExcel.Services
 {
-    public class CsvToTimesheetConverter
+    public class CsvToTimesheetConverter : ICsvToTimesheetConverter
     {
         private readonly ICsvDataReader _csvDataReader;
         private readonly IFileProvider _fileProvider;
@@ -84,7 +90,7 @@ namespace Cmx.HourTrackerToExcel.Services
                 }
             }
 
-
+            return null;
         }
     }
 }

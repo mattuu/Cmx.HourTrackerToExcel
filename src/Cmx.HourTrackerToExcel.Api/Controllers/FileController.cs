@@ -15,7 +15,6 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
         private readonly ICsvToTimesheetConverter _csvToTimesheetConverter;
         private readonly IFileProvider _fileProvider;
 
-
         public FileController(ICsvToTimesheetConverter csvToTimesheetConverter, IFileProvider fileProvider)
         {
             _csvToTimesheetConverter = csvToTimesheetConverter ??
