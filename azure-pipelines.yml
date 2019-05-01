@@ -54,8 +54,8 @@ steps:
     script: 'yarn build'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
 - task: Bash@3
-  displayName: 'npm run deploy'
+  displayName: 'yarn deploy'
   inputs:
     targetType: 'inline'
-    script: 'npm run deploy'
+    script: 'yarn deploy'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'

@@ -2,7 +2,7 @@
   "name": "cmx.hour-tracker-to-excel.web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://www.codemagix.co.uk/hourtrackertoexel",
+  "homepage": "http://mattuu.github.io/hourtrackertoexel",
   "dependencies": {
     "@types/file-saver": "^1.3.0",
     "animate.css": "^3.7.0",
