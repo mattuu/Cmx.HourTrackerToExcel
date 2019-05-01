@@ -33,6 +33,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: True
+    workingDirectory: '/src/Cmx.HourTrackerToExcel.Api'
     zipAfterPublish: True
     versioningScheme: byPrereleaseNumber
     majorVersion: '1'
