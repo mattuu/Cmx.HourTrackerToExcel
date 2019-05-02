@@ -53,7 +53,7 @@ steps:
     targetType: 'inline'
     script: 'yarn build'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
-- bash: git.config.sh
+- bash: '$(Build.SourcesDirectory)/git.config.sh'
 - task: Bash@3
   displayName: 'yarn deploy'
   inputs:
