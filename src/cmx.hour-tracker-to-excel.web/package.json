@@ -9,7 +9,7 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "predeploy": "yarn run build",
-    "deploy": "gh-pages -r https://github.com/mattuu/hourtrackertoexel.git -d build -a true"
+    "deploy": "gh-pages -d build -b gh-pages"
   },
   "dependencies": {
     "animate.css": "^3.7.0",
