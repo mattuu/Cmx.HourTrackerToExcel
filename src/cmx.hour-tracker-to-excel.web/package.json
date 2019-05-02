@@ -2,9 +2,16 @@
   "name": "cmx.hour-tracker-to-excel.web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://mattuu.github.io/hourtrackertoexel",
+  "homepage": "https://timesheet.codemagix.co.uk/",
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -r https://github.com/mattuu/hourtrackertoexel.git -d build -a true"
+  },
   "dependencies": {
-    "@types/file-saver": "^1.3.0",
     "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "file-saver": "^1.3.8",
@@ -15,14 +22,8 @@
     "react-toastr": "^3.0.0",
     "toastr": "^2.1.4"
   },
-  "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject",
-    "deploy": "gh-pages -d build"
-  },
   "devDependencies": {
+    "@types/file-saver": "^1.3.0",
     "@types/jest": "^22.2.3",
     "@types/node": "^11.13.4",
     "@types/react": "^16.8.13",
