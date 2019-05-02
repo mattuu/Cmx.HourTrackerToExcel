@@ -53,7 +53,7 @@ steps:
     targetType: 'inline'
     script: 'yarn build'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
-- bash: 'git config --global user.email "you@example.com" & git config --global user.name "Your Name"'
+- bash: 'git config user.email "maciej@uliasz.com" & git config user.name "Matt Uliasz"'
 - task: Bash@3
   displayName: 'yarn deploy'
   inputs:
