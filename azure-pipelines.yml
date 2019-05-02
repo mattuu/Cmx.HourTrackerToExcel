@@ -14,9 +14,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreInstaller@0
-  inputs:
-    version: '2.1.300'
 - script: dotnet restore
   displayName: 'dotnet restore'
 - script: dotnet build --configuration $(buildConfiguration)
@@ -36,7 +33,6 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: True
-    workingDirectory: '/src/Cmx.HourTrackerToExcel.Api'
     zipAfterPublish: True
     versioningScheme: byPrereleaseNumber
     majorVersion: '1'
