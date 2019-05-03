@@ -53,11 +53,13 @@ steps:
     targetType: 'inline'
     script: 'yarn build'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
-# - bash: 'git config user.email "test@test.com"'
-# - bash: 'git config user.name "Matt Uliasz"'
+- script: |
+    git config user.email "test@test.com"
+    git config user.name "Matt Uliasz"
+  displayName: 'git config'
 - task: Bash@3
   displayName: 'yarn deploy'
   inputs:
     targetType: 'inline'
-    script: 'yarn deploy'
+    script: 'yarn deploy -- -r https://$(github_pat)@github.com/Cmx.HourTrackerToExcel.git'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
