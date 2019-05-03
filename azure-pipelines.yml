@@ -1,0 +1,65 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+- feature/*
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- script: dotnet restore
+  displayName: 'dotnet restore'
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+# - task: DotNetCoreCLI@2
+#   displayName: 'dotnet test'
+#   inputs:
+#     command: test
+#     projects: '**/*Tests/*.csproj'
+#     arguments: '--logger trx --configuration $(buildConfiguration) --collect "Code coverage"'
+# - task: PublishTestResults@2
+#   inputs:
+#     testRunner: VSTest
+#     testResultsFiles: '**/*.trx'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: 'publish'
+    publishWebProjects: True
+    zipAfterPublish: True
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
+    verbosityPack: 'diagnostic'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifacts'
+- task: Bash@3
+  displayName: 'yarn install'
+  inputs:
+    targetType: 'inline'
+    script: 'yarn install'
+    workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
+- task: Bash@3
+  displayName: 'yarn build'
+  inputs:
+    targetType: 'inline'
+    script: 'yarn build'
+    workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
+- script: |
+    git config user.email "test@test.com"
+    git config user.name "Matt Uliasz"
+  displayName: 'git config'
+- task: Bash@3
+  displayName: 'yarn deploy'
+  inputs:
+    targetType: 'inline'
+    script: 'yarn deploy -- -r https://$(github_pat)@github.com/mattuu/Cmx.HourTrackerToExcel.git'
+    workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
