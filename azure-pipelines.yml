@@ -31,7 +31,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish'
   inputs:
-    command: 'publish'
+    command: 'publish -o $(Build.ArtifactStagingDirectory)'
     publishWebProjects: True
     zipAfterPublish: True
     versioningScheme: byPrereleaseNumber
@@ -41,6 +41,7 @@ steps:
     verbosityPack: 'diagnostic'
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
+
 - task: Bash@3
   displayName: 'yarn install'
   inputs:
