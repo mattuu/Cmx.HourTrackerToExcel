@@ -47,7 +47,7 @@ namespace Cmx.HourTrackerToExcel.Api
                     options.AddPolicy("CorsPolicy",
                         builder =>
                         {
-                            builder.WithOrigins("http://localhost:3000")
+                            builder.AllowAnyOrigin()
                                 .AllowAnyHeader()
                                 .AllowAnyMethod()
                                 .AllowCredentials()
