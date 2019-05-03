@@ -61,5 +61,5 @@ steps:
   displayName: 'yarn deploy'
   inputs:
     targetType: 'inline'
-    script: 'yarn deploy -- -r https://$(github_pat)@github.com/Cmx.HourTrackerToExcel.git'
+    script: 'yarn deploy -- -r https://$(github_pat)@github.com/mattuu/Cmx.HourTrackerToExcel.git'
     workingDirectory: 'src/cmx.hour-tracker-to-excel.web'
