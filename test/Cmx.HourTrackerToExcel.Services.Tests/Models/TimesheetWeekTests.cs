@@ -47,7 +47,7 @@ namespace Cmx.HourTrackerToExcel.Services.Tests.Models
             var workDay = fixture.Build<WorkDay>()
                                  .With(wd => wd.Date, startDate)
                                  .Create();
-            
+
             sut.AddDay(workDay);
 
             // act..
@@ -109,6 +109,6 @@ namespace Cmx.HourTrackerToExcel.Services.Tests.Models
             actual.ElementAt(4).Date.DayOfWeek.ShouldBe(DayOfWeek.Friday);
             actual.ElementAt(5).Date.DayOfWeek.ShouldBe(DayOfWeek.Saturday);
             actual.ElementAt(6).Date.DayOfWeek.ShouldBe(DayOfWeek.Sunday);
-        }   
+        }
     }
 }

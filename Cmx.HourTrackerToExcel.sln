@@ -30,8 +30,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Api", "src\Cmx.HourTrackerToExcel.Api\Cmx.HourTrackerToExcel.Api.csproj", "{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Services", "src\ClassLibrary1\Cmx.HourTrackerToExcel.Services.csproj", "{82297288-B856-48B4-856D-201020744184}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -198,18 +196,6 @@ Global
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}.Release|x64.Build.0 = Release|Any CPU
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}.Release|x86.ActiveCfg = Release|Any CPU
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}.Release|x86.Build.0 = Release|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Debug|x64.Build.0 = Debug|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Debug|x86.Build.0 = Debug|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Release|x64.ActiveCfg = Release|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Release|x64.Build.0 = Release|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Release|x86.ActiveCfg = Release|Any CPU
-		{82297288-B856-48B4-856D-201020744184}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -227,7 +213,6 @@ Global
 		{23844875-6445-4772-994B-A4903CF3D8CC} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
 		{D18FE5D4-A586-4099-BBCE-17211A9D0E54} = {06072F3A-DAEE-431D-BF2B-7FD12DB682FF}
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
-		{82297288-B856-48B4-856D-201020744184} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE70491B-A4FA-40E8-847C-4E77D26184FB}
