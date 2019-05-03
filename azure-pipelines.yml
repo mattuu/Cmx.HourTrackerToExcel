@@ -31,7 +31,8 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish'
   inputs:
-    command: 'publish -o $(Build.ArtifactStagingDirectory)'
+    command: 'publish'
+    arguments: '-o $(Build.ArtifactStagingDirectory)'
     publishWebProjects: True
     zipAfterPublish: True
     versioningScheme: byPrereleaseNumber
