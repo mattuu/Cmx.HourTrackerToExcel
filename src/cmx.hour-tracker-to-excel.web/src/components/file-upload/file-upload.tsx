@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { saveAs } from 'file-saver';
 import * as React from 'react';
 import { RefObject } from 'react';
 import Dropzone from 'react-dropzone';
@@ -49,17 +50,25 @@ class FileUpload extends React.Component<{}, IState> {
     data.append('name', acceptedFiles[0].name);
     data.append('description', 'some value user types');
 
-    axios.post('http://localhost:41006/api/file', data).then(response => {
-      const msg = `File ${acceptedFiles[0].name} uploaded successfully (${
-        response.status
-      })`;
+    axios
+      .post('http://localhost:41006/file', data, { responseType: 'blob' })
+      .then(response => {
+        // tslint:disable-next-line:no-console
+        console.log(response);
 
-      const newState = Object.assign({}, this.state, {
-        message: msg
+        const msg = `File ${acceptedFiles[0].name} uploaded successfully (${
+          response.status
+        })`;
+
+        const fileName = response.headers['x-filename'];
+        saveAs(response.data, fileName);
+
+        const newState = Object.assign({}, this.state, {
+          message: msg
+        });
+
+        this.setState(newState);
       });
-
-      this.setState(newState);
-    });
   }
 }
 

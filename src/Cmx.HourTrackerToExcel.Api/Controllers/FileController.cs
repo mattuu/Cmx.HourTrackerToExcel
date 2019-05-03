@@ -1,41 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Cmx.HourTrackerToExcel.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Net.Http.Headers;
 
 namespace Cmx.HourTrackerToExcel.Api.Controllers
 {
-    [Route("api/file")]
+    [Route("[controller]")]
     public class FileController : Controller
     {
-        [HttpGet]
-        public Task<IActionResult> Get()
+        private readonly ICsvToTimesheetConverter _csvToTimesheetConverter;
+        private readonly IFileProvider _fileProvider;
+
+        public FileController(ICsvToTimesheetConverter csvToTimesheetConverter, IFileProvider fileProvider)
         {
-            var filePath = $@"C:\temp\upload";
-            var fileName = "PATH.txt";
-
-            //using (var readStream = new FileStream(filePath, FileMode.Open))
-            //{
-            //    var memory = new MemoryStream();
-            //    await readStream.CopyToAsync(memory);
-
-            return Task.Run(() =>
-            {
-
-                IFileProvider provider = new PhysicalFileProvider(filePath);
-                IFileInfo fileInfo = provider.GetFileInfo(fileName);
-                var readStream = fileInfo.CreateReadStream();
-                var mimeType = "text/plain";
-
-                Response.Headers.Add("Content-Disposition", "attachment");
-
-                return (IActionResult) File(readStream, mimeType, fileName);
-            });
-            //}
+            _csvToTimesheetConverter = csvToTimesheetConverter ??
+                                       throw new ArgumentNullException(nameof(csvToTimesheetConverter));
+            _fileProvider = fileProvider ?? throw new ArgumentException(nameof(fileProvider));
         }
 
         [HttpPost]
@@ -43,27 +27,26 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
         {
             // full path to file in temp location
             var formFile = formFiles.First();
-            var fileName = formFile.FileName;
 
-            var filePath = $@"C:\temp\upload\{fileName}";
             if (formFile.Length > 0)
             {
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await formFile.CopyToAsync(stream);
-                }
+                var filePath = await _csvToTimesheetConverter.Convert(formFile);
+
+                var destinationFileName = Path.GetFileName(filePath);
+
+                var fileInfo = _fileProvider.GetFileInfo(destinationFileName);
+                var readStream = fileInfo.CreateReadStream();
+                var mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                Response.Headers.Add("Content-Disposition", "attachment");
+                Response.Headers.Add("X-FileName", destinationFileName);
+
+                return File(readStream, mimeType, destinationFileName);
             }
 
-            IFileProvider provider = new PhysicalFileProvider(@"C:\temp\upload");
-            IFileInfo fileInfo = provider.GetFileInfo(fileName);
-            var readStream = fileInfo.CreateReadStream();
+            ModelState.AddModelError("formFiles", "Uploading multiple files is not supported");
 
-            return File(readStream, formFile.ContentType, fileName);
+            return BadRequest(ModelState);
         }
-    }
-
-    public class Model
-    {
-        public IFormFile File { get; set; }
     }
 }

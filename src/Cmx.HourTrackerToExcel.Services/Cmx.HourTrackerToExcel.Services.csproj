@@ -2,10 +2,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cmx.HourTrackerToExcel.Common\Cmx.HourTrackerToExcel.Common.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Export\Cmx.HourTrackerToExcel.Export.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Import\Cmx.HourTrackerToExcel.Import.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Mappers\Cmx.HourTrackerToExcel.Mappers.csproj" />
+    <ProjectReference Include="..\Cmx.HourTrackerToExcel.Models\Cmx.HourTrackerToExcel.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
 </Project>
