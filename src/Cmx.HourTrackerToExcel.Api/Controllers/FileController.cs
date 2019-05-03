@@ -6,6 +6,7 @@ using Cmx.HourTrackerToExcel.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 
 namespace Cmx.HourTrackerToExcel.Api.Controllers
 {
@@ -14,12 +15,14 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
     {
         private readonly ICsvToTimesheetConverter _csvToTimesheetConverter;
         private readonly IFileProvider _fileProvider;
+        private readonly ILogger _logger;
 
-        public FileController(ICsvToTimesheetConverter csvToTimesheetConverter, IFileProvider fileProvider)
+        public FileController(ICsvToTimesheetConverter csvToTimesheetConverter, IFileProvider fileProvider, ILogger<FileController> logger)
         {
             _csvToTimesheetConverter = csvToTimesheetConverter ??
                                        throw new ArgumentNullException(nameof(csvToTimesheetConverter));
             _fileProvider = fileProvider ?? throw new ArgumentException(nameof(fileProvider));
+            _logger = logger ?? throw new ArgumentException(nameof(logger));
         }
 
         [HttpPost]
@@ -27,6 +30,8 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
         {
             // full path to file in temp location
             var formFile = formFiles.First();
+
+            _logger.LogInformation($"Received file {formFile.FileName}");
 
             if (formFile.Length > 0)
             {

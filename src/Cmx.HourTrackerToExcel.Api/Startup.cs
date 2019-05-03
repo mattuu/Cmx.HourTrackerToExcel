@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Cmx.HourTrackerToExcel.Api
@@ -55,6 +56,13 @@ namespace Cmx.HourTrackerToExcel.Api
                 })
                 .AddMvcCore();
 
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddDebug();
+            });
+
             services.AddMvc();
 
             services.AddAutoMapper(cfg => { AutoMapperConfiguration.Configure(cfg); });
@@ -77,7 +85,6 @@ namespace Cmx.HourTrackerToExcel.Api
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cmx.HourTrackerToExcel.Api V1"); });
-
 
             app.UseMvc(routes =>
             {
