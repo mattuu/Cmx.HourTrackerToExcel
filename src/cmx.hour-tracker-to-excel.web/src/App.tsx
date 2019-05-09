@@ -1,10 +1,10 @@
-import "animate.css/animate.min.css";
-import * as React from "react";
-import { Route } from "react-router";
-import "./App.css";
+import 'animate.css/animate.min.css';
+import * as React from 'react';
+import { Route } from 'react-router';
+import './App.css';
 
-import Login from "./components/login/login";
-import { SigninRedirect } from "./components/signin-redirect";
+import Login from './components/login/Login';
+import SigninRedirect from './components/SigninRedirect';
 
 interface IProps {
   history?: any;

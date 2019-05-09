@@ -1,27 +1,28 @@
-import axios from 'axios';
-import { saveAs } from 'file-saver';
-import * as React from 'react';
-import { RefObject } from 'react';
-import Dropzone from 'react-dropzone';
-import { Status } from '../Status';
-import Notifier from './../Notifier';
-import './file-upload.css';
+import axios from "axios";
+import { saveAs } from "file-saver";
+import * as React from "react";
+import { RefObject } from "react";
+import Dropzone from "react-dropzone";
+import Notifier from "../Notifier";
+import "./FileUpload.css";
 
 interface IState {
   message: string;
-  status: Status;
 }
 
 class FileUpload extends React.Component<{}, IState> {
   public name: string;
-  public notifierRef: RefObject<Notifier>;
+  public ref: RefObject<Notifier>;
 
   private onDrop = this.acceptedFiles.bind(this);
 
   constructor(props: any) {
     super(props);
-    this.state = { message: '', status: Status.Unknown };
-    this.notifierRef = React.createRef();
+    this.state = { message: "" };
+    this.ref = React.createRef();
+
+    // tslint:disable-next-line:no-console
+    console.log(process.env.REACT_APP_API_URL);
   }
 
   public notify(msg: string) {
@@ -41,53 +42,36 @@ class FileUpload extends React.Component<{}, IState> {
             </section>
           )}
         </Dropzone>
-        <Notifier
-          ref={this.notifierRef}
-          message={this.state.message}
-          status={this.state.status}
-        />
+        <Notifier ref={this.ref} message={this.state.message} />
       </div>
     );
   }
 
   private acceptedFiles(acceptedFiles: File[]) {
     const data = new FormData();
-    data.append('formFiles', acceptedFiles[0]);
-    data.append('name', acceptedFiles[0].name);
-    data.append('description', 'some value user types');
+    data.append("formFiles", acceptedFiles[0]);
+    data.append("name", acceptedFiles[0].name);
+    data.append("description", "some value user types");
 
     axios
-      .post(process.env.REACT_APP_API_URL + '/file', data, {
-        responseType: 'blob'
-      })
-      .then(
-        response => {
-          const msg = `File ${acceptedFiles[0].name} uploaded successfully (${
-            response.status
-          })`;
+      .post(process.env.REACT_APP_API_URL + "/file", data, { responseType: "blob" })
+      .then(response => {
+        // tslint:disable-next-line:no-console
+        console.log(response);
 
-          const fileName = response.headers['x-filename'];
-          saveAs(response.data, fileName);
+        const msg = `File ${acceptedFiles[0].name} uploaded successfully (${
+          response.status
+        })`;
 
-          const newState = Object.assign({}, this.state, {
-            message: msg,
-            status: Status.Success
-          });
+        const fileName = response.headers["x-filename"];
+        saveAs(response.data, fileName);
 
-          this.setState(newState);
-        },
-        (error: any) => {
-          const msg = `There was an error when processing request. ${
-            error.message
-          }`;
-          const newState = Object.assign({}, this.state, {
-            message: msg,
-            status: Status.Failure
-          });
+        const newState = Object.assign({}, this.state, {
+          message: msg
+        });
 
-          this.setState(newState);
-        }
-      );
+        this.setState(newState);
+      });
   }
 }
 

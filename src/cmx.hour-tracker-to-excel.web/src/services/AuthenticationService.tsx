@@ -1,8 +1,11 @@
-import * as Oauth from 'simple-oauth2';
+import { injectable } from "inversify";
+import { create as createOAuthClient, OAuthClient, Token } from "simple-oauth2";
 
 const credentials = {
   auth: {
-    tokenHost: "https://api.sandbox.freeagent.com/v2/"
+    authorizePath: "approve_app",
+    tokenHost: "https://api.sandbox.freeagent.com/v2/",
+    tokenPath: "token_endpoint"
   },
   client: {
     id: "9Ks9-3v6_TX1f2FwiTPn1w",
@@ -10,30 +13,30 @@ const credentials = {
   }
 };
 
-// Initialize the OAuth2 Library
-// const oauth2 = require("simple-oauth2").create(credentials);
-
+const REDIRECT_URI = `${process.env.REACT_APP_BASE_URL}/signin-redirect`;
+@injectable()
 export class AuthenticationService {
-  private oauthClient: Oauth.OAuthClient;
+  private oauthClient: OAuthClient;
 
   constructor() {
-    this.oauthClient = Oauth.create(credentials);
-
-    // this._oauth2 = new OAuth2(
-    //   "9Ks9-3v6_TX1f2FwiTPn1w",
-    //   "MKc9oIU0GUhE-HGDOeEXBw",
-    //   "https://api.sandbox.freeagent.com/v2/",
-    //   "approve_app",
-    //   "token_endpoint",
-    //   { Accept: "application/json" }
-    // );
-    // const url = this._oauth2.getAuthorizeUrl({
-    //   redirect_url: "http://localhost:3000",
-    //   response_type: "code"
-    // });
+    this.oauthClient = createOAuthClient(credentials);
   }
 
   public isAuthenticated(): boolean {
     return this.oauthClient.clientCredentials !== undefined;
+  }
+
+  public get authorizeURL(): string {
+    return this.oauthClient.authorizationCode.authorizeURL({
+      redirect_uri: REDIRECT_URI
+    });
+  }
+
+  public authenticate(code: string): Promise<Token> {
+    return this.oauthClient.authorizationCode.getToken({
+      code,
+      redirect_uri: REDIRECT_URI
+    });
+    // return this.oauthClient.accessToken.create({ code });
   }
 }
