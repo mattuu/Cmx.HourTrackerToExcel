@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@types/react-router": "^5.0.0",
-    "animate.css": "^3.7.2",
+    "@types/simple-oauth2": "^2.2.1",
+    "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "file-saver": "^2.0.1",
     "oauth": "^0.9.15",
@@ -24,6 +25,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts-ts": "^3.1.0",
     "react-toastr": "^3.0.0",
+    "simple-oauth2": "^2.2.1",
     "toastr": "^2.1.4"
   },
   "devDependencies": {
