@@ -1,10 +1,15 @@
 import { injectable } from "inversify";
-import { create as createOAuthClient, OAuthClient, Token } from "simple-oauth2";
+import {
+  // AccessToken,
+  create as createOAuthClient,
+  OAuthClient,
+  Token
+} from "simple-oauth2";
 
 const credentials = {
   auth: {
     authorizePath: "approve_app",
-    tokenHost: "https://api.sandbox.freeagent.com/v2/",
+    tokenHost: `${process.env.REACT_APP_AUTH_BASE_URL}`,
     tokenPath: "token_endpoint"
   },
   client: {
@@ -17,13 +22,15 @@ const REDIRECT_URI = `${process.env.REACT_APP_BASE_URL}/signin-redirect`;
 @injectable()
 export class AuthenticationService {
   private oauthClient: OAuthClient;
+  // private accessToken: AccessToken | undefined;
 
   constructor() {
     this.oauthClient = createOAuthClient(credentials);
   }
 
-  public isAuthenticated(): boolean {
-    return this.oauthClient.clientCredentials !== undefined;
+  public get isAuthenticated(): boolean {
+    // return this.accessToken !== undefined && !this.accessToken.expired;
+    return sessionStorage.getItem("access_token") !== undefined;
   }
 
   public get authorizeURL(): string {
@@ -32,11 +39,19 @@ export class AuthenticationService {
     });
   }
 
-  public authenticate(code: string): Promise<Token> {
-    return this.oauthClient.authorizationCode.getToken({
+  public async authenticate(code: string): Promise<Token> {
+    const tokenConfig = {
       code,
       redirect_uri: REDIRECT_URI
-    });
-    // return this.oauthClient.accessToken.create({ code });
+    };
+    const result = await this.oauthClient.authorizationCode.getToken(
+      tokenConfig
+    );
+
+    // this.accessToken = this.oauthClient.accessToken.create(result);
+
+    sessionStorage.setItem("access_token", result.access_token);
+
+    return result;
   }
 }

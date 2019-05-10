@@ -24,7 +24,7 @@ class Login extends React.Component<{}, IState> {
   }
 
   public componentDidMount() {
-    this.setState({ authorizeUrl: authService.authorizeURL, message: `${authService.isAuthenticated()}` });
+    this.setState({ authorizeUrl: authService.authorizeURL, message: `${authService.isAuthenticated}` });
   }
 
   public render() {

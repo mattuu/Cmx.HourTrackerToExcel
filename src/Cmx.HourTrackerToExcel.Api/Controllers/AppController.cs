@@ -1,6 +1,9 @@
+using System;
 using System.Diagnostics;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using RestSharp;
 
 [Route("[controller]")]
 public class AppController : Controller
@@ -13,28 +16,4 @@ public class AppController : Controller
         string version = fvi.FileVersion;
         return Ok(version);
     }
-
-    [HttpPost]
-    public IActionResult RegisterOAuthToken([FromBody] AccessTokenModel token)
-    {
-        Debugger.Break();
-
-        return Ok();
-    }
-}
-
-public class AccessTokenModel
-{
-    [JsonProperty("access_token")]
-    public string AccessToken { get; set; }
-
-    [JsonProperty("expires_in")]
-    public int ExpiresIn { get; set; }
-
-    [JsonProperty("refresh_token")]
-    public string RefreshToken { get; set; }
-
-    [JsonProperty("token_type")]
-    public string TokenType { get; set; }
-
 }

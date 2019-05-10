@@ -20,9 +20,6 @@ class FileUpload extends React.Component<{}, IState> {
     super(props);
     this.state = { message: "" };
     this.ref = React.createRef();
-
-    // tslint:disable-next-line:no-console
-    console.log(process.env.REACT_APP_API_URL);
   }
 
   public notify(msg: string) {
@@ -53,8 +50,13 @@ class FileUpload extends React.Component<{}, IState> {
     data.append("name", acceptedFiles[0].name);
     data.append("description", "some value user types");
 
+    const accessToken = sessionStorage.getItem("access_token");
+
     axios
-      .post(process.env.REACT_APP_API_URL + "/file", data, { responseType: "blob" })
+      .post(process.env.REACT_APP_API_URL + "/file", data, {
+        headers: { "X-AccessToken": `${accessToken}` },
+        responseType: "blob"
+      })
       .then(response => {
         // tslint:disable-next-line:no-console
         console.log(response);
@@ -68,6 +70,13 @@ class FileUpload extends React.Component<{}, IState> {
 
         const newState = Object.assign({}, this.state, {
           message: msg
+        });
+
+        this.setState(newState);
+      })
+      .catch((reason: any) => {
+        const newState = Object.assign({}, this.state, {
+          message: reason.message
         });
 
         this.setState(newState);

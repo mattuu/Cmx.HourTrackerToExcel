@@ -47,11 +47,11 @@ namespace Cmx.HourTrackerToExcel.Api
                     options.AddPolicy("CorsPolicy",
                         builder =>
                         {
-                            builder.AllowAnyOrigin()
+                            builder.WithOrigins("http://localhost:3000")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod()
                                 .AllowCredentials()
-                                .WithExposedHeaders("X-FileName");
+                                .WithExposedHeaders("X-FileName", "X-AccessToken");
                         });
                 })
                 .AddMvcCore();
