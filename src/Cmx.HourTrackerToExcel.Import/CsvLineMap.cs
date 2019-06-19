@@ -8,6 +8,7 @@ namespace Cmx.HourTrackerToExcel.Import
         {
             Map(m => m.ClockedIn).TypeConverterOption.Format("dd/MM/yyyy HH:mm");
             Map(m => m.ClockedOut).TypeConverterOption.Format("dd/MM/yyyy HH:mm");
+            AutoMap();
         }
     }
 }
