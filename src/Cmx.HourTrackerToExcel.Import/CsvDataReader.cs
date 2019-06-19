@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
-using Cmx.HourTrackerToExcel.Models.Import;
 using CsvHelper;
 
 namespace Cmx.HourTrackerToExcel.Import
@@ -20,14 +20,17 @@ namespace Cmx.HourTrackerToExcel.Import
                     csv.Configuration.BadDataFound = context =>
                     {
                         Console.WriteLine($"Bad data found on row '{context.RawRow}'");
+                        throw new ApplicationException($"Bad data found on row '{context.RawRow}'");
                     };
 
                     csv.Configuration.ReadingExceptionOccurred = exception =>
                     {
                         Console.WriteLine($"Reading exception: {exception.Message}");
+                        throw new ApplicationException("CSV reading exception", exception);
                     };
 
                     csv.Configuration.PrepareHeaderForMatch = h => h.Replace(" ", string.Empty).Trim();
+                    csv.Configuration.RegisterClassMap<CsvLineMap>();
 
                     var records = new HashSet<ICsvLine>();
 
@@ -38,6 +41,11 @@ namespace Cmx.HourTrackerToExcel.Import
                         {
                             records.Add(csvLine);
                         }
+                    }
+
+                    if (records.Count() == 0)
+                    {
+                        throw new ApplicationException("Unable to parse uploaded CSV");
                     }
 
                     return records;

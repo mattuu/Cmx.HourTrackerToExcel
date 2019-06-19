@@ -1,10 +1,10 @@
-import axios from "axios";
-import { saveAs } from "file-saver";
-import * as React from "react";
-import { RefObject } from "react";
-import Dropzone from "react-dropzone";
-import Notifier from "../notifier";
-import "./file-upload.css";
+import axios from 'axios';
+import { saveAs } from 'file-saver';
+import * as React from 'react';
+import { RefObject } from 'react';
+import Dropzone from 'react-dropzone';
+import Notifier from '../Notifier';
+import './file-upload.css';
 
 interface IState {
   message: string;
@@ -18,7 +18,7 @@ class FileUpload extends React.Component<{}, IState> {
 
   constructor(props: any) {
     super(props);
-    this.state = { message: "" };
+    this.state = { message: '' };
     this.ref = React.createRef();
 
     // tslint:disable-next-line:no-console
@@ -49,12 +49,14 @@ class FileUpload extends React.Component<{}, IState> {
 
   private acceptedFiles(acceptedFiles: File[]) {
     const data = new FormData();
-    data.append("formFiles", acceptedFiles[0]);
-    data.append("name", acceptedFiles[0].name);
-    data.append("description", "some value user types");
+    data.append('formFiles', acceptedFiles[0]);
+    data.append('name', acceptedFiles[0].name);
+    data.append('description', 'some value user types');
 
     axios
-      .post(process.env.REACT_APP_API_URL + "/file", data, { responseType: "blob" })
+      .post(process.env.REACT_APP_API_URL + '/file', data, {
+        responseType: 'blob'
+      })
       .then(response => {
         // tslint:disable-next-line:no-console
         console.log(response);
@@ -63,7 +65,7 @@ class FileUpload extends React.Component<{}, IState> {
           response.status
         })`;
 
-        const fileName = response.headers["x-filename"];
+        const fileName = response.headers['x-filename'];
         saveAs(response.data, fileName);
 
         const newState = Object.assign({}, this.state, {
