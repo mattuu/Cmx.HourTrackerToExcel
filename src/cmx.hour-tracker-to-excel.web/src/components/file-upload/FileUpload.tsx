@@ -3,7 +3,7 @@ import { saveAs } from 'file-saver';
 import * as React from 'react';
 import { RefObject } from 'react';
 import Dropzone from 'react-dropzone';
-import Notifier from '../Notifier';
+import Notifier from './../Notifier';
 import './file-upload.css';
 
 interface IState {
