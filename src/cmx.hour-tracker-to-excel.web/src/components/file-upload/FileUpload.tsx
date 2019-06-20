@@ -3,26 +3,25 @@ import { saveAs } from 'file-saver';
 import * as React from 'react';
 import { RefObject } from 'react';
 import Dropzone from 'react-dropzone';
+import { Status } from '../Status';
 import Notifier from './../Notifier';
 import './file-upload.css';
 
 interface IState {
   message: string;
+  status: Status;
 }
 
 class FileUpload extends React.Component<{}, IState> {
   public name: string;
-  public ref: RefObject<Notifier>;
+  public notifierRef: RefObject<Notifier>;
 
   private onDrop = this.acceptedFiles.bind(this);
 
   constructor(props: any) {
     super(props);
-    this.state = { message: '' };
-    this.ref = React.createRef();
-
-    // tslint:disable-next-line:no-console
-    console.log(process.env.REACT_APP_API_URL);
+    this.state = { message: '', status: Status.Unknown };
+    this.notifierRef = React.createRef();
   }
 
   public notify(msg: string) {
@@ -42,7 +41,11 @@ class FileUpload extends React.Component<{}, IState> {
             </section>
           )}
         </Dropzone>
-        <Notifier ref={this.ref} message={this.state.message} />
+        <Notifier
+          ref={this.notifierRef}
+          message={this.state.message}
+          status={this.state.status}
+        />
       </div>
     );
   }
@@ -57,23 +60,34 @@ class FileUpload extends React.Component<{}, IState> {
       .post(process.env.REACT_APP_API_URL + '/file', data, {
         responseType: 'blob'
       })
-      .then(response => {
-        // tslint:disable-next-line:no-console
-        console.log(response);
+      .then(
+        response => {
+          const msg = `File ${acceptedFiles[0].name} uploaded successfully (${
+            response.status
+          })`;
 
-        const msg = `File ${acceptedFiles[0].name} uploaded successfully (${
-          response.status
-        })`;
+          const fileName = response.headers['x-filename'];
+          saveAs(response.data, fileName);
 
-        const fileName = response.headers['x-filename'];
-        saveAs(response.data, fileName);
+          const newState = Object.assign({}, this.state, {
+            message: msg,
+            status: Status.Success
+          });
 
-        const newState = Object.assign({}, this.state, {
-          message: msg
-        });
+          this.setState(newState);
+        },
+        (error: any) => {
+          const msg = `There was an error when processing request. ${
+            error.message
+          }`;
+          const newState = Object.assign({}, this.state, {
+            message: msg,
+            status: Status.Failure
+          });
 
-        this.setState(newState);
-      });
+          this.setState(newState);
+        }
+      );
   }
 }
 

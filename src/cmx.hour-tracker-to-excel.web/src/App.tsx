@@ -1,6 +1,6 @@
+import 'animate.css/animate.css';
 import * as React from 'react';
 import './App.css';
-
 import FileUpload from './components/file-upload/FileUpload';
 
 class App extends React.Component {
