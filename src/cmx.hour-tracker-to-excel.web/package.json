@@ -9,7 +9,7 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build -b gh-pages -u \"Matt Uliasz <test@test.com>\""
+    "deploy": "echo 'timesheet.codemagix.co.uk' > ./build/CNAME && gh-pages -d build -b gh-pages -u \"Matt Uliasz <test@test.com>\""
   },
   "dependencies": {
     "animate.css": "^3.7.2",
