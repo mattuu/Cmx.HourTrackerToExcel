@@ -8,7 +8,7 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "predeploy": "yarn run build && cp CNAME ./dist",
+    "predeploy": "yarn run build && cp CNAME ./build",
     "deploy": "gh-pages -d build -b gh-pages -u \"Matt Uliasz <test@test.com>\""
   },
   "dependencies": {
