@@ -1,13 +1,15 @@
-import axios from "axios";
-import { saveAs } from "file-saver";
-import * as React from "react";
-import { RefObject } from "react";
-import Dropzone from "react-dropzone";
-import Notifier from "../Notifier";
-import "./FileUpload.css";
+import axios from 'axios';
+import { saveAs } from 'file-saver';
+import * as React from 'react';
+import { RefObject } from 'react';
+import Dropzone from 'react-dropzone';
+import Notifier from '../Notifier';
+import { Status } from '../Status';
+import './FileUpload.css';
 
 interface IState {
   message: string;
+  status: Status;
 }
 
 class FileUpload extends React.Component<{}, IState> {
@@ -18,7 +20,7 @@ class FileUpload extends React.Component<{}, IState> {
 
   constructor(props: any) {
     super(props);
-    this.state = { message: "" };
+    this.state = { message: '', status: Status.Unknown };
     this.ref = React.createRef();
   }
 
@@ -39,44 +41,47 @@ class FileUpload extends React.Component<{}, IState> {
             </section>
           )}
         </Dropzone>
-        <Notifier ref={this.ref} message={this.state.message} />
+        <Notifier
+          ref={this.ref}
+          message={this.state.message}
+          status={this.state.status}
+        />
       </div>
     );
   }
 
   private acceptedFiles(acceptedFiles: File[]) {
     const data = new FormData();
-    data.append("formFiles", acceptedFiles[0]);
-    data.append("name", acceptedFiles[0].name);
-    data.append("description", "some value user types");
+    data.append('formFiles', acceptedFiles[0]);
+    data.append('name', acceptedFiles[0].name);
+    data.append('description', 'some value user types');
 
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = sessionStorage.getItem('access_token');
 
     axios
-      .post(process.env.REACT_APP_API_URL + "/file", data, {
-        headers: { "X-AccessToken": `${accessToken}` },
-        responseType: "blob"
+      .post(process.env.REACT_APP_API_URL + '/file', data, {
+        headers: { 'X-AccessToken': `${accessToken}` },
+        responseType: 'blob'
       })
       .then(response => {
-        // tslint:disable-next-line:no-console
-        console.log(response);
-
         const msg = `File ${acceptedFiles[0].name} uploaded successfully (${
           response.status
         })`;
 
-        const fileName = response.headers["x-filename"];
+        const fileName = response.headers['x-filename'];
         saveAs(response.data, fileName);
 
         const newState = Object.assign({}, this.state, {
-          message: msg
+          message: msg,
+          status: Status.Success
         });
 
         this.setState(newState);
       })
       .catch((reason: any) => {
         const newState = Object.assign({}, this.state, {
-          message: reason.message
+          message: reason.message,
+          status: Status.Failure
         });
 
         this.setState(newState);
