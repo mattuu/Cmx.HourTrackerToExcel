@@ -10,6 +10,7 @@ import './file-upload.css';
 interface IState {
   message: string;
   status: Status;
+  busy: boolean;
 }
 
 class FileUpload extends React.Component<{}, IState> {
@@ -20,7 +21,7 @@ class FileUpload extends React.Component<{}, IState> {
 
   constructor(props: any) {
     super(props);
-    this.state = { message: '', status: Status.Unknown };
+    this.state = { message: '', status: Status.Unknown, busy: false };
     this.notifierRef = React.createRef();
   }
 
@@ -36,7 +37,10 @@ class FileUpload extends React.Component<{}, IState> {
             <section>
               <div className="dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                {!this.state.busy && (
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                )}
+                {this.state.busy && <p>Processing file. Please wait&hellip;</p>}
               </div>
             </section>
           )}
@@ -56,6 +60,12 @@ class FileUpload extends React.Component<{}, IState> {
     data.append('name', acceptedFiles[0].name);
     data.append('description', 'some value user types');
 
+    const state = Object.assign({}, this.state, {
+      busy: true
+    });
+
+    this.setState(state);
+
     axios
       .post(process.env.REACT_APP_API_URL + '/file', data, {
         responseType: 'blob'
@@ -70,6 +80,7 @@ class FileUpload extends React.Component<{}, IState> {
           saveAs(response.data, fileName);
 
           const newState = Object.assign({}, this.state, {
+            busy: false,
             message: msg,
             status: Status.Success
           });
@@ -81,6 +92,7 @@ class FileUpload extends React.Component<{}, IState> {
             error.message
           }`;
           const newState = Object.assign({}, this.state, {
+            busy: false,
             message: msg,
             status: Status.Failure
           });
