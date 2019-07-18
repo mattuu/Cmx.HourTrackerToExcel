@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 15.0.26124.0
@@ -29,6 +29,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Services.Tests", "test\Cmx.HourTrackerToExcel.Services.Tests\Cmx.HourTrackerToExcel.Services.Tests.csproj", "{D18FE5D4-A586-4099-BBCE-17211A9D0E54}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Api", "src\Cmx.HourTrackerToExcel.Api\Cmx.HourTrackerToExcel.Api.csproj", "{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Api.Tests", "test\Cmx.HourTrackerToExcel.Api.Tests\Cmx.HourTrackerToExcel.Api.Tests.csproj", "{D9943A04-F162-4B00-858C-C557AEF12058}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -196,6 +198,18 @@ Global
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}.Release|x64.Build.0 = Release|Any CPU
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}.Release|x86.ActiveCfg = Release|Any CPU
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}.Release|x86.Build.0 = Release|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Debug|x64.Build.0 = Debug|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Debug|x86.Build.0 = Debug|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|x64.ActiveCfg = Release|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|x64.Build.0 = Release|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|x86.ActiveCfg = Release|Any CPU
+		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -213,6 +227,7 @@ Global
 		{23844875-6445-4772-994B-A4903CF3D8CC} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
 		{D18FE5D4-A586-4099-BBCE-17211A9D0E54} = {06072F3A-DAEE-431D-BF2B-7FD12DB682FF}
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
+		{D9943A04-F162-4B00-858C-C557AEF12058} = {06072F3A-DAEE-431D-BF2B-7FD12DB682FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE70491B-A4FA-40E8-847C-4E77D26184FB}
