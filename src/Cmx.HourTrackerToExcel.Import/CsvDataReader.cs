@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Cmx.HourTrackerToExcel.Common.Interfaces;
@@ -15,6 +16,7 @@ namespace Cmx.HourTrackerToExcel.Import
             {
                 using (var csv = new CsvReader(textReader))
                 {
+                    csv.Configuration.CultureInfo = CultureInfo.GetCultureInfo("en-GB");
                     csv.Configuration.HasHeaderRecord = true;
 
                     csv.Configuration.BadDataFound = context =>
