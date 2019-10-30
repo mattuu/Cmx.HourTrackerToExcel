@@ -31,6 +31,6 @@
     "@types/react-toastr": "^3.0.4",
     "gh-pages": "^2.0.1",
     "typescript": "^3.4.3",
-    "yarn": "^1.15.2"
+    "yarn": "^1.17.3"
   }
 }

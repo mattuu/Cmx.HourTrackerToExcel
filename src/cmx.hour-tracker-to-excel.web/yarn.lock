@@ -7730,6 +7730,6 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yarn@^1.15.2:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.17.0.tgz#4d42473a54d77e9b90fc17101436af5889e9dd54"
+yarn@^1.17.3:
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.17.3.tgz#60e0b77d079eb78e753bb616f7592b51b6a9adce"
