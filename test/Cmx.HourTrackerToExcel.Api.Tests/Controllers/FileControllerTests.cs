@@ -1,15 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using Xunit;
+﻿using System.Threading.Tasks;
 using AutoFixture;
-using AutoFixture.Xunit2;
-using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Cmx.HourTrackerToExcel.Api.Controllers;
+using Cmx.HourTrackerToExcel.TestUtils.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shouldly;
+using Xunit;
 
-namespace Cmx.HourTrackerToExcel.Api.Tests
+namespace Cmx.HourTrackerToExcel.Api.Tests.Controllers
 {
     public class FileControllerTests
     {

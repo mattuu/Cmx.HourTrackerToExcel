@@ -1,6 +1,7 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BC7A5035-7B92-41E4-A756-B4E4F4992490}"
 EndProject
@@ -30,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Api", "src\Cmx.HourTrackerToExcel.Api\Cmx.HourTrackerToExcel.Api.csproj", "{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmx.HourTrackerToExcel.Api.Tests", "test\Cmx.HourTrackerToExcel.Api.Tests\Cmx.HourTrackerToExcel.Api.Tests.csproj", "{D9943A04-F162-4B00-858C-C557AEF12058}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Api.Tests", "test\Cmx.HourTrackerToExcel.Api.Tests\Cmx.HourTrackerToExcel.Api.Tests.csproj", "{D9943A04-F162-4B00-858C-C557AEF12058}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmx.HourTrackerToExcel.Services", "src\Cmx.HourTrackerToExcel.Services\Cmx.HourTrackerToExcel.Services.csproj", "{2D240215-F8B8-4EAE-9D74-C316812D4546}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -162,18 +165,6 @@ Global
 		{23844875-6445-4772-994B-A4903CF3D8CC}.Release|x64.Build.0 = Release|Any CPU
 		{23844875-6445-4772-994B-A4903CF3D8CC}.Release|x86.ActiveCfg = Release|Any CPU
 		{23844875-6445-4772-994B-A4903CF3D8CC}.Release|x86.Build.0 = Release|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Debug|x64.Build.0 = Debug|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Debug|x86.Build.0 = Debug|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Release|x64.ActiveCfg = Release|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Release|x64.Build.0 = Release|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Release|x86.ActiveCfg = Release|Any CPU
-		{6654F8FB-DFB4-41CE-9F39-CB79ED22822C}.Release|x86.Build.0 = Release|Any CPU
 		{D18FE5D4-A586-4099-BBCE-17211A9D0E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D18FE5D4-A586-4099-BBCE-17211A9D0E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D18FE5D4-A586-4099-BBCE-17211A9D0E54}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -210,6 +201,18 @@ Global
 		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|x64.Build.0 = Release|Any CPU
 		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|x86.ActiveCfg = Release|Any CPU
 		{D9943A04-F162-4B00-858C-C557AEF12058}.Release|x86.Build.0 = Release|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Debug|x64.Build.0 = Debug|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Debug|x86.Build.0 = Debug|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Release|x64.ActiveCfg = Release|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Release|x64.Build.0 = Release|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Release|x86.ActiveCfg = Release|Any CPU
+		{2D240215-F8B8-4EAE-9D74-C316812D4546}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +231,7 @@ Global
 		{D18FE5D4-A586-4099-BBCE-17211A9D0E54} = {06072F3A-DAEE-431D-BF2B-7FD12DB682FF}
 		{18BA6FE3-CAA5-4B33-9AA0-28EA4194491D} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
 		{D9943A04-F162-4B00-858C-C557AEF12058} = {06072F3A-DAEE-431D-BF2B-7FD12DB682FF}
+		{2D240215-F8B8-4EAE-9D74-C316812D4546} = {BC7A5035-7B92-41E4-A756-B4E4F4992490}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE70491B-A4FA-40E8-847C-4E77D26184FB}

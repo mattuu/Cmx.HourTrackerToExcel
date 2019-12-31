@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -33,47 +34,48 @@ namespace Cmx.HourTrackerToExcel.Api
             services.AddTransient<IFormFile, FormFile>();
 
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1",
-                    new Info
-                    {
-                        Title = "Cmx.HourTrackerToExcel.Api",
-                        Version = "v1"
-                    });
-            });
+                                   {
+                                       c.SwaggerDoc("v1",
+                                                    new Info
+                                                    {
+                                                        Title = "Cmx.HourTrackerToExcel.Api",
+                                                        Version = "v1"
+                                                    });
+                                   });
 
             services.AddCors(options =>
-                {
-                    options.AddPolicy("CorsPolicy",
-                        builder =>
-                        {
-                            builder.AllowAnyOrigin()
-                                .AllowAnyHeader()
-                                .AllowAnyMethod()
-                                .AllowCredentials()
-                                .WithExposedHeaders("X-FileName");
-                        });
-                })
-                .AddMvcCore();
+                             {
+                                 options.AddPolicy("CorsPolicy",
+                                                   builder =>
+                                                   {
+                                                       builder.AllowAnyOrigin()
+                                                              .AllowAnyHeader()
+                                                              .AllowAnyMethod()
+                                                              .AllowCredentials()
+                                                              .WithExposedHeaders("X-FileName");
+                                                   });
+                             })
+                    .AddMvcCore();
 
             services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
-                loggingBuilder.AddConsole();
-                loggingBuilder.AddDebug();
-            });
+                                {
+                                    loggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
+                                    loggingBuilder.AddConsole();
+                                    loggingBuilder.AddDebug();
+                                });
 
-            services.AddMvc();
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddAutoMapper(cfg => { AutoMapperConfiguration.Configure(cfg); });
 
             services.AddTransient<ICsvToTimesheetConverter, CsvToTimesheetConverter>()
-                .AddTransient<ICsvDataReader, CsvDataReader>()
-                .AddTransient<ITimesheetInitializer, TimesheetInitializer>()
-                .AddTransient<ITimesheetValidator, TimesheetValidator>()
-                .AddTransient<ITimesheetExportManager, TimesheetExportManager>()
-                .AddTransient<IWorkedHoursCalculator, WorkedHoursCalculator>()
-                .AddTransient<ITimesheetWeekExporter, TimesheetWeekExporter>();
+                    .AddTransient<ICsvDataReader, CsvDataReader>()
+                    .AddTransient<ITimesheetInitializer, TimesheetInitializer>()
+                    .AddTransient<ITimesheetValidator, TimesheetValidator>()
+                    .AddTransient<ITimesheetExportManager, TimesheetExportManager>()
+                    .AddTransient<IWorkedHoursCalculator, WorkedHoursCalculator>()
+                    .AddTransient<ITimesheetWeekExporter, TimesheetWeekExporter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,18 +83,30 @@ namespace Cmx.HourTrackerToExcel.Api
         {
             app.UseCors("CorsPolicy");
 
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                // app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cmx.HourTrackerToExcel.Api V1"); });
 
             app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    "default",
-                    "{controller=Home}/{action=Index}/{id?}"
-                );
-            });
+                       {
+                           routes.MapRoute(
+                                           "default",
+                                           "{controller=Home}/{action=Index}/{id?}"
+                                          );
+                       });
         }
     }
 }
