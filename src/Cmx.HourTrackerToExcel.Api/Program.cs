@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Cmx.HourTrackerToExcel.Api
 {
@@ -7,13 +8,20 @@ namespace Cmx.HourTrackerToExcel.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+            var host = new WebHostBuilder()
+                      .UseContentRoot(Directory.GetCurrentDirectory())
+                      .UseKestrel()
+                      .UseIISIntegration()
+                      .UseStartup<Startup>()
+                      .ConfigureLogging((hostingContext, logging) =>
+                                        {
+                                            logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                                            logging.AddConsole();
+                                            logging.AddDebug();
+                                        })
+                      .Build();
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
-                          .UseStartup<Startup>();
+            host.Run();
         }
     }
 }

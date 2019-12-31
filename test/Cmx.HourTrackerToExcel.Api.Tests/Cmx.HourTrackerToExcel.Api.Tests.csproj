@@ -1,15 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.11.0" />
     <PackageReference Include="AutoFixture.AutoMoq" Version="4.11.0" />
     <PackageReference Include="AutoFixture.xUnit" Version="4.11.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="SemanticComparison" Version="4.1.0" />
     <PackageReference Include="Shouldly" Version="3.0.2" />
