@@ -63,6 +63,17 @@ namespace Cmx.HourTrackerToExcel.Api
                 loggingBuilder.AddDebug();
             });
 
+            services.AddAuthentication(options =>
+                                       {
+                                           //options.DefaultAuthenticateScheme 
+                                       })
+                    .AddCookie()
+                    .AddJwtBearer(options =>
+                                  {
+                                      //options.Audience = 
+                                      //options.
+                                  });
+
             services.AddMvc();
 
             services.AddAutoMapper(cfg => { AutoMapperConfiguration.Configure(cfg); });
