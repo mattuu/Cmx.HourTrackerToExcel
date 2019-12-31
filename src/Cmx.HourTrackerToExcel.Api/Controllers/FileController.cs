@@ -31,6 +31,11 @@ namespace Cmx.HourTrackerToExcel.Api.Controllers
             // full path to file in temp location
             var formFile = formFiles.First();
 
+            if (formFile.ContentDisposition != "application/vnd.ms-excel")
+            {
+                return BadRequest("Only CSV file can be uploaded");
+            }
+
             _logger.LogInformation($"Received file {formFile.FileName}");
 
             if (formFile.Length > 0)

@@ -7,12 +7,13 @@ using Cmx.HourTrackerToExcel.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Cmx.HourTrackerToExcel.Api
@@ -31,42 +32,40 @@ namespace Cmx.HourTrackerToExcel.Api
         {
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.GetTempPath()));
 
-            services.AddTransient<IFormFile, FormFile>();
-
             services.AddSwaggerGen(c =>
                                    {
                                        c.SwaggerDoc("v1",
-                                                    new Info
+                                                    new OpenApiInfo
                                                     {
                                                         Title = "Cmx.HourTrackerToExcel.Api",
                                                         Version = "v1"
                                                     });
                                    });
-
+            
             services.AddCors(options =>
                              {
                                  options.AddPolicy("CorsPolicy",
                                                    builder =>
                                                    {
-                                                       builder.AllowAnyOrigin()
+                                                       builder.WithOrigins("http://localhost:3000")
                                                               .AllowAnyHeader()
                                                               .AllowAnyMethod()
                                                               .AllowCredentials()
                                                               .WithExposedHeaders("X-FileName");
                                                    });
-                             })
-                    .AddMvcCore();
+                             });
 
+            services.AddControllers()
+                    .AddNewtonsoftJson();
+
+            
             services.AddLogging(loggingBuilder =>
                                 {
                                     loggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
                                     loggingBuilder.AddConsole();
                                     loggingBuilder.AddDebug();
                                 });
-
-            services.AddMvc()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            
             services.AddAutoMapper(cfg => { AutoMapperConfiguration.Configure(cfg); });
 
             services.AddTransient<ICsvToTimesheetConverter, CsvToTimesheetConverter>()
@@ -79,7 +78,7 @@ namespace Cmx.HourTrackerToExcel.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors("CorsPolicy");
 
@@ -97,16 +96,17 @@ namespace Cmx.HourTrackerToExcel.Api
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cmx.HourTrackerToExcel.Api V1"); });
+            app.UseSwagger()
+               .UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cmx.HourTrackerToExcel.Api V1"); });
 
-            app.UseMvc(routes =>
-                       {
-                           routes.MapRoute(
-                                           "default",
-                                           "{controller=Home}/{action=Index}/{id?}"
-                                          );
-                       });
+            app.UseRouting();
+
+            app.UseEndpoints(builder =>
+                             {
+                                 //builder.MapControllers(); 
+                                 builder.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                             });
+
         }
     }
 }

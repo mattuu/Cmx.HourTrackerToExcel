@@ -74,7 +74,7 @@ class FileUpload extends React.Component<{}, IState> {
         response => {
           const msg = `File ${acceptedFiles[0].name} uploaded successfully (${
             response.status
-          })`;
+            })`;
 
           const fileName = response.headers['x-filename'];
           saveAs(response.data, fileName);
@@ -90,7 +90,7 @@ class FileUpload extends React.Component<{}, IState> {
         (error: any) => {
           const msg = `There was an error when processing request. ${
             error.message
-          }`;
+            }`;
           const newState = Object.assign({}, this.state, {
             busy: false,
             message: msg,
